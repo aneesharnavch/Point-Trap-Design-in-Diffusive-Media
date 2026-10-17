@@ -1,0 +1,17 @@
+{
+  "kind": "publication metadata checks; not Lean theorem verification",
+  "uncorrupted_release_passed": true,
+  "python_syntax_passed": true,
+  "incorrect_count_rejected": "Manifest/certificate metadata mismatch: research_module_count",
+  "unbound_source_provenance_rejected": "Manifest is not bound to the terminal certificate: TimeTraps/nonexistent.lean",
+  "omitted_source_hash_record_rejected": "Unbound or unlisted project file: TimeTraps.lean",
+  "wrong_namespace_index_rejected": "Theorem index differs from source declarations",
+  "successive_namespace_modules": [
+    "TimeTraps/Analysis/GraphConservativeCoordinateFourthNorm.lean",
+    "TimeTraps/Analysis/GraphConservativeCoordinatePowers.lean",
+    "TimeTraps/Probability/GraphConservativeStationaryPairing.lean",
+    "TimeTraps/Probability/GraphConservativeStationaryWordAlgebra.lean",
+    "TimeTraps/Probability/GraphPhysicalSpeedIndependence.lean"
+  ],
+  "fresh_clean_lean_build_performed": false
+}

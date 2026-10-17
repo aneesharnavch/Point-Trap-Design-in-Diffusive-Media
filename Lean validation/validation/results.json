@@ -1,0 +1,196 @@
+{
+  "purpose": "deterministic numerical validation, not formal verification",
+  "arithmetic": "Python binary64; no interval-arithmetic certification",
+  "bisection_iterations": 70,
+  "absolute_residual_tolerance": 1e-10,
+  "deficit_sign_tolerance": 1e-12,
+  "affine_one_trap": {
+    "center": 0.5275252316519468,
+    "exact_center_formula": 0.5275252316519468,
+    "barrier": 0.18807518017373634,
+    "center_error": 0.0,
+    "balance_residual": 5.551115123125783e-17
+  },
+  "homogeneous": [
+    {
+      "n": 1,
+      "computed": 1.1906929347826085,
+      "formula": 1.1906929347826087,
+      "residual": 2.220446049250313e-16
+    },
+    {
+      "n": 2,
+      "computed": 0.8520210597826089,
+      "formula": 0.8520210597826088,
+      "residual": 1.1102230246251565e-16
+    },
+    {
+      "n": 3,
+      "computed": 0.7893040458937199,
+      "formula": 0.7893040458937198,
+      "residual": 1.1102230246251565e-16
+    },
+    {
+      "n": 5,
+      "computed": 0.7571929347826089,
+      "formula": 0.7571929347826087,
+      "residual": 1.1102230246251565e-16
+    }
+  ],
+  "partition_search": {
+    "medium": "a(x)=1/(1+x), rho(x)=1, L=1",
+    "count": 3,
+    "budget": 2,
+    "coarse_grid_denominator": 24,
+    "coarse_candidates": 253,
+    "refinement_stages": 12,
+    "coarse_best_height": 0.5207254305696072,
+    "partition": [
+      0,
+      0.36029052734375,
+      0.6905314127604165,
+      1
+    ],
+    "sites": [
+      0.18471949508802676,
+      0.5283870194059608,
+      0.8474269749258079
+    ],
+    "strengths": [
+      0.7184942246910643,
+      0.6607300995612833,
+      0.6207756757476518
+    ],
+    "candidate_height": 0.5206138264819868,
+    "barriers": [
+      0.019161601867841216,
+      0.02080174642699549,
+      0.02209463616921445
+    ],
+    "rigorous_formula_lower_bound": 0.5138888888888888,
+    "numerical_upper_candidate_only": true,
+    "budget_residual": 6.661338147750939e-16,
+    "maximum_cell_balance_residual": 8.326672684688674e-17
+  },
+  "graph": {
+    "vertices": 4,
+    "edges": [
+      [
+        0,
+        1,
+        0.7,
+        1.2,
+        1.1
+      ],
+      [
+        1,
+        2,
+        0.8,
+        0.9,
+        0.8
+      ],
+      [
+        1,
+        3,
+        0.6,
+        1.1,
+        1.3
+      ],
+      [
+        0,
+        1,
+        0.4,
+        0.8,
+        0.9
+      ],
+      [
+        1,
+        1,
+        0.5,
+        1.4,
+        1.2
+      ]
+    ],
+    "strengths": [
+      2,
+      0,
+      1,
+      0
+    ],
+    "vertex_values": [
+      1.094320739549839,
+      1.5314549839228295,
+      0.9613585209003215,
+      1.7441822566501022
+    ],
+    "maximum": 1.7441822566501022,
+    "source_mass": 3.1500000000000004,
+    "reaction_budget": 3,
+    "source_conservation_residual": 8.881784197001252e-16,
+    "vertex_balance_residual": 4.440892098500626e-16,
+    "linear_system_residual": 1.5543122344752192e-15,
+    "passive_flux_residual": 1.1102230246251565e-16,
+    "deficit_left": 0.6455568523572471,
+    "reaction_deficit": 0.003741577055704155,
+    "edge_deficit": 0.6019193767129759,
+    "resistance_deficit": 0.03989589858856687,
+    "deficit_identity_residual": 2.5673907444456745e-16
+  },
+  "spectral_prescribed": {
+    "length": 1.3,
+    "diffusivity": 0.7,
+    "strengths": [
+      0.5,
+      1.0,
+      2.5
+    ],
+    "root": 1.955352640182578,
+    "eigenvalue": 2.6763827632282844,
+    "sites": [
+      0.09239123341621015,
+      0.36389976560150517,
+      0.9215085321852952
+    ],
+    "cells": [
+      0.1847824668324203,
+      0.3582345975381697,
+      0.7569829356294101
+    ],
+    "phase_residual": 4.440892098500626e-16,
+    "length_residual": 0.0,
+    "jump_residual": 2.220446049250313e-16,
+    "rayleigh_quotient": 2.676382763228285,
+    "rayleigh_residual": 4.440892098500626e-16,
+    "minimum_state_value": 0.7384117197861251
+  },
+  "spectral_uniform": {
+    "length": 1.3,
+    "diffusivity": 0.7,
+    "strengths": [
+      1.3333333333333333,
+      1.3333333333333333,
+      1.3333333333333333
+    ],
+    "root": 2.027129551137861,
+    "eigenvalue": 2.87647795196747,
+    "sites": [
+      0.21666666666666673,
+      0.6500000000000001,
+      1.0833333333333337
+    ],
+    "cells": [
+      0.43333333333333346,
+      0.43333333333333346,
+      0.43333333333333346
+    ],
+    "phase_residual": 4.440892098500626e-16,
+    "length_residual": 2.220446049250313e-16,
+    "jump_residual": 2.220446049250313e-16,
+    "rayleigh_quotient": 2.8764779519674697,
+    "rayleigh_residual": 4.440892098500626e-16,
+    "minimum_state_value": 0.9050872765514277
+  },
+  "maximum_reported_residual": 1.5543122344752192e-15,
+  "all_validation_checks_passed": true,
+  "driver_sha256": "9414397e442d9994cea46d2e683b6bb1b3e77e6f81a6548867760fe129179bd3"
+}

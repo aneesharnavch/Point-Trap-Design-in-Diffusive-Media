@@ -1,0 +1,1246 @@
+{
+  "family_sections": [
+    {
+      "id": "interval",
+      "paper_sections": {
+        "paper1": "Arbitrary-medium worst-start interval design",
+        "paper3": "Arbitrary-medium worst-start interval design"
+      },
+      "historical_target_ids": "I01–I09",
+      "theorems": [
+        {
+          "name": "TimeTraps.Interval.IntervalMedium.global_minimum",
+          "module": "TimeTraps/Interval/GlobalOptimization.lean"
+        },
+        {
+          "name": "TimeTraps.Interval.IntervalDesign.optimal_iff_reconstruction",
+          "module": "TimeTraps/Interval/GlobalOptimization.lean"
+        },
+        {
+          "name": "TimeTraps.Probability.reversibleLifetimeWorst_global_minimum",
+          "module": "TimeTraps/Probability/ReversibleLifetimeOptimization.lean"
+        }
+      ]
+    },
+    {
+      "id": "graph",
+      "paper_sections": {
+        "paper1": "Metric-graph mass-resistance and variable-profile bounds",
+        "paper3": "Metric-graph mass-resistance and variable-profile bounds"
+      },
+      "historical_target_ids": "G01–G07, X05–X06",
+      "theorems": [
+        {
+          "name": "TimeTraps.Graph.WeakGraphEquation.sharp_mass_resistance_bound",
+          "module": "TimeTraps/Graph/StateMaximum.lean"
+        },
+        {
+          "name": "TimeTraps.Graph.WeakGraphEquation.profile_deficit_identity",
+          "module": "TimeTraps/Graph/ProfileGlobal.lean"
+        },
+        {
+          "name": "TimeTraps.Graph.WeakGraphEquation.profile_bound_eq_iff",
+          "module": "TimeTraps/Graph/ProfileGlobal.lean"
+        }
+      ]
+    },
+    {
+      "id": "spectral",
+      "paper_sections": {
+        "paper1": "Prescribed-strength and fixed-budget spectral placement",
+        "paper3": "Prescribed-strength and fixed-budget spectral placement"
+      },
+      "historical_target_ids": "E01–E08, X07–X08",
+      "theorems": [
+        {
+          "name": "TimeTraps.Spectral.PlacementProblem.placement_maximum",
+          "module": "TimeTraps/Spectral/PlacementUniqueness.lean"
+        },
+        {
+          "name": "TimeTraps.Spectral.PlacementProblem.optimizer_iff",
+          "module": "TimeTraps/Spectral/PlacementUniqueness.lean"
+        },
+        {
+          "name": "TimeTraps.Spectral.BudgetProblem.optimizer_iff",
+          "module": "TimeTraps/Spectral/BudgetOptimality.lean"
+        }
+      ]
+    },
+    {
+      "id": "physical-mean",
+      "paper_sections": {
+        "paper1": "Actual first-attainment lifetime and original graph weak equation",
+        "paper3": "Actual first-attainment lifetime and original graph weak equation"
+      },
+      "historical_target_ids": "P06",
+      "theorems": [
+        {
+          "name": "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.robinWeak_lifetime_finite_mean",
+          "module": "TimeTraps/Probability/GraphRobinLifetimeExpectation.lean"
+        },
+        {
+          "name": "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalMeanLifetime_weak_equation",
+          "module": "TimeTraps/Probability/GraphPhysicalLifetimeWeak.lean"
+        }
+      ]
+    },
+    {
+      "id": "physical-reversibility",
+      "paper_sections": {
+        "paper1": "Actual graph speed-measure detailed balance",
+        "paper3": "Actual graph speed-measure detailed balance"
+      },
+      "historical_target_ids": "P06",
+      "theorems": [
+        {
+          "name": "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalTransition_reversible",
+          "module": "TimeTraps/Probability/GraphPhysicalReversibility.lean"
+        },
+        {
+          "name": "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalTransition_invariant",
+          "module": "TimeTraps/Probability/GraphPhysicalReversibility.lean"
+        }
+      ]
+    }
+  ],
+  "all_47_source_groups": [
+    {
+      "id": "A01",
+      "source": "§2, weak/strong equations",
+      "required_target": "Concrete energy space, traces, edge reconstruction, existence and uniqueness",
+      "dependencies": "Real integration, finite matrices",
+      "sealed_status": "Proved for the independent single-interval energy-space weak equation: global energy membership, restriction of arbitrary tests, exact integral splitting, existence, uniqueness on the physical interval, full weak/strong equivalence for actual restrictions, and identification of the physical essential norm with the attained maximum. Only continuous positive coefficients are assumed; stochastic source identification is proved in P04"
+    },
+    {
+      "id": "A02",
+      "source": "§2, positivity and `eq:conservation`",
+      "required_target": "Strict positivity; flux jumps and total source conservation",
+      "dependencies": "A01",
+      "sealed_status": "Proved for every single-interval weak state: strict positivity, reflecting endpoints, continuous gap fluxes and reaction jumps, direct constant-test source conservation, positive absorption shares and strict cumulative partition"
+    },
+    {
+      "id": "A03",
+      "source": "`eq:source-coordinate`, `eq:transformed-flux`",
+      "required_target": "Coordinate homeomorphism, Jacobian, and exact transformed flux",
+      "dependencies": "A01–A02",
+      "sealed_status": "Proved: coordinate order homeomorphism, inverse Jacobian and integral transport, actual absorption-CDF flux, transformed derivative away from traps, exact integration across trap sites, and absolute continuity of the transformed function of every single-interval weak state"
+    },
+    {
+      "id": "I01",
+      "source": "`eq:left-rise`–`eq:local-minimax`",
+      "required_target": "Existence/uniqueness of center, minimax and strict equality",
+      "dependencies": "A03, integral comparison",
+      "sealed_status": "Proved for positive continuous transformed weights: independently defined rise integrals, unique interior balancing point, attained minimax as IsLeast, strict loss at every other trial site, and iff equality. CellWeight.ofSource supplies every physical transformed weight from the verified coordinate construction"
+    },
+    {
+      "id": "I02",
+      "source": "§4, endpoint/zero-cell extension",
+      "required_target": "Joint barrier continuity and strict decrease under cell splitting",
+      "dependencies": "I01",
+      "sealed_status": "Proved on the full closed cell triangle: joint center/barrier continuity, zero barrier exactly on the diagonal, degenerate-cell minimax, strict improvement for both children of every interior split, and strict decrease for every nondegenerate proper subcell"
+    },
+    {
+      "id": "I03",
+      "source": "`lem:height-barrier`",
+      "required_target": "Lower bound for every site, including out-of-cell cases; equality conditions",
+      "dependencies": "A03, I01",
+      "sealed_status": "Proved for every physical single-interval weak state at its independently defined Lebesgue essential norm: full height barrier including both out-of-cell cases; equality requires the balanced center and both cell-boundary values equal to the norm"
+    },
+    {
+      "id": "I04",
+      "source": "`eq:harmonic-root`",
+      "required_target": "Strict decrease, existence, uniqueness, root bounds",
+      "dependencies": "Positive finite sums, scalar continuity",
+      "sealed_status": "Proved for positive finite weights and real barriers, and for nonnegative weights with zero barrier at zero weight: continuity, strict decrease, root existence, uniqueness, cell lower bounds, total-weight lower bound and maximum-barrier upper bound"
+    },
+    {
+      "id": "I05",
+      "source": "`eq:strength-reconstruction`",
+      "required_target": "Positive strengths, exact budget, attaining profile and weak equation",
+      "dependencies": "A01, I01, I04",
+      "sealed_status": "Proved for every independently specified strict source partition and positive budget: ordered interior balanced sites, exact integral profile, boundary/trap values and height bound, physical gap equations and reaction jumps, positive exact-budget strengths, original H1 weak equation, attained physical essential norm equal to the scalar root, and recovery of the prescribed absorption partition"
+    },
+    {
+      "id": "I06",
+      "source": "First part of `thm:medium` proof",
+      "required_target": "Arbitrary-design lower bound via its absorption partition",
+      "dependencies": "A02, I03, I04",
+      "sealed_status": "Proved for every physical weak design with positive interior strengths: its actual absorption partition, strict barrier/norm separation, individual strength inequalities, summed budget bound, and existence/uniqueness of the partition root with T_K(q) no greater than the physical essential norm. Attaining construction is proved in I05; compact minimization and the global optimizer characterization are proved in I07–I08"
+    },
+    {
+      "id": "I07",
+      "source": "Existence part of `thm:medium` proof",
+      "required_target": "Continuous root on closed simplex; attained minimum; no zero cells",
+      "dependencies": "I02, I04, compactness",
+      "sealed_status": "Proved: genuine budget root continuous through zero-cell limits, compact closed partition space, attained minimum, adjacency of zero/positive cells, admissible boundary move with fixed count, strict root improvement, and strictness of every minimizing partition"
+    },
+    {
+      "id": "I08",
+      "source": "`thm:medium`",
+      "required_target": "Equality of attained minima and complete optimizer converse",
+      "dependencies": "I03–I07",
+      "sealed_status": "Proved for the independent physical H1 weak-design space: the physical cost and strict-partition root have the same attained least value; every minimizing partition constructs an optimal design; every optimal design has a minimizing absorption partition and the exact balanced position/strength formulas; the complete reconstruction iff uses weak uniqueness and physical norm congruence. Stochastic lifetime identification remains P04"
+    },
+    {
+      "id": "I09",
+      "source": "`eq:homogeneous-optimum` and §3 proof",
+      "required_target": "Homogeneous optimum and unique midpoint/equal allocation design",
+      "dependencies": "I03–I08, weighted inequalities",
+      "sealed_status": "Proved for the original physical weak-design space: attained sharp value L/K + L²/(8Dn²), unique midpoint sites and equal strengths, uniform absorption shares and common trap value L/K. Exact parabolic profiles and the mean L/K + L²/(12Dn²) of every worst-start optimizer are also proved"
+    },
+    {
+      "id": "G01",
+      "source": "`eq:graph-weak`",
+      "required_target": "Finite graph/half-edge model, solution existence, positivity, weak equivalence",
+      "dependencies": "A01 infrastructure",
+      "sealed_status": "Proved for finite connected metric graphs with continuous positive edge coefficients: energy-space weak existence/uniqueness, equivalence to the strong equation, and strict positivity; loops and parallel edges included"
+    },
+    {
+      "id": "G02",
+      "source": "`eq:graph-energy`",
+      "required_target": "Graph conservation and exact energy identity",
+      "dependencies": "G01",
+      "sealed_status": "Proved for the full energy-space weak equation: conservation, derivative energy and independently defined derivative-cost identity for every real height"
+    },
+    {
+      "id": "G03",
+      "source": "`lem:edge`",
+      "required_target": "Ordinary-edge barrier and equality, including exterior quadratic vertices",
+      "dependencies": "G01, polynomial integrals",
+      "sealed_status": "Proved: the quadratic profile and exact physical cost follow from the constant-coefficient edge equation; ordinary barrier and iff centered/touching equality include exterior vertices"
+    },
+    {
+      "id": "G04",
+      "source": "`lem:edge`, passive-tip case",
+      "required_target": "Pendant factor-four barrier and equality",
+      "dependencies": "G01, tip boundary condition",
+      "sealed_status": "Proved: tip iff degree one with loops counted twice; passive Neumann condition derived from vertex balance; factor-four inequality and iff tip-touching equality in either orientation"
+    },
+    {
+      "id": "G05",
+      "source": "`thm:graph`, `eq:graph-bound`",
+      "required_target": "Both mass–resistance inequalities",
+      "dependencies": "G02–G04, weighted finite inequalities",
+      "sealed_status": "Proved for actual weak solutions, with incidence-defined χ and M equal to the essential-supremum norm; maximum independently defined, attained and identified with that norm"
+    },
+    {
+      "id": "G06",
+      "source": "`eq:graph-strengths`, theorem equality clauses; longer `thm:graph-equality`",
+      "required_target": "Necessity and sufficiency of all equality data; loop/tip incidence accounting",
+      "dependencies": "G03–G05",
+      "sealed_status": "Proved: complete geometric iff, positive reactivity at every non-passive vertex, exact incidence strength formula, explicit weak-solution attainment, and reconstruction of every equality state. Balanced geometries admit the constructed strengths for every positive budget, preserving the selected passive leaves"
+    },
+    {
+      "id": "G07",
+      "source": "`eq:graph-deficit`",
+      "required_target": "Exact identity, normalized variance, nonnegativity and zero cases",
+      "dependencies": "A02/G01 positivity, G02–G06",
+      "sealed_status": "Proved for actual weak states at their essential norm and χ-times-resistance scale: exact decomposition, absorption-pair and normalized variance forms, three nonnegative terms and their zero conditions; geometric reconstruction is tracked in G06"
+    },
+    {
+      "id": "E01",
+      "source": "§6 ground-state assertions",
+      "required_target": "Positive ground state for arbitrary admissible sites via shooting",
+      "dependencies": "Gap ODEs and finite jump propagation",
+      "sealed_status": "Proved: exact sine/cosine propagation with continuous zero-parameter extension, compact first-loss-of-positivity argument, residual intermediate value theorem, and a positive normalized physical H1 eigenstate satisfying both reflecting conditions and every reaction jump for arbitrary ordered interior sites and positive strengths"
+    },
+    {
+      "id": "E02",
+      "source": "`eq:spectral-operator` and quadratic form; expanded ch. 7 ground-state assertion",
+      "required_target": "Ground-state identity; eigenvalue equals independently defined Rayleigh infimum; eigenfunction uniqueness",
+      "dependencies": "A01 energy-space infrastructure, E01",
+      "sealed_status": "Proved: independent real H1 quadratic form and Rayleigh set, nonemptiness and lower boundedness, exact whole-interval quotient identity for every H1 test, positive attained Rayleigh infimum, uniqueness of the eigenvalue of positive states, and a positive normalized representative satisfying the original weak eigenvalue equation. Every Rayleigh minimizer and weak principal eigenfunction is a unique scalar multiple of the positive state on the physical interval; nonzero mass forces a nonzero scalar, and normalization at 0 gives a unique physical weak state"
+    },
+    {
+      "id": "E03",
+      "source": "`lem:phase`",
+      "required_target": "Sharp phase jump and iff equality",
+      "dependencies": "Arctangent derivative/monotonicity",
+      "sealed_status": "Proved: sharp_phase_jump, with principal-phase branch hypotheses and iff symmetry"
+    },
+    {
+      "id": "E04",
+      "source": "`eq:phase-global`",
+      "required_target": "Phase derivative, branch validity, endpoint cancellation and sum",
+      "dependencies": "E01, E03",
+      "sealed_status": "Proved for every positive physical eigenstate: principal branch, phase derivative and exact affine evolution, original tangent jumps, reflecting endpoints, exact physical gap-length sum, global telescoping and sharp phase-capacity bound; equality iff every incident pair is symmetric"
+    },
+    {
+      "id": "E05",
+      "source": "`eq:spectral-root`",
+      "required_target": "Existence/uniqueness of positive root and comparison bound",
+      "dependencies": "E04, scalar analysis",
+      "sealed_status": "Proved: unique positive scalar root and the comparison applied to the independently defined physical principal eigenvalue for every admissible placement; positive reconstructed cell lengths sum exactly to the physical length"
+    },
+    {
+      "id": "E06",
+      "source": "`thm:spectral`",
+      "required_target": "Positive attaining cosine construction and unique optimal locations",
+      "dependencies": "E02–E05",
+      "sealed_status": "Proved for prescribed ordered positive strengths: independent all-site design space, positive exact cosine state in physical H1, reflecting and original reaction laws, full weak equation, independent Rayleigh attainment, IsGreatest of actual principal values, complete site-vector optimizer iff and strict loss for every other placement"
+    },
+    {
+      "id": "E07",
+      "source": "Paragraph after `thm:spectral`; longer `thm:spectral-budget`, `eq:spectral-zeta-root`, `eq:spectral-budget-value`, `eq:spectral-budget-design`; expanded ch. 7",
+      "required_target": "Unique joint fixed-budget strength/location optimum",
+      "dependencies": "E06, strict concavity",
+      "sealed_status": "Proved analytically: exact arctangent first/second derivatives and strict Jensen with full equality, comparison and rigidity of capacity roots, independent positive-budget strength/site domain, attained IsGreatest and complete optimizer iff, equal cell widths and explicit midpoint sites, unique dimensionless root on (0,π/2), sharp value and full equality characterization"
+    },
+    {
+      "id": "E08",
+      "source": "Periodic consequence after `thm:spectral`; longer `eq:spectral-circle-gaps`, `cor:spectral-exner`; expanded ch. 7",
+      "required_target": "Periodic optimum and equality up to symmetry",
+      "dependencies": "Independent periodic foundation and periodic versions of E03–E07",
+      "sealed_status": "Proved analytically for arbitrary sorted distinct physical arrays on [0,L): independent periodic H1 Rayleigh model; positive attained principal value; full Rayleigh-class equality under rotation to the first trap; prescribed-strength attained maximum and exact site equality x_i = offset + optimalPrefix_i for the fixed cyclic order; fixed-budget equality iff all strengths are K/n and x_i = a + i L/n with 0 ≤ a < L/n. Every such rotation attains, and reflection permutes the regular array. Exner normalization gives the unique k in (0,n/2), alpha = 2k tan(pi k/n), attained value k², complete regular-array equality and strict loss otherwise. Full weak-equation equivalence under rotation, positive physical ground-state attainment and uniqueness up to scale for arbitrary arrays are also proved. General operator/eigenbasis and stochastic identifications remain B01/P05. See the periodic array and uniqueness reports"
+    },
+    {
+      "id": "X01",
+      "source": "Appendix A; longer `thm:medium-ordering`; expanded ch. 10",
+      "required_target": "Ordered-media comparison and Lipschitz bound at fixed `K/S`",
+      "dependencies": "I01–I08; X02 for reactive endpoints",
+      "sealed_status": "Proved for fixed architecture and equal normalized budget K/S: reflecting and mixed reactive-endpoint barrier/root ordering, strict order for everywhere strict transformed-profile comparison, the fixed-partition bound εΔ²/2 and optimized physical bound ε/2 in the actual Lebesgue essential L∞ norm. The optimal value is defined independently from physical full-H1 states and attained. The earlier reflecting comparison also covers any common nonempty partition class, with attainment required for strict constrained comparison. See the mean and endpoint report"
+    },
+    {
+      "id": "X02",
+      "source": "Appendix A; expanded ch. 10",
+      "required_target": "Reactive endpoint classes, one-sided barriers, corresponding reconstruction",
+      "dependencies": "A01, I01–I08",
+      "sealed_status": "Proved for deterministic content: arbitrary fixed endpoint architecture, full-H1 weak foundations, positive absorption partition, exact physical minimax and parameters-only optimizer converse, with state equality derived from weak uniqueness. The homogeneous 2m+b sharp value, unique shares/strengths and all four position formulas are proved. Selecting one side is the attained minimum over the independent union of the two physical classes; symmetric transformed weights give equal side minima. Exact endpoint-only sharpness and quadratic profile examples, and full bidirectional normalized H1 weak equivalence with norm/share/partition invariance, are checked. Includes m=0; stochastic interpretation remains P04. See the endpoint and local perturbation report"
+    },
+    {
+      "id": "X03",
+      "source": "Appendix B; expanded ch. 11",
+      "required_target": "Strict Schur concavity, strength splitting, inverse cell-to-strength map",
+      "dependencies": "E05–E07; X04 for Robin variants",
+      "sealed_status": "Proved for positive strengths: standard descending-prefix majorization at equal count and total compares the actual attained physical optima, strictly unless the vectors are permutations, for fixed L,D and fixed finite nonnegative Robin endpoint coefficients. Splitting one positive strength into two positive strengths at independently placeable distinct sites preserves total interior strength and strictly improves the physical optimum. The ordered cell/strength bijection, feasibility exactly kL < n pi, reconstructed unique maximizing sites and value Dk² are proved for Neumann endpoints, as stipulated by the source inverse theorem; no Robin inverse-cell bijection is claimed. General nondifferentiable Karamata and finite HLP are now proved in B01. See the strength-design and parallel foundations reports"
+    },
+    {
+      "id": "X04",
+      "source": "Appendix B; expanded ch. 11",
+      "required_target": "Robin offsets, root, construction and equality for fixed nonnegative coefficients",
+      "dependencies": "E01–E06 with Robin conditions",
+      "sealed_status": "Proved for positive interior count, ordered positive strengths, positive L,D and fixed finite nonnegative endpoint coefficients: independent physical H1 Rayleigh minimum, positive attained ground state, full weak equation with both endpoint terms, exact phases/root/gaps/sites, constructive all-site maximum Dk², complete ordered-site optimizer iff and strict loss otherwise. Zero endpoint coefficients recover the Neumann problem exactly. With fixed interior data and each unselected endpoint held finite and fixed, one or both diverging coefficients give convergence of the actual moving roots, phases, scaled root squares and maximizing sites to the scalar Dirichlet formulas. Mass-normalized principal weak states have vanishing traces at diverging endpoints for fixed L,D,count, even when strengths/sites vary. Cosine states have peak 1 and endpoint values cos(B0), cos(BL); this differs from shooting normalization u(0)=1. Empty-interior checks are scalar identities, and the one-trap tangent equivalence retains 0 < kL < pi. A separately defined Dirichlet H1 spectral optimizer, whole-state/operator convergence and a zero-interaction physical extension are not claimed. See the parallel foundations report"
+    },
+    {
+      "id": "P01",
+      "source": "§2 stochastic model",
+      "required_target": "Reflected reference Brownian process and occupation local times",
+      "dependencies": "Audited Brownian construction, new local-time foundation",
+      "sealed_status": "Proved for the exact reflected-reference source scope: the actual folded Brownian path has a genuine Brownian driver, reflecting regulators and the original reflected equation; its transition, generator, reversibility, cosine/L2 domain and strong Markov identifications are derived. The actual interior local time has the all-time Tanaka and occupation identities with Gamma=2D*ell, nonnegative continuous increasing time paths, atomless site-supported Stieltjes measure and literal Revuz delta_a relative to dx (delta_a/L for normalized dx/L). A spatially continuous C([0,T])-valued version and joint scalar measurability/continuity are constructed, with each fixed original site identified for all compact times on one event. Literal ordinary occupation bands divided by 2h converge almost surely for the full positive-radius limit, uniformly on every finite horizon. The actual fixed-site local time is a canonical Borel nonanticipating path functional, strongly adapted in the particle filtration; its path law is concentrated on a measurable shift-invariant good set, with the cocycle for every pair of nonnegative times. Only finite prescribed sites are required by the source, so no common uncountable raw-level equality is assumed. Generic semimartingale theory is not an additional source assertion. Physical rho-Revuz normalization remains P02."
+    },
+    {
+      "id": "P02",
+      "source": "§2 arbitrary continuous medium",
+      "required_target": "Resistance transform, time change, model identification and atomic normalization",
+      "dependencies": "P01, A03-style coordinate analysis",
+      "sealed_status": "Proved for the original physical interval model with continuous positive conductance a and speed rho: literal resistance coordinate/inverse, positive clock/inverse, continuously confined process, occupation density and exact physical band normalization, original contact strengths and carried atomless measures, physical conditional killing and full-H1 expected lifetime, original continuous value/flux/generator Neumann martingales, actual strong Markov property and complete continuous-path law uniqueness without a competitor Markov premise. Spatial transition continuity and actual paired-transition symmetry/invariance relative to rho dx are derived. The fixed-site canonical nonanticipating positive continuous additive functional has its own Stieltjes contact measure and the all-time cocycle on a measurable invariant full-measure good set. The exact identity integral rho*f*E[contact_g(T)] = g(a)*integral_0^T P_s f(a)ds and its short-time quotient limit f(a)g(a) are proved under the explicitly defined unnormalized rho dx measure. Thus its Revuz measure is exactly delta_a. The broad abstract Revuz correspondence is quoted background instantiated by this actual construction, as the source explicitly permits; no general symmetric-process correspondence is silently claimed. The separate expanded-source strictly positive-time interior hitting assertion is now proved in B01."
+    },
+    {
+      "id": "P03",
+      "source": "§2 conditional survival",
+      "required_target": "Exponential-threshold killing and exact conditional survival identity",
+      "dependencies": "P01–P02, independence and integration",
+      "sealed_status": "Proved for the actual physical resistance-time-changed process: reversibleResistanceAttainmentLifetime_particle_condExp gives the literal first-attainment survival conditional expectation given precisely the raw sigma-algebra generated by the full physical X path. Genuine physical band reconstruction supplies an AE measurable local-time representative in this smaller sigma-algebra; the independent exponential coordinate is excluded. The nested-sigma tower derives the original exp(-sum kappa ell) weight. Interior sites, arbitrary finite families including empty, nonnegative strengths, plateaus and infinite lifetime are retained. Process-law uniqueness and broader normalization remain separate P02/P01 obligations."
+    },
+    {
+      "id": "P04",
+      "source": "§2, `eq:weak` as expectation identity",
+      "required_target": "Local-time Itô identity, expectation justification, finite/infinite-horizon limits",
+      "dependencies": "P01–P03, A01–A02",
+      "sealed_status": "Proved for the displayed original interval source claim: reversibleResistanceSurvivalResolvent independently defines the expected infinite survival-weight integral; its full product/path/time integrability is derived, it equals every original WeakIntervalEquation solution, and reversibleResistanceSurvivalResolvent_weak_equation proves that equation for the expectation itself. The full H1 test space, original continuous positive a and rho, ordered interior sites, nonempty positive strength family and every-start physical statement are preserved. Actual reflected finite-kink Ito, weighted contact cancellation, finite and infinite signed running-cost limits, and literal threshold-stopped costs are proved. Reactive-endpoint physical means and full competitor-class lifetime optimization are also proved, including endpoint-only architectures. This row does not assert uniqueness for every abstract process specified only by a formal generator; that remains P02. The graph stochastic source interpretation is proved in P06."
+    },
+    {
+      "id": "P05",
+      "source": "§6 long-time survival; expanded ch. 7 spectral design",
+      "required_target": "Actual killed semigroup/eigenfunction correspondence, logarithmic survival decay and the source second-eigenvalue survival expansion",
+      "dependencies": "P01/P03, E01–E02, full operator spectrum",
+      "sealed_status": "Proved: the actual killed L2 contraction, constructed independently from weighted expectations, equals the original weak operator spectral heat semigroup with full generator correspondence. The source initial-density spectral series is proved for every L2 weight. Every nonnegative nonzero density has a positive leading coefficient and a second-eigenvalue remainder bounded for all t>=0 by exp(-lambda2*t) times both orthogonal ground remainders, hence by exp(-lambda2*t)*norm(r)*sqrt(L). At every fixed physical start, including endpoints, literal first-attainment survival has the positive coefficient phi1(x)*integral(phi1) and an explicit second-rate bound for all t>=1. Strict first spectral gap and both BigO conclusions are derived. The actual logarithmic decay objective retains the sharp prescribed-strength and joint-budget optima, complete equality and attainment. See ReflectedInitialSurvivalExpansion and ReflectedAttainmentSurvivalExpansion."
+    },
+    {
+      "id": "P06",
+      "source": "§5 graph lifetime interpretation",
+      "required_target": "Kirchhoff graph diffusion, point local time, and graph expectation identity",
+      "dependencies": "G01, graph stochastic foundation",
+      "sealed_status": "Proved for the original positive-mass graph source scope: actual conservative continuous graph laws, canonical point local times, future-path conditioning, local-time cocycle/contact and ordinary-length unit-atom Revuz normalization; literal original-rho clock, continuous physical path law, inverse-clock local times and original killing strengths. physicalTransition_reversible proves full Borel detailed balance for the original unnormalized physicalSpeedMeasure, with invariance and no remaining symmetry premise. robinWeak_lifetime_mean identifies the literal first-exponential-threshold lifetime with every original full-H1 weak graph state at every vertex and closed-edge point; almost-sure finiteness and ordinary finite mean are derived. physicalMeanLifetime is independently defined, then physicalMeanLifetime_weak_equation and physicalMeanLifetime_unique prove its full source equation and uniqueness. Loops, parallel edges, passive leaves, positive continuous edgewise conductance/density and unequal incident density traces are retained. The graph is nontrivial (positive mass); no edgeless singleton, arbitrary abstract graph-process uniqueness, separate arbitrary physical stopping-time theorem or separate physical-rho graph Revuz limit is claimed. Exact source review: audit/graph-p06-final-source-audit.md; final evidence: audit/three-paper-closure-verification.json."
+    },
+    {
+      "id": "X05",
+      "source": "Longer `thm:graph-variable`; expanded chapter 11 `thm:exp-x12-local`, `thm:exp-x12-global`",
+      "required_target": "Profile-sensitive edge minimizer, strict convexity, variable-coefficient graph bound and equality",
+      "dependencies": "A01, G01–G02, source-coordinate and integral analysis",
+      "sealed_status": "Proved for continuous positive edge profiles: exact physical source-coordinate cost reduction, strict convexity and a unique interior minimizing level, constructive local attainment, sharp ordinary and both passive-tip bounds with complete equality, and the variable-profile graph bound for actual weak states at their essential norm. The exact deficit is the sum of nonnegative reaction and profile-edge deficits; equality holds iff all reactive vertex values equal S/K and every edge satisfies its local equality conditions. Constant-profile formulas and the exact asymmetric affine example Ω(q) = 1 + q, including its unique minimizer and radical minimum, are proved. The equality characterization does not assert simultaneous attainment on every arbitrary graph. See the mean and profile report"
+    },
+    {
+      "id": "X06",
+      "source": "Longer `cor:graph-geometry`, `eq:graph-effective-cells` and count specialization",
+      "required_target": "Attained optimum over geometry/reactivity and full equality allocations",
+      "dependencies": "G05–G06",
+      "sealed_status": "Proved for unit source, positive fixed diffusivities, and feasible fixed passive leaves: independent design space, actual weak-state lower bound, positive exact-length construction, IsLeast with attainment, iff uniqueness of both labeled parameter vectors, and common-diffusivity/count formulas. The homogeneous ordered-interval optimum is independently proved in I09"
+    },
+    {
+      "id": "X07",
+      "source": "Longer `eq:spectral-deficit`; expanded `eq:expanded-spectral-deficit`, `eq:expanded-prescribed-deficit`",
+      "required_target": "Exact spectral phase deficit and equality for admissible eigenfunctions",
+      "dependencies": "E01–E07, strict tangent convexity",
+      "sealed_status": "Proved analytically for the interval: positive phase shares, exact tangent-half first/second derivatives and strict Jensen equality, sharp tangent-jump inequality and centered equality, exact two-part physical deficit, nonnegativity and separate zero conditions, zero total deficit iff equal strengths and midpoint sites, and strict positive deficit for every other admissible parameter pair. The shorter prescribed-strength deficit and its centered-phase equality iff are also proved"
+    },
+    {
+      "id": "X08",
+      "source": "Longer `eq:spectral-constant-check`, `eq:spectral-large-N`, `eq:spectral-strong`; expanded ch. 7",
+      "required_target": "Stated weak/strong-coupling and large-N limits, with their fixed parameters",
+      "dependencies": "E05–E08, asymptotic analysis",
+      "sealed_status": "Proved for the attained interval and periodic physical optima: exact constant-trial ratio and strict bound; fixed positive K,D,L expansion K/L − K²/(12DN²) + K³L/(180D²N⁴) with O(N⁻⁶) remainder through natural counts; fixed positive N,D,L weak-budget expansion with O(K⁴) remainder and value/K limit 1/L; strict increase with K and strong-budget limit Dπ²N²/L². Analytic tangent remainders and inverse-series bounds justify the coefficients. The limiting number is now the independently attained H1 Rayleigh minimum of a perfect-absorber cell of length L/N and each mixed end cell of length L/(2N). General interacting Dirichlet/operator foundations remain B01; no operator convergence is inferred. See the parallel foundations report"
+    },
+    {
+      "id": "H01",
+      "source": "Expanded chapter 02, `thm:expanded-sharp-constant`, exact CDF/strength deficit; chapter 04 exact piecewise solution",
+      "required_target": "Sharp stationary-average constant-medium optimum, exact deficit, all equality cases, and reconstructed solution",
+      "dependencies": "A01–A03, finite sums, polynomial integration, P04",
+      "sealed_status": "Proved for the deterministic physical weak model: actual normalized mean, exact CDF energy representation and three-loss deficit; attained value L/K + L²/(12Dn²), complete midpoint/equal-strength equality, and equivalence with worst-start optimizers. The arbitrary-design affine shooting recurrence, strictly positive terminal response, unique reflecting initial value, exact quadratic reconstruction, full H1 weak-state identification and summed polynomial mean are proved. One-/two-trap reduced deficits, actual two-trap CDF and the centered integral 1/48 are checked; displayed optimizer profiles specialize from the general theorem. Stochastic lifetime identification remains P04. See the stability and grid report"
+    },
+    {
+      "id": "H02",
+      "source": "Expanded chapter 02, `thm:expanded-global-stability`",
+      "required_target": "Global physical strength and position stability with the stated constants",
+      "dependencies": "H01, weighted inequalities",
+      "sealed_status": "Proved for the actual unit-interval physical mean: global strength and position bounds with denominators K²(6Dn + K) and 6Dn(n + √Cₙ)², and every convex-weight combination. Here C₁ = 0 and Cₙ = [4 sin²(π/(2n))]⁻¹ for n ≥ 2; C₂ = 1/2 is checked. The sharp discrete Dirichlet inequality, first-mode attainment, optimal constant, all sine eigenmodes, finite cosine parity sums, orthogonality, normalized basis, Parseval and spectral energy expansion are proved. No minimum-share, perturbative or extra separation hypothesis is used. Stochastic interpretation remains P04. See the stability and grid report"
+    },
+    {
+      "id": "H03",
+      "source": "Expanded chapter 03, Exact variable-conductance design",
+      "required_target": "Weighted-grid minimization, attainment without repeated nodes, centroid equations, reconstruction and converse",
+      "dependencies": "A01–A03, compactness, weighted integration",
+      "sealed_status": "Proved for deterministic content: the independent nearest-grid integral equals the canonical weighted CDF score; compact minimizers are strict; exact coordinate differentiation gives the centroid equations. The actual variable-conductance mean has the exact energy/three-loss deficit and attained sharp minimum. Every minimizing grid reconstructs a physical full-H1 weak state; complete optimizer and state converses hold. No uniqueness of an arbitrary weighted minimizing grid is asserted. Stochastic identification remains P04"
+    },
+    {
+      "id": "H04",
+      "source": "Expanded chapter 03, Exact reversible-diffusion design and `eq:exp-general-deficit`",
+      "required_target": "Stationary-coordinate transformation, exact mean optimum, three-part deficit and complete optimizer characterization",
+      "dependencies": "H03, source-coordinate analysis, P01–P04",
+      "sealed_status": "Proved for deterministic content: full source-coordinate H1 membership equivalence, both a.e. chain rules, exact bilinear normalization and both weak-equation directions with all H1 tests. General source-weighted and mass-one reversible means have exact CDF energy, three-part deficit, attained sharp minimum and complete physical optimizer/state characterization. Constant aπ=c has actual value 1/K+1/(12cn²), equal strengths and stationary-quantile midpoint sites. Local-time/Feynman-Kac/Revuz source identification is proved in P01–P04"
+    },
+    {
+      "id": "H05",
+      "source": "Expanded chapter 03, Weak heterogeneity and perturbed stationary density",
+      "required_target": "The stated local first-variation expansions at fixed N, with their regularity and locality assumptions",
+      "dependencies": "H03–H04, parameter differentiation",
+      "sealed_status": "Proved for deterministic source claims under the explicit C¹/uniform-remainder interpretation: actual C² affine residual and branch, invertible Jacobian, global affine optimizer identification and uniqueness, all coordinate/site/strength/value quadratic expansions and envelope derivative. Every nonlinear perturbed optimizer is O(ε²) from the affine branch, without smooth parameter dependence or a smooth optimizer choice. Actual normalized coordinate, inverse, effective weight, physical-site correction and optimal mean expansions are proved; normalization derives zero first mass variation. The full correction system has unique solution with zero endpoint values. Fixed C¹ density gives O(ε²); fixed merely continuous density gives o(ε). All 19 displayed labels and three accompanying claims are mapped in audit/h05-crosswalk.json. Nonlinear uniqueness is not an additional source claim; stochastic source identification is proved in P04"
+    },
+    {
+      "id": "B01",
+      "source": "Expanded chapters 00–01, analytical toolbox and model foundations; ch. 7 ground-state assertion; ch. 11 Robin foundations",
+      "required_target": "Link every invoked foundational claim to a checked library/project theorem; preserve hypotheses and normalizations",
+      "dependencies": "Relevant Mathlib analysis/probability and A/P targets",
+      "sealed_status": "Proved for the explicitly recorded bounded source scope: all 45 foundation groups are mapped in audit/b01-current-crosswalk-closed.json to current checked project results or explicit Mathlib specializations. The original 72-reference historical crosswalk and manuscripts remain unchanged. This includes full H1/weak/strong point-interaction and graph analytic foundations, compact/self-adjoint operators and complete spectral data, general regular separated Sturm attainment/positive simple ground states/higher-state zeros, physical P01/P02 process and canonical Revuz results, and the actual exponential mean. Every physical interval start now has positive probability of a strictly positive-time hit of any interior point, with a measurable compact positive-time window; even a start at the target requires a genuine return. The source audit retains eight regularity/domain qualifications and explicitly records the general Revuz correspondence as cited background instantiated in the actual model, not an unstated universal theorem. The graph stochastic source claim is proved in P06."
+    }
+  ],
+  "complete_printed_modules": [
+    {
+      "family": "interval",
+      "module": "TimeTraps/Interval/GlobalOptimization.lean",
+      "sha256": "7be9cf200655a2b4e50818364a4ea7ab20da842db0037e08c1c8df150b235394",
+      "theorems": [
+        "TimeTraps.Interval.IntervalDesign.optimal_iff_isLeast",
+        "TimeTraps.Interval.IntervalMedium.global_minimum",
+        "TimeTraps.Interval.IntervalMedium.construct_optimal",
+        "TimeTraps.Interval.IntervalDesign.optimal_root_eq_cost",
+        "TimeTraps.Interval.IntervalDesign.optimal_partition",
+        "TimeTraps.Interval.IntervalDesign.optimal_budget_equality",
+        "TimeTraps.Interval.IntervalDesign.optimal_parameters",
+        "TimeTraps.Interval.IntervalDesign.optimal_iff_reconstruction"
+      ]
+    },
+    {
+      "family": "interval-lifetime",
+      "module": "TimeTraps/Probability/ReversibleLifetimeOptimization.lean",
+      "sha256": "a66aa08f7d6fdc1949443cd019b2da1624fa9bba83782e8f6ca835b561ca3b0c",
+      "theorems": [
+        "TimeTraps.Probability.reversibleLifetimeWorst_partition_lower_bound",
+        "TimeTraps.Probability.reversibleLifetimeWorst_global_minimum",
+        "TimeTraps.Probability.reversibleLifetimeWorst_optimal_iff",
+        "TimeTraps.Probability.reversibleLifetimeWorst_optimizer_iff",
+        "TimeTraps.Probability.reversibleLifetimeWorst_construct_attains"
+      ]
+    },
+    {
+      "family": "graph",
+      "module": "TimeTraps/Graph/ProfileGlobal.lean",
+      "sha256": "cd2fc7fedfcfe32bcc8519d262f576e62ca47ca9b50d7e180aaff0e6d6644056",
+      "theorems": [
+        "TimeTraps.Graph.MetricGraph.profileEdgeBarrier_pos",
+        "TimeTraps.Graph.GraphEquation.profile_edge_bound",
+        "TimeTraps.Graph.GraphEquation.profile_edge_eq_iff",
+        "TimeTraps.Graph.WeakGraphEquation.profile_deficit_identity",
+        "TimeTraps.Graph.WeakGraphEquation.profile_deficits_nonneg",
+        "TimeTraps.Graph.WeakGraphEquation.profile_bound",
+        "TimeTraps.Graph.WeakGraphEquation.profileEdgeDeficit_zero_iff",
+        "TimeTraps.Graph.WeakGraphEquation.profile_bound_eq_iff_costs",
+        "TimeTraps.Graph.GraphEquation.profile_bound_eq_iff",
+        "TimeTraps.Graph.WeakGraphEquation.profile_bound_eq_iff"
+      ]
+    },
+    {
+      "family": "spectral",
+      "module": "TimeTraps/Spectral/PhysicalProblem.lean",
+      "sha256": "d30dcac6bda45084d0a11e5bbb7000e6651116d64998fb1fe595ac73ff41adb8",
+      "theorems": [
+        "TimeTraps.Spectral.SpectralProblem.geometry_site",
+        "TimeTraps.Spectral.SpectralProblem.geometry_left",
+        "TimeTraps.Spectral.SpectralProblem.geometry_right",
+        "TimeTraps.Spectral.SpectralProblem.shooting_gap",
+        "TimeTraps.Spectral.SpectralProblem.shooting_reaction",
+        "TimeTraps.Spectral.SpectralProblem.quadraticForm_nonneg",
+        "TimeTraps.Spectral.SpectralProblem.squareMass_one",
+        "TimeTraps.Spectral.SpectralProblem.rayleighValues_nonempty",
+        "TimeTraps.Spectral.SpectralProblem.rayleighValues_bddBelow",
+        "TimeTraps.Spectral.SpectralProblem.principalValue_nonneg"
+      ]
+    },
+    {
+      "family": "spectral",
+      "module": "TimeTraps/Spectral/PlacementUniqueness.lean",
+      "sha256": "384bebac9da3a90fc519039675f6128b91fb49e7032422f24e61d57e54b4cab5",
+      "theorems": [
+        "TimeTraps.Spectral.PlacementProblem.sites_eq_of_attainment",
+        "TimeTraps.Spectral.PlacementProblem.value_eq_iff_sites",
+        "TimeTraps.Spectral.PlacementProblem.placement_maximum",
+        "TimeTraps.Spectral.PlacementProblem.strict_loss_of_other_sites",
+        "TimeTraps.Spectral.PlacementProblem.optimizer_iff"
+      ]
+    },
+    {
+      "family": "spectral-budget",
+      "module": "TimeTraps/Spectral/BudgetOptimality.lean",
+      "sha256": "3785fcb25f8a607e96dfc5f23dd857f08a81ddf1276d9b1cd1ca005bc3e02e86",
+      "theorems": [
+        "TimeTraps.Spectral.BudgetProblem.root_value_le",
+        "TimeTraps.Spectral.BudgetProblem.arbitrary_upper_bound",
+        "TimeTraps.Spectral.BudgetProblem.value_eq_iff",
+        "TimeTraps.Spectral.BudgetProblem.value_eq_iff_parameters",
+        "TimeTraps.Spectral.BudgetProblem.joint_maximum",
+        "TimeTraps.Spectral.BudgetProblem.strict_loss_of_other_parameters",
+        "TimeTraps.Spectral.BudgetProblem.optimizer_iff"
+      ]
+    },
+    {
+      "family": "physical-mean",
+      "module": "TimeTraps/Probability/GraphRobinLifetimeExpectation.lean",
+      "sha256": "be0359060146f60283f1ed6e234df81783f0ee93ff21c40c2959787d95c349dc",
+      "theorems": [
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.robinWeak_lifetime_mean",
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.robinWeak_lifetime_finite_mean",
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.robinWeak_lifetime_mean_edge",
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.robinWeak_lifetime_mean_vertex"
+      ]
+    },
+    {
+      "family": "physical-mean",
+      "module": "TimeTraps/Probability/GraphPhysicalLifetimeWeak.lean",
+      "sha256": "8da84933282e21b211e750c7d0446db00b495df47d6c8c3de1b74431561735bc",
+      "theorems": [
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalMeanLifetime_weak_equation",
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalMeanLifetime_unique"
+      ]
+    },
+    {
+      "family": "physical-reversibility",
+      "module": "TimeTraps/Probability/GraphPhysicalReversibility.lean",
+      "sha256": "ba5f431c9b4f61e8aa4ee513b2a2c4a2f95b6dbe3d3883b6266479c2c0fd7b28",
+      "theorems": [
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalTransitionPairing_symmetric",
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalTransition_reversible",
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalTransition_joint_swap",
+        "TimeTraps.Analysis.GraphShiftedContactOperatorProblem.physicalTransition_invariant"
+      ]
+    }
+  ],
+  "library_coverage": "Every research module is bundled; theorem-index.json maps every named theorem to its exact module.",
+  "paper4_guide": {
+    "paper": "paper4-axioms-to-results.tex",
+    "printed_module_count": 45,
+    "printed_lean_lines": 4452,
+    "printed_modules": [
+      {
+        "guide_source": "guide/01-analysis-foundations.tex",
+        "module": "TimeTraps/Analysis/IntervalCalculus.lean",
+        "sha256": "a2c33a5cba25694c6267a82ea7489114fc7d4eeb9bb815876d7ee093da77391d",
+        "lines": 59
+      },
+      {
+        "guide_source": "guide/01-analysis-foundations.tex",
+        "module": "TimeTraps/Analysis/IntervalSobolevSpaceRepresentation.lean",
+        "sha256": "f3d427d487809ac1173074f63a5e0b5036daec23abe31597a7f810b7216a9c0c",
+        "lines": 111
+      },
+      {
+        "guide_source": "guide/01-analysis-foundations.tex",
+        "module": "TimeTraps/Analysis/EdgeWeak.lean",
+        "sha256": "5deb5aa663bfbfe03d79936140fa17212231f6289524b1095c128b9f48717799",
+        "lines": 72
+      },
+      {
+        "guide_source": "guide/01-analysis-foundations.tex",
+        "module": "TimeTraps/Interval/PhysicalDesign.lean",
+        "sha256": "6d26c85bd0dbcdce7edc913bf81b113864d3e2db145979da9a575a0a89c6cece",
+        "lines": 126
+      },
+      {
+        "guide_source": "guide/02-interval-optimization.tex",
+        "module": "TimeTraps/Analysis/SourceTransport.lean",
+        "sha256": "3904749c884bb3f452533ccef0471acb30d2e7070e8b7153d198000a6e15b8fc",
+        "lines": 117
+      },
+      {
+        "guide_source": "guide/02-interval-optimization.tex",
+        "module": "TimeTraps/Interval/BalancedCell.lean",
+        "sha256": "315cddb7cc30cede6bad5390c43e015a05665bf7331aef97771c7ff2dc03a9a4",
+        "lines": 157
+      },
+      {
+        "guide_source": "guide/02-interval-optimization.tex",
+        "module": "TimeTraps/Interval/BudgetRoot.lean",
+        "sha256": "b83a099ffea594e595d48eccc440a8379586400dfe62392a699d60afe53c775b",
+        "lines": 115
+      },
+      {
+        "guide_source": "guide/02-interval-optimization.tex",
+        "module": "TimeTraps/Interval/GlobalOptimization.lean",
+        "sha256": "7be9cf200655a2b4e50818364a4ea7ab20da842db0037e08c1c8df150b235394",
+        "lines": 128
+      },
+      {
+        "guide_source": "guide/02-interval-optimization.tex",
+        "module": "TimeTraps/Interval/HomogeneousOptimum.lean",
+        "sha256": "5b728fb4578dd9a19bc874e0bdb8bb155609b41792c35b78a764a39ca89ac5ff",
+        "lines": 110
+      },
+      {
+        "guide_source": "guide/03-graph-geometry.tex",
+        "module": "TimeTraps/Graph/SharpBounds.lean",
+        "sha256": "f973d69e0499bc9186092fa0c2f29afb5fd01385dcecfa3f59d7b80eef4414f9",
+        "lines": 129
+      },
+      {
+        "guide_source": "guide/03-graph-geometry.tex",
+        "module": "TimeTraps/Graph/SharpEquality.lean",
+        "sha256": "c499f634c6b4cb3d99feb354efb50242195354502b0c69a2149eceea4f59dc33",
+        "lines": 210
+      },
+      {
+        "guide_source": "guide/03-graph-geometry.tex",
+        "module": "TimeTraps/Graph/SharpDeficit.lean",
+        "sha256": "f1dd5e502766cd31b759038dcd5a87bdd9ecb2498e8d332437e54eb4e37bb104",
+        "lines": 188
+      },
+      {
+        "guide_source": "guide/03-graph-geometry.tex",
+        "module": "TimeTraps/Graph/ProfileGlobal.lean",
+        "sha256": "cd2fc7fedfcfe32bcc8519d262f576e62ca47ca9b50d7e180aaff0e6d6644056",
+        "lines": 173
+      },
+      {
+        "guide_source": "guide/03-graph-geometry.tex",
+        "module": "TimeTraps/Graph/GeometryOptimum.lean",
+        "sha256": "db4a549b2c6e8ccc4fff564f7f9c9a8ae0fc2d0cf2d898de8c304a1b82c70f80",
+        "lines": 164
+      },
+      {
+        "guide_source": "guide/04-spectral-optimization.tex",
+        "module": "TimeTraps/Spectral/PhysicalProblem.lean",
+        "sha256": "d30dcac6bda45084d0a11e5bbb7000e6651116d64998fb1fe595ac73ff41adb8",
+        "lines": 100
+      },
+      {
+        "guide_source": "guide/04-spectral-optimization.tex",
+        "module": "TimeTraps/Spectral/Rayleigh.lean",
+        "sha256": "4dd6edccbf7753de8d3ed29fd6a44ad1d3c7509af47558865162a548f7fa4259",
+        "lines": 80
+      },
+      {
+        "guide_source": "guide/04-spectral-optimization.tex",
+        "module": "TimeTraps/Spectral/PhaseJump.lean",
+        "sha256": "3aede9a62d70dbbbd255c8ec73242afaeca3dbef1c51c384a7fdbbb47d09a3bc",
+        "lines": 107
+      },
+      {
+        "guide_source": "guide/04-spectral-optimization.tex",
+        "module": "TimeTraps/Spectral/CosineAttainment.lean",
+        "sha256": "b14b13049c2934d383340162905e2f7964e1d48838c4fd85d05b573ef102bd26",
+        "lines": 140
+      },
+      {
+        "guide_source": "guide/04-spectral-optimization.tex",
+        "module": "TimeTraps/Spectral/PlacementUniqueness.lean",
+        "sha256": "384bebac9da3a90fc519039675f6128b91fb49e7032422f24e61d57e54b4cab5",
+        "lines": 87
+      },
+      {
+        "guide_source": "guide/04-spectral-optimization.tex",
+        "module": "TimeTraps/Spectral/ArrayExner.lean",
+        "sha256": "0baa05ed13026289b6b561acc6ba5916f6918bb5546330da795e1f730371ce0f",
+        "lines": 49
+      },
+      {
+        "guide_source": "guide/05-extensions.tex",
+        "module": "TimeTraps/Interval/EndpointHomogeneousCorollaries.lean",
+        "sha256": "af25f277ad5efa59a775a189bac34afd4e927a7a9a93cc7e5a94df0fda70fed3",
+        "lines": 113
+      },
+      {
+        "guide_source": "guide/05-extensions.tex",
+        "module": "TimeTraps/Spectral/RobinPlacementProblem.lean",
+        "sha256": "8bdbb7827248e3945d07422ed5edb0ca0463970d01b93d81a6c8af81ab1673d7",
+        "lines": 173
+      },
+      {
+        "guide_source": "guide/05-extensions.tex",
+        "module": "TimeTraps/Spectral/RobinPrincipalTrace.lean",
+        "sha256": "3c55edd5db8f156a3100f71d48c3f848c7c374975315b088a7644db0ea383f9a",
+        "lines": 60
+      },
+      {
+        "guide_source": "guide/05-extensions.tex",
+        "module": "TimeTraps/Spectral/RobinStrengthOptimality.lean",
+        "sha256": "7bba83fdbcc3849bac37dd3059e6acbe48a8adf8faa6d68869da03b25fa578d6",
+        "lines": 61
+      },
+      {
+        "guide_source": "guide/05-extensions.tex",
+        "module": "TimeTraps/Spectral/InverseCellBijection.lean",
+        "sha256": "7facd387fc1d6093b61f323a9f8fab034b94881944f0b19196cd12beee6498d7",
+        "lines": 80
+      },
+      {
+        "guide_source": "guide/05-extensions.tex",
+        "module": "TimeTraps/Spectral/BudgetDeficit.lean",
+        "sha256": "332dad623bec10bcc382a636d02ad21b103a992efed11de7329f1fc394931137",
+        "lines": 106
+      },
+      {
+        "guide_source": "guide/05-extensions.tex",
+        "module": "TimeTraps/Spectral/BudgetAsymptoticExpansion.lean",
+        "sha256": "7647a497e42ed7b46b420121b9c97d6e0f3aa7b849a2d7a8cd15d14b880fe734",
+        "lines": 65
+      },
+      {
+        "guide_source": "guide/06-mean-and-stability.tex",
+        "module": "TimeTraps/Interval/HomogeneousMeanOptimality.lean",
+        "sha256": "c0308b429a5ded92392f75ebe7e050fbd7a0f4011a0ed7b704e32d13900f2428",
+        "lines": 85
+      },
+      {
+        "guide_source": "guide/06-mean-and-stability.tex",
+        "module": "TimeTraps/Interval/HomogeneousPositionStability.lean",
+        "sha256": "a1f86bdb1d0c7e91f6d379f871ee7e7c4803244f04c0066d7a46793c2f5dd042",
+        "lines": 45
+      },
+      {
+        "guide_source": "guide/06-mean-and-stability.tex",
+        "module": "TimeTraps/Interval/VariableMeanAttainment.lean",
+        "sha256": "fbe26ffc37e0fffa9c1c87d0c1c5321c05de608cb4ebcbb6fc0df07a4965e7e0",
+        "lines": 111
+      },
+      {
+        "guide_source": "guide/06-mean-and-stability.tex",
+        "module": "TimeTraps/Interval/SourceMeanDeficit.lean",
+        "sha256": "f77c957fd8d684b138e95317a3ae0b164f4aea56e17c096cd45d13176f442496",
+        "lines": 100
+      },
+      {
+        "guide_source": "guide/06-mean-and-stability.tex",
+        "module": "TimeTraps/Interval/SourceMeanPullbackOptimality.lean",
+        "sha256": "61385adb2daf2fbc6c1bf6d0b3f79eed02597e5e8dca75b8e6234c8189e5837a",
+        "lines": 96
+      },
+      {
+        "guide_source": "guide/06-mean-and-stability.tex",
+        "module": "TimeTraps/Interval/WeightedGridIFTValueEnvelope.lean",
+        "sha256": "11f86fc8b113786b50dd05827f35353b2d45edbe77d26793f7f09e226d66e6cf",
+        "lines": 55
+      },
+      {
+        "guide_source": "guide/06-mean-and-stability.tex",
+        "module": "TimeTraps/Interval/SourceDensityPerturbationPhysical.lean",
+        "sha256": "2a209de71c73d33907bb39cb50a3f257e2298632523be4638c7b60f2b02050ed",
+        "lines": 86
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/ReflectedCanonicalLocalTime.lean",
+        "sha256": "6ec7ed4d79430ae4adc7bf821a6647edf9b1560784409099739bdc811bde40e3",
+        "lines": 96
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/ReversibleResistanceCanonicalLocalTimeRevuz.lean",
+        "sha256": "a4b4c5e23b61b6fa15249e36b99e3380ef35b2b9a61aa665d1a99e954cb236be",
+        "lines": 77
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/ReversibleResistanceSurvivalResolvent.lean",
+        "sha256": "d49e574ad5df817350426c0af8af6c2987e3f24c8d41df91e6927402b2e15f07",
+        "lines": 113
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/ReflectedAttainmentSurvivalExpansion.lean",
+        "sha256": "6f6c015b9edefa5f26924d9813e6b7275581a92390489d6dd0ea5137f15e9661",
+        "lines": 58
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/GraphPointLocalTimeRevuz.lean",
+        "sha256": "7e9e02accac08a2195e6babdaa86382c50552241a59669c51e9b42372736f4c6",
+        "lines": 77
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/GraphConservativeStationaryReversal.lean",
+        "sha256": "7c0a9285a3e86660aea7c8ede295ef9a967e7de5ee7f8660da04b5d5262bc4e1",
+        "lines": 61
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/GraphPhysicalReversibility.lean",
+        "sha256": "ba5f431c9b4f61e8aa4ee513b2a2c4a2f95b6dbe3d3883b6266479c2c0fd7b28",
+        "lines": 50
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/GraphAtomicRunningCostInfinite.lean",
+        "sha256": "4a82d523548a0cf23b37a0d2811949ca7277811e57377833f3c0524f53f36689",
+        "lines": 74
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/GraphRobinLifetimeExpectation.lean",
+        "sha256": "be0359060146f60283f1ed6e234df81783f0ee93ff21c40c2959787d95c349dc",
+        "lines": 69
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Probability/GraphPhysicalLifetimeWeak.lean",
+        "sha256": "8da84933282e21b211e750c7d0446db00b495df47d6c8c3de1b74431561735bc",
+        "lines": 63
+      },
+      {
+        "guide_source": "guide/07-stochastic-identification.tex",
+        "module": "TimeTraps/Analysis/RegularSturmVariationalMinimum.lean",
+        "sha256": "99369af7a954e648dee5b6bcc4dd05b1f5b82a0aecc92c5d894c74666f347080",
+        "lines": 56
+      }
+    ],
+    "referenced_sources": [
+      "TimeTraps/Analysis/EdgeWeak.lean",
+      "TimeTraps/Analysis/IntervalCalculus.lean",
+      "TimeTraps/Analysis/IntervalSobolevSpaceRepresentation.lean",
+      "TimeTraps/Analysis/RegularSturmVariationalMinimum.lean",
+      "TimeTraps/Analysis/SourceTransport.lean",
+      "TimeTraps/Graph/EdgeBarrier.lean",
+      "TimeTraps/Graph/EqualityGeometry.lean",
+      "TimeTraps/Graph/EqualityProfiles.lean",
+      "TimeTraps/Graph/GeometryOptimum.lean",
+      "TimeTraps/Graph/PassiveTip.lean",
+      "TimeTraps/Graph/ProfileGlobal.lean",
+      "TimeTraps/Graph/ProfileMinimum.lean",
+      "TimeTraps/Graph/SharpBounds.lean",
+      "TimeTraps/Graph/SharpDeficit.lean",
+      "TimeTraps/Graph/SharpEquality.lean",
+      "TimeTraps/Graph/StrengthAllocation.lean",
+      "TimeTraps/Graph/WeakIdentities.lean",
+      "TimeTraps/Graph/WeakState.lean",
+      "TimeTraps/Interval/ArbitraryHeight.lean",
+      "TimeTraps/Interval/BalancedCell.lean",
+      "TimeTraps/Interval/BudgetComparison.lean",
+      "TimeTraps/Interval/BudgetRoot.lean",
+      "TimeTraps/Interval/CellContinuity.lean",
+      "TimeTraps/Interval/DesignLowerBound.lean",
+      "TimeTraps/Interval/EndpointComparisonPhysical.lean",
+      "TimeTraps/Interval/EndpointHomogeneousCorollaries.lean",
+      "TimeTraps/Interval/GlobalOptimization.lean",
+      "TimeTraps/Interval/HomogeneousMeanOptimality.lean",
+      "TimeTraps/Interval/HomogeneousOptimum.lean",
+      "TimeTraps/Interval/HomogeneousPositionStability.lean",
+      "TimeTraps/Interval/PartitionAttainment.lean",
+      "TimeTraps/Interval/PartitionComparison.lean",
+      "TimeTraps/Interval/PartitionMinimum.lean",
+      "TimeTraps/Interval/PhysicalDesign.lean",
+      "TimeTraps/Interval/SourceDensityPerturbationPhysical.lean",
+      "TimeTraps/Interval/SourceMeanDeficit.lean",
+      "TimeTraps/Interval/SourceMeanPullbackOptimality.lean",
+      "TimeTraps/Interval/VariableMeanAttainment.lean",
+      "TimeTraps/Interval/WeakConsequences.lean",
+      "TimeTraps/Interval/WeakProblem.lean",
+      "TimeTraps/Interval/WeightedGridIFTValueEnvelope.lean",
+      "TimeTraps/Probability/GraphAtomicRunningCostInfinite.lean",
+      "TimeTraps/Probability/GraphConservativeStationaryReversal.lean",
+      "TimeTraps/Probability/GraphPhysicalLifetimeWeak.lean",
+      "TimeTraps/Probability/GraphPhysicalReversibility.lean",
+      "TimeTraps/Probability/GraphPointLocalTimeRevuz.lean",
+      "TimeTraps/Probability/GraphRobinLifetimeExpectation.lean",
+      "TimeTraps/Probability/ReflectedAttainmentSurvivalExpansion.lean",
+      "TimeTraps/Probability/ReflectedCanonicalLocalTime.lean",
+      "TimeTraps/Probability/ReversibleResistanceCanonicalLocalTimeRevuz.lean",
+      "TimeTraps/Probability/ReversibleResistanceLocalTimeBandConditional.lean",
+      "TimeTraps/Probability/ReversibleResistanceSurvivalResolvent.lean",
+      "TimeTraps/Spectral/ArrayExner.lean",
+      "TimeTraps/Spectral/ArrayOptimality.lean",
+      "TimeTraps/Spectral/BudgetAsymptoticExpansion.lean",
+      "TimeTraps/Spectral/BudgetDeficit.lean",
+      "TimeTraps/Spectral/BudgetOptimality.lean",
+      "TimeTraps/Spectral/CapacityRoot.lean",
+      "TimeTraps/Spectral/CosineAttainment.lean",
+      "TimeTraps/Spectral/FirstZero.lean",
+      "TimeTraps/Spectral/InverseCellBijection.lean",
+      "TimeTraps/Spectral/PhaseEvolution.lean",
+      "TimeTraps/Spectral/PhaseJump.lean",
+      "TimeTraps/Spectral/PhysicalProblem.lean",
+      "TimeTraps/Spectral/PlacementUniqueness.lean",
+      "TimeTraps/Spectral/Rayleigh.lean",
+      "TimeTraps/Spectral/RobinPlacementProblem.lean",
+      "TimeTraps/Spectral/RobinPlacementUniqueness.lean",
+      "TimeTraps/Spectral/RobinPrincipalTrace.lean",
+      "TimeTraps/Spectral/RobinStrengthOptimality.lean",
+      "TimeTraps/Spectral/Shooting.lean"
+    ],
+    "missing_references": [],
+    "source_group_count": 47,
+    "source_group_coverage": [
+      {
+        "group": "A01",
+        "guide_stage": "Stage 1: full weak/strong foundations",
+        "principal_sources": [
+          "TimeTraps/Interval/WeakProblem.lean"
+        ]
+      },
+      {
+        "group": "A02",
+        "guide_stage": "Stage 1: positivity and conservation",
+        "principal_sources": [
+          "TimeTraps/Interval/WeakConsequences.lean"
+        ]
+      },
+      {
+        "group": "A03",
+        "guide_stage": "Stage 2: source coordinate and transport",
+        "principal_sources": [
+          "TimeTraps/Analysis/SourceTransport.lean"
+        ]
+      },
+      {
+        "group": "I01",
+        "guide_stage": "Stage 2: balanced-cell minimax",
+        "principal_sources": [
+          "TimeTraps/Interval/BalancedCell.lean"
+        ]
+      },
+      {
+        "group": "I02",
+        "guide_stage": "Stage 2: continuity and splitting",
+        "principal_sources": [
+          "TimeTraps/Interval/CellContinuity.lean"
+        ]
+      },
+      {
+        "group": "I03",
+        "guide_stage": "Stage 2: arbitrary-design height bound",
+        "principal_sources": [
+          "TimeTraps/Interval/ArbitraryHeight.lean"
+        ]
+      },
+      {
+        "group": "I04",
+        "guide_stage": "Stage 2: unique budget root",
+        "principal_sources": [
+          "TimeTraps/Interval/BudgetRoot.lean"
+        ]
+      },
+      {
+        "group": "I05",
+        "guide_stage": "Stage 2: physical attaining construction",
+        "principal_sources": [
+          "TimeTraps/Interval/PartitionAttainment.lean"
+        ]
+      },
+      {
+        "group": "I06",
+        "guide_stage": "Stage 2: every-design root bound",
+        "principal_sources": [
+          "TimeTraps/Interval/DesignLowerBound.lean"
+        ]
+      },
+      {
+        "group": "I07",
+        "guide_stage": "Stage 2: attained strict partition minimum",
+        "principal_sources": [
+          "TimeTraps/Interval/PartitionMinimum.lean"
+        ]
+      },
+      {
+        "group": "I08",
+        "guide_stage": "Stage 2: full optimizer equivalence",
+        "principal_sources": [
+          "TimeTraps/Interval/GlobalOptimization.lean"
+        ]
+      },
+      {
+        "group": "I09",
+        "guide_stage": "Stage 2: homogeneous uniqueness",
+        "principal_sources": [
+          "TimeTraps/Interval/HomogeneousOptimum.lean"
+        ]
+      },
+      {
+        "group": "G01",
+        "guide_stage": "Stages 1, 3: graph weak foundations",
+        "principal_sources": [
+          "TimeTraps/Graph/WeakState.lean"
+        ]
+      },
+      {
+        "group": "G02",
+        "guide_stage": "Stage 3: conservation and energy",
+        "principal_sources": [
+          "TimeTraps/Graph/WeakIdentities.lean"
+        ]
+      },
+      {
+        "group": "G03",
+        "guide_stage": "Stage 3: ordinary edge barrier",
+        "principal_sources": [
+          "TimeTraps/Graph/EdgeBarrier.lean"
+        ]
+      },
+      {
+        "group": "G04",
+        "guide_stage": "Stage 3: passive-tip factor four",
+        "principal_sources": [
+          "TimeTraps/Graph/PassiveTip.lean"
+        ]
+      },
+      {
+        "group": "G05",
+        "guide_stage": "Stage 3: both sharp graph bounds",
+        "principal_sources": [
+          "TimeTraps/Graph/SharpBounds.lean"
+        ]
+      },
+      {
+        "group": "G06",
+        "guide_stage": "Stage 3: complete graph equality",
+        "principal_sources": [
+          "TimeTraps/Graph/SharpEquality.lean"
+        ]
+      },
+      {
+        "group": "G07",
+        "guide_stage": "Stage 3: exact graph deficit",
+        "principal_sources": [
+          "TimeTraps/Graph/SharpDeficit.lean"
+        ]
+      },
+      {
+        "group": "E01",
+        "guide_stage": "Stage 4: arbitrary-site positive state",
+        "principal_sources": [
+          "TimeTraps/Spectral/Shooting.lean"
+        ]
+      },
+      {
+        "group": "E02",
+        "guide_stage": "Stage 4: independent Rayleigh minimum",
+        "principal_sources": [
+          "TimeTraps/Spectral/Rayleigh.lean"
+        ]
+      },
+      {
+        "group": "E03",
+        "guide_stage": "Stage 4: sharp phase jump",
+        "principal_sources": [
+          "TimeTraps/Spectral/PhaseJump.lean"
+        ]
+      },
+      {
+        "group": "E04",
+        "guide_stage": "Stage 4: phase evolution and sum",
+        "principal_sources": [
+          "TimeTraps/Spectral/PhaseEvolution.lean"
+        ]
+      },
+      {
+        "group": "E05",
+        "guide_stage": "Stage 4: scalar capacity root",
+        "principal_sources": [
+          "TimeTraps/Spectral/CapacityRoot.lean"
+        ]
+      },
+      {
+        "group": "E06",
+        "guide_stage": "Stage 4: attainment and site converse",
+        "principal_sources": [
+          "TimeTraps/Spectral/PlacementUniqueness.lean"
+        ]
+      },
+      {
+        "group": "E07",
+        "guide_stage": "Stage 4: joint budget optimum",
+        "principal_sources": [
+          "TimeTraps/Spectral/BudgetOptimality.lean"
+        ]
+      },
+      {
+        "group": "E08",
+        "guide_stage": "Stage 4: arbitrary periodic arrays",
+        "principal_sources": [
+          "TimeTraps/Spectral/ArrayOptimality.lean"
+        ]
+      },
+      {
+        "group": "X01",
+        "guide_stage": "Stage 5: ordered media and robustness",
+        "principal_sources": [
+          "TimeTraps/Interval/EndpointComparisonPhysical.lean"
+        ]
+      },
+      {
+        "group": "X02",
+        "guide_stage": "Stage 5: reactive endpoint architectures",
+        "principal_sources": [
+          "TimeTraps/Interval/EndpointHomogeneousCorollaries.lean"
+        ]
+      },
+      {
+        "group": "X03",
+        "guide_stage": "Stage 5: majorization, splitting, inverse",
+        "principal_sources": [
+          "TimeTraps/Spectral/RobinStrengthOptimality.lean",
+          "TimeTraps/Spectral/InverseCellBijection.lean"
+        ]
+      },
+      {
+        "group": "X04",
+        "guide_stage": "Stage 5: Robin optimization and limits",
+        "principal_sources": [
+          "TimeTraps/Spectral/RobinPlacementUniqueness.lean",
+          "TimeTraps/Spectral/RobinPrincipalTrace.lean"
+        ]
+      },
+      {
+        "group": "X05",
+        "guide_stage": "Stage 3: variable edge profiles",
+        "principal_sources": [
+          "TimeTraps/Graph/ProfileGlobal.lean"
+        ]
+      },
+      {
+        "group": "X06",
+        "guide_stage": "Stage 3: geometry and reactivity design",
+        "principal_sources": [
+          "TimeTraps/Graph/GeometryOptimum.lean"
+        ]
+      },
+      {
+        "group": "X07",
+        "guide_stage": "Stage 5: exact spectral deficits",
+        "principal_sources": [
+          "TimeTraps/Spectral/BudgetDeficit.lean"
+        ]
+      },
+      {
+        "group": "X08",
+        "guide_stage": "Stage 5: weak, strong and count limits",
+        "principal_sources": [
+          "TimeTraps/Spectral/BudgetAsymptoticExpansion.lean"
+        ]
+      },
+      {
+        "group": "H01",
+        "guide_stage": "Stage 6: mean optimum and exact loss",
+        "principal_sources": [
+          "TimeTraps/Interval/HomogeneousMeanOptimality.lean"
+        ]
+      },
+      {
+        "group": "H02",
+        "guide_stage": "Stage 6: global parameter stability",
+        "principal_sources": [
+          "TimeTraps/Interval/HomogeneousPositionStability.lean"
+        ]
+      },
+      {
+        "group": "H03",
+        "guide_stage": "Stage 6: weighted-grid mean design",
+        "principal_sources": [
+          "TimeTraps/Interval/VariableMeanAttainment.lean"
+        ]
+      },
+      {
+        "group": "H04",
+        "guide_stage": "Stage 6: general reversible mean",
+        "principal_sources": [
+          "TimeTraps/Interval/SourceMeanPullbackOptimality.lean"
+        ]
+      },
+      {
+        "group": "H05",
+        "guide_stage": "Stage 6: fixed-count first variations",
+        "principal_sources": [
+          "TimeTraps/Interval/WeightedGridIFTValueEnvelope.lean",
+          "TimeTraps/Interval/SourceDensityPerturbationPhysical.lean"
+        ]
+      },
+      {
+        "group": "P01",
+        "guide_stage": "Stage 7: reflected paths and local times",
+        "principal_sources": [
+          "TimeTraps/Probability/ReflectedCanonicalLocalTime.lean"
+        ]
+      },
+      {
+        "group": "P02",
+        "guide_stage": "Stage 7: physical interval and Revuz",
+        "principal_sources": [
+          "TimeTraps/Probability/ReversibleResistanceCanonicalLocalTimeRevuz.lean"
+        ]
+      },
+      {
+        "group": "P03",
+        "guide_stage": "Stage 7: conditional exponential survival",
+        "principal_sources": [
+          "TimeTraps/Probability/ReversibleResistanceLocalTimeBandConditional.lean"
+        ]
+      },
+      {
+        "group": "P04",
+        "guide_stage": "Stage 7: literal interval mean and weak form",
+        "principal_sources": [
+          "TimeTraps/Probability/ReversibleResistanceSurvivalResolvent.lean"
+        ]
+      },
+      {
+        "group": "P05",
+        "guide_stage": "Stage 7: actual spectral survival expansion",
+        "principal_sources": [
+          "TimeTraps/Probability/ReflectedAttainmentSurvivalExpansion.lean"
+        ]
+      },
+      {
+        "group": "P06",
+        "guide_stage": "Stage 7: graph lifetime and reversibility",
+        "principal_sources": [
+          "TimeTraps/Probability/GraphPhysicalLifetimeWeak.lean",
+          "TimeTraps/Probability/GraphPhysicalReversibility.lean"
+        ]
+      },
+      {
+        "group": "B01",
+        "guide_stage": "Stages 1, 4, 7: foundational crosswalk",
+        "principal_sources": [
+          "source-bundle/evidence/b01-current-crosswalk-closed.json",
+          "TimeTraps/Analysis/RegularSturmVariationalMinimum.lean"
+        ]
+      }
+    ]
+  }
+}

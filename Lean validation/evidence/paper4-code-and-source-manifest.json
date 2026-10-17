@@ -1,0 +1,688 @@
+{
+  "paper": "paper4-axioms-to-results.tex",
+  "printed_module_count": 45,
+  "printed_lean_lines": 4452,
+  "printed_modules": [
+    {
+      "guide_source": "guide/01-analysis-foundations.tex",
+      "module": "TimeTraps/Analysis/IntervalCalculus.lean",
+      "sha256": "a2c33a5cba25694c6267a82ea7489114fc7d4eeb9bb815876d7ee093da77391d",
+      "lines": 59
+    },
+    {
+      "guide_source": "guide/01-analysis-foundations.tex",
+      "module": "TimeTraps/Analysis/IntervalSobolevSpaceRepresentation.lean",
+      "sha256": "f3d427d487809ac1173074f63a5e0b5036daec23abe31597a7f810b7216a9c0c",
+      "lines": 111
+    },
+    {
+      "guide_source": "guide/01-analysis-foundations.tex",
+      "module": "TimeTraps/Analysis/EdgeWeak.lean",
+      "sha256": "5deb5aa663bfbfe03d79936140fa17212231f6289524b1095c128b9f48717799",
+      "lines": 72
+    },
+    {
+      "guide_source": "guide/01-analysis-foundations.tex",
+      "module": "TimeTraps/Interval/PhysicalDesign.lean",
+      "sha256": "6d26c85bd0dbcdce7edc913bf81b113864d3e2db145979da9a575a0a89c6cece",
+      "lines": 126
+    },
+    {
+      "guide_source": "guide/02-interval-optimization.tex",
+      "module": "TimeTraps/Analysis/SourceTransport.lean",
+      "sha256": "3904749c884bb3f452533ccef0471acb30d2e7070e8b7153d198000a6e15b8fc",
+      "lines": 117
+    },
+    {
+      "guide_source": "guide/02-interval-optimization.tex",
+      "module": "TimeTraps/Interval/BalancedCell.lean",
+      "sha256": "315cddb7cc30cede6bad5390c43e015a05665bf7331aef97771c7ff2dc03a9a4",
+      "lines": 157
+    },
+    {
+      "guide_source": "guide/02-interval-optimization.tex",
+      "module": "TimeTraps/Interval/BudgetRoot.lean",
+      "sha256": "b83a099ffea594e595d48eccc440a8379586400dfe62392a699d60afe53c775b",
+      "lines": 115
+    },
+    {
+      "guide_source": "guide/02-interval-optimization.tex",
+      "module": "TimeTraps/Interval/GlobalOptimization.lean",
+      "sha256": "7be9cf200655a2b4e50818364a4ea7ab20da842db0037e08c1c8df150b235394",
+      "lines": 128
+    },
+    {
+      "guide_source": "guide/02-interval-optimization.tex",
+      "module": "TimeTraps/Interval/HomogeneousOptimum.lean",
+      "sha256": "5b728fb4578dd9a19bc874e0bdb8bb155609b41792c35b78a764a39ca89ac5ff",
+      "lines": 110
+    },
+    {
+      "guide_source": "guide/03-graph-geometry.tex",
+      "module": "TimeTraps/Graph/SharpBounds.lean",
+      "sha256": "f973d69e0499bc9186092fa0c2f29afb5fd01385dcecfa3f59d7b80eef4414f9",
+      "lines": 129
+    },
+    {
+      "guide_source": "guide/03-graph-geometry.tex",
+      "module": "TimeTraps/Graph/SharpEquality.lean",
+      "sha256": "c499f634c6b4cb3d99feb354efb50242195354502b0c69a2149eceea4f59dc33",
+      "lines": 210
+    },
+    {
+      "guide_source": "guide/03-graph-geometry.tex",
+      "module": "TimeTraps/Graph/SharpDeficit.lean",
+      "sha256": "f1dd5e502766cd31b759038dcd5a87bdd9ecb2498e8d332437e54eb4e37bb104",
+      "lines": 188
+    },
+    {
+      "guide_source": "guide/03-graph-geometry.tex",
+      "module": "TimeTraps/Graph/ProfileGlobal.lean",
+      "sha256": "cd2fc7fedfcfe32bcc8519d262f576e62ca47ca9b50d7e180aaff0e6d6644056",
+      "lines": 173
+    },
+    {
+      "guide_source": "guide/03-graph-geometry.tex",
+      "module": "TimeTraps/Graph/GeometryOptimum.lean",
+      "sha256": "db4a549b2c6e8ccc4fff564f7f9c9a8ae0fc2d0cf2d898de8c304a1b82c70f80",
+      "lines": 164
+    },
+    {
+      "guide_source": "guide/04-spectral-optimization.tex",
+      "module": "TimeTraps/Spectral/PhysicalProblem.lean",
+      "sha256": "d30dcac6bda45084d0a11e5bbb7000e6651116d64998fb1fe595ac73ff41adb8",
+      "lines": 100
+    },
+    {
+      "guide_source": "guide/04-spectral-optimization.tex",
+      "module": "TimeTraps/Spectral/Rayleigh.lean",
+      "sha256": "4dd6edccbf7753de8d3ed29fd6a44ad1d3c7509af47558865162a548f7fa4259",
+      "lines": 80
+    },
+    {
+      "guide_source": "guide/04-spectral-optimization.tex",
+      "module": "TimeTraps/Spectral/PhaseJump.lean",
+      "sha256": "3aede9a62d70dbbbd255c8ec73242afaeca3dbef1c51c384a7fdbbb47d09a3bc",
+      "lines": 107
+    },
+    {
+      "guide_source": "guide/04-spectral-optimization.tex",
+      "module": "TimeTraps/Spectral/CosineAttainment.lean",
+      "sha256": "b14b13049c2934d383340162905e2f7964e1d48838c4fd85d05b573ef102bd26",
+      "lines": 140
+    },
+    {
+      "guide_source": "guide/04-spectral-optimization.tex",
+      "module": "TimeTraps/Spectral/PlacementUniqueness.lean",
+      "sha256": "384bebac9da3a90fc519039675f6128b91fb49e7032422f24e61d57e54b4cab5",
+      "lines": 87
+    },
+    {
+      "guide_source": "guide/04-spectral-optimization.tex",
+      "module": "TimeTraps/Spectral/ArrayExner.lean",
+      "sha256": "0baa05ed13026289b6b561acc6ba5916f6918bb5546330da795e1f730371ce0f",
+      "lines": 49
+    },
+    {
+      "guide_source": "guide/05-extensions.tex",
+      "module": "TimeTraps/Interval/EndpointHomogeneousCorollaries.lean",
+      "sha256": "af25f277ad5efa59a775a189bac34afd4e927a7a9a93cc7e5a94df0fda70fed3",
+      "lines": 113
+    },
+    {
+      "guide_source": "guide/05-extensions.tex",
+      "module": "TimeTraps/Spectral/RobinPlacementProblem.lean",
+      "sha256": "8bdbb7827248e3945d07422ed5edb0ca0463970d01b93d81a6c8af81ab1673d7",
+      "lines": 173
+    },
+    {
+      "guide_source": "guide/05-extensions.tex",
+      "module": "TimeTraps/Spectral/RobinPrincipalTrace.lean",
+      "sha256": "3c55edd5db8f156a3100f71d48c3f848c7c374975315b088a7644db0ea383f9a",
+      "lines": 60
+    },
+    {
+      "guide_source": "guide/05-extensions.tex",
+      "module": "TimeTraps/Spectral/RobinStrengthOptimality.lean",
+      "sha256": "7bba83fdbcc3849bac37dd3059e6acbe48a8adf8faa6d68869da03b25fa578d6",
+      "lines": 61
+    },
+    {
+      "guide_source": "guide/05-extensions.tex",
+      "module": "TimeTraps/Spectral/InverseCellBijection.lean",
+      "sha256": "7facd387fc1d6093b61f323a9f8fab034b94881944f0b19196cd12beee6498d7",
+      "lines": 80
+    },
+    {
+      "guide_source": "guide/05-extensions.tex",
+      "module": "TimeTraps/Spectral/BudgetDeficit.lean",
+      "sha256": "332dad623bec10bcc382a636d02ad21b103a992efed11de7329f1fc394931137",
+      "lines": 106
+    },
+    {
+      "guide_source": "guide/05-extensions.tex",
+      "module": "TimeTraps/Spectral/BudgetAsymptoticExpansion.lean",
+      "sha256": "7647a497e42ed7b46b420121b9c97d6e0f3aa7b849a2d7a8cd15d14b880fe734",
+      "lines": 65
+    },
+    {
+      "guide_source": "guide/06-mean-and-stability.tex",
+      "module": "TimeTraps/Interval/HomogeneousMeanOptimality.lean",
+      "sha256": "c0308b429a5ded92392f75ebe7e050fbd7a0f4011a0ed7b704e32d13900f2428",
+      "lines": 85
+    },
+    {
+      "guide_source": "guide/06-mean-and-stability.tex",
+      "module": "TimeTraps/Interval/HomogeneousPositionStability.lean",
+      "sha256": "a1f86bdb1d0c7e91f6d379f871ee7e7c4803244f04c0066d7a46793c2f5dd042",
+      "lines": 45
+    },
+    {
+      "guide_source": "guide/06-mean-and-stability.tex",
+      "module": "TimeTraps/Interval/VariableMeanAttainment.lean",
+      "sha256": "fbe26ffc37e0fffa9c1c87d0c1c5321c05de608cb4ebcbb6fc0df07a4965e7e0",
+      "lines": 111
+    },
+    {
+      "guide_source": "guide/06-mean-and-stability.tex",
+      "module": "TimeTraps/Interval/SourceMeanDeficit.lean",
+      "sha256": "f77c957fd8d684b138e95317a3ae0b164f4aea56e17c096cd45d13176f442496",
+      "lines": 100
+    },
+    {
+      "guide_source": "guide/06-mean-and-stability.tex",
+      "module": "TimeTraps/Interval/SourceMeanPullbackOptimality.lean",
+      "sha256": "61385adb2daf2fbc6c1bf6d0b3f79eed02597e5e8dca75b8e6234c8189e5837a",
+      "lines": 96
+    },
+    {
+      "guide_source": "guide/06-mean-and-stability.tex",
+      "module": "TimeTraps/Interval/WeightedGridIFTValueEnvelope.lean",
+      "sha256": "11f86fc8b113786b50dd05827f35353b2d45edbe77d26793f7f09e226d66e6cf",
+      "lines": 55
+    },
+    {
+      "guide_source": "guide/06-mean-and-stability.tex",
+      "module": "TimeTraps/Interval/SourceDensityPerturbationPhysical.lean",
+      "sha256": "2a209de71c73d33907bb39cb50a3f257e2298632523be4638c7b60f2b02050ed",
+      "lines": 86
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/ReflectedCanonicalLocalTime.lean",
+      "sha256": "6ec7ed4d79430ae4adc7bf821a6647edf9b1560784409099739bdc811bde40e3",
+      "lines": 96
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/ReversibleResistanceCanonicalLocalTimeRevuz.lean",
+      "sha256": "a4b4c5e23b61b6fa15249e36b99e3380ef35b2b9a61aa665d1a99e954cb236be",
+      "lines": 77
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/ReversibleResistanceSurvivalResolvent.lean",
+      "sha256": "d49e574ad5df817350426c0af8af6c2987e3f24c8d41df91e6927402b2e15f07",
+      "lines": 113
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/ReflectedAttainmentSurvivalExpansion.lean",
+      "sha256": "6f6c015b9edefa5f26924d9813e6b7275581a92390489d6dd0ea5137f15e9661",
+      "lines": 58
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/GraphPointLocalTimeRevuz.lean",
+      "sha256": "7e9e02accac08a2195e6babdaa86382c50552241a59669c51e9b42372736f4c6",
+      "lines": 77
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/GraphConservativeStationaryReversal.lean",
+      "sha256": "7c0a9285a3e86660aea7c8ede295ef9a967e7de5ee7f8660da04b5d5262bc4e1",
+      "lines": 61
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/GraphPhysicalReversibility.lean",
+      "sha256": "ba5f431c9b4f61e8aa4ee513b2a2c4a2f95b6dbe3d3883b6266479c2c0fd7b28",
+      "lines": 50
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/GraphAtomicRunningCostInfinite.lean",
+      "sha256": "4a82d523548a0cf23b37a0d2811949ca7277811e57377833f3c0524f53f36689",
+      "lines": 74
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/GraphRobinLifetimeExpectation.lean",
+      "sha256": "be0359060146f60283f1ed6e234df81783f0ee93ff21c40c2959787d95c349dc",
+      "lines": 69
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Probability/GraphPhysicalLifetimeWeak.lean",
+      "sha256": "8da84933282e21b211e750c7d0446db00b495df47d6c8c3de1b74431561735bc",
+      "lines": 63
+    },
+    {
+      "guide_source": "guide/07-stochastic-identification.tex",
+      "module": "TimeTraps/Analysis/RegularSturmVariationalMinimum.lean",
+      "sha256": "99369af7a954e648dee5b6bcc4dd05b1f5b82a0aecc92c5d894c74666f347080",
+      "lines": 56
+    }
+  ],
+  "referenced_sources": [
+    "TimeTraps/Analysis/EdgeWeak.lean",
+    "TimeTraps/Analysis/IntervalCalculus.lean",
+    "TimeTraps/Analysis/IntervalSobolevSpaceRepresentation.lean",
+    "TimeTraps/Analysis/RegularSturmVariationalMinimum.lean",
+    "TimeTraps/Analysis/SourceTransport.lean",
+    "TimeTraps/Graph/EdgeBarrier.lean",
+    "TimeTraps/Graph/EqualityGeometry.lean",
+    "TimeTraps/Graph/EqualityProfiles.lean",
+    "TimeTraps/Graph/GeometryOptimum.lean",
+    "TimeTraps/Graph/PassiveTip.lean",
+    "TimeTraps/Graph/ProfileGlobal.lean",
+    "TimeTraps/Graph/ProfileMinimum.lean",
+    "TimeTraps/Graph/SharpBounds.lean",
+    "TimeTraps/Graph/SharpDeficit.lean",
+    "TimeTraps/Graph/SharpEquality.lean",
+    "TimeTraps/Graph/StrengthAllocation.lean",
+    "TimeTraps/Graph/WeakIdentities.lean",
+    "TimeTraps/Graph/WeakState.lean",
+    "TimeTraps/Interval/ArbitraryHeight.lean",
+    "TimeTraps/Interval/BalancedCell.lean",
+    "TimeTraps/Interval/BudgetComparison.lean",
+    "TimeTraps/Interval/BudgetRoot.lean",
+    "TimeTraps/Interval/CellContinuity.lean",
+    "TimeTraps/Interval/DesignLowerBound.lean",
+    "TimeTraps/Interval/EndpointComparisonPhysical.lean",
+    "TimeTraps/Interval/EndpointHomogeneousCorollaries.lean",
+    "TimeTraps/Interval/GlobalOptimization.lean",
+    "TimeTraps/Interval/HomogeneousMeanOptimality.lean",
+    "TimeTraps/Interval/HomogeneousOptimum.lean",
+    "TimeTraps/Interval/HomogeneousPositionStability.lean",
+    "TimeTraps/Interval/PartitionAttainment.lean",
+    "TimeTraps/Interval/PartitionComparison.lean",
+    "TimeTraps/Interval/PartitionMinimum.lean",
+    "TimeTraps/Interval/PhysicalDesign.lean",
+    "TimeTraps/Interval/SourceDensityPerturbationPhysical.lean",
+    "TimeTraps/Interval/SourceMeanDeficit.lean",
+    "TimeTraps/Interval/SourceMeanPullbackOptimality.lean",
+    "TimeTraps/Interval/VariableMeanAttainment.lean",
+    "TimeTraps/Interval/WeakConsequences.lean",
+    "TimeTraps/Interval/WeakProblem.lean",
+    "TimeTraps/Interval/WeightedGridIFTValueEnvelope.lean",
+    "TimeTraps/Probability/GraphAtomicRunningCostInfinite.lean",
+    "TimeTraps/Probability/GraphConservativeStationaryReversal.lean",
+    "TimeTraps/Probability/GraphPhysicalLifetimeWeak.lean",
+    "TimeTraps/Probability/GraphPhysicalReversibility.lean",
+    "TimeTraps/Probability/GraphPointLocalTimeRevuz.lean",
+    "TimeTraps/Probability/GraphRobinLifetimeExpectation.lean",
+    "TimeTraps/Probability/ReflectedAttainmentSurvivalExpansion.lean",
+    "TimeTraps/Probability/ReflectedCanonicalLocalTime.lean",
+    "TimeTraps/Probability/ReversibleResistanceCanonicalLocalTimeRevuz.lean",
+    "TimeTraps/Probability/ReversibleResistanceLocalTimeBandConditional.lean",
+    "TimeTraps/Probability/ReversibleResistanceSurvivalResolvent.lean",
+    "TimeTraps/Spectral/ArrayExner.lean",
+    "TimeTraps/Spectral/ArrayOptimality.lean",
+    "TimeTraps/Spectral/BudgetAsymptoticExpansion.lean",
+    "TimeTraps/Spectral/BudgetDeficit.lean",
+    "TimeTraps/Spectral/BudgetOptimality.lean",
+    "TimeTraps/Spectral/CapacityRoot.lean",
+    "TimeTraps/Spectral/CosineAttainment.lean",
+    "TimeTraps/Spectral/FirstZero.lean",
+    "TimeTraps/Spectral/InverseCellBijection.lean",
+    "TimeTraps/Spectral/PhaseEvolution.lean",
+    "TimeTraps/Spectral/PhaseJump.lean",
+    "TimeTraps/Spectral/PhysicalProblem.lean",
+    "TimeTraps/Spectral/PlacementUniqueness.lean",
+    "TimeTraps/Spectral/Rayleigh.lean",
+    "TimeTraps/Spectral/RobinPlacementProblem.lean",
+    "TimeTraps/Spectral/RobinPlacementUniqueness.lean",
+    "TimeTraps/Spectral/RobinPrincipalTrace.lean",
+    "TimeTraps/Spectral/RobinStrengthOptimality.lean",
+    "TimeTraps/Spectral/Shooting.lean"
+  ],
+  "missing_references": [],
+  "source_group_count": 47,
+  "source_group_coverage": [
+    {
+      "group": "A01",
+      "guide_stage": "Stage 1: full weak/strong foundations",
+      "principal_sources": [
+        "TimeTraps/Interval/WeakProblem.lean"
+      ]
+    },
+    {
+      "group": "A02",
+      "guide_stage": "Stage 1: positivity and conservation",
+      "principal_sources": [
+        "TimeTraps/Interval/WeakConsequences.lean"
+      ]
+    },
+    {
+      "group": "A03",
+      "guide_stage": "Stage 2: source coordinate and transport",
+      "principal_sources": [
+        "TimeTraps/Analysis/SourceTransport.lean"
+      ]
+    },
+    {
+      "group": "I01",
+      "guide_stage": "Stage 2: balanced-cell minimax",
+      "principal_sources": [
+        "TimeTraps/Interval/BalancedCell.lean"
+      ]
+    },
+    {
+      "group": "I02",
+      "guide_stage": "Stage 2: continuity and splitting",
+      "principal_sources": [
+        "TimeTraps/Interval/CellContinuity.lean"
+      ]
+    },
+    {
+      "group": "I03",
+      "guide_stage": "Stage 2: arbitrary-design height bound",
+      "principal_sources": [
+        "TimeTraps/Interval/ArbitraryHeight.lean"
+      ]
+    },
+    {
+      "group": "I04",
+      "guide_stage": "Stage 2: unique budget root",
+      "principal_sources": [
+        "TimeTraps/Interval/BudgetRoot.lean"
+      ]
+    },
+    {
+      "group": "I05",
+      "guide_stage": "Stage 2: physical attaining construction",
+      "principal_sources": [
+        "TimeTraps/Interval/PartitionAttainment.lean"
+      ]
+    },
+    {
+      "group": "I06",
+      "guide_stage": "Stage 2: every-design root bound",
+      "principal_sources": [
+        "TimeTraps/Interval/DesignLowerBound.lean"
+      ]
+    },
+    {
+      "group": "I07",
+      "guide_stage": "Stage 2: attained strict partition minimum",
+      "principal_sources": [
+        "TimeTraps/Interval/PartitionMinimum.lean"
+      ]
+    },
+    {
+      "group": "I08",
+      "guide_stage": "Stage 2: full optimizer equivalence",
+      "principal_sources": [
+        "TimeTraps/Interval/GlobalOptimization.lean"
+      ]
+    },
+    {
+      "group": "I09",
+      "guide_stage": "Stage 2: homogeneous uniqueness",
+      "principal_sources": [
+        "TimeTraps/Interval/HomogeneousOptimum.lean"
+      ]
+    },
+    {
+      "group": "G01",
+      "guide_stage": "Stages 1, 3: graph weak foundations",
+      "principal_sources": [
+        "TimeTraps/Graph/WeakState.lean"
+      ]
+    },
+    {
+      "group": "G02",
+      "guide_stage": "Stage 3: conservation and energy",
+      "principal_sources": [
+        "TimeTraps/Graph/WeakIdentities.lean"
+      ]
+    },
+    {
+      "group": "G03",
+      "guide_stage": "Stage 3: ordinary edge barrier",
+      "principal_sources": [
+        "TimeTraps/Graph/EdgeBarrier.lean"
+      ]
+    },
+    {
+      "group": "G04",
+      "guide_stage": "Stage 3: passive-tip factor four",
+      "principal_sources": [
+        "TimeTraps/Graph/PassiveTip.lean"
+      ]
+    },
+    {
+      "group": "G05",
+      "guide_stage": "Stage 3: both sharp graph bounds",
+      "principal_sources": [
+        "TimeTraps/Graph/SharpBounds.lean"
+      ]
+    },
+    {
+      "group": "G06",
+      "guide_stage": "Stage 3: complete graph equality",
+      "principal_sources": [
+        "TimeTraps/Graph/SharpEquality.lean"
+      ]
+    },
+    {
+      "group": "G07",
+      "guide_stage": "Stage 3: exact graph deficit",
+      "principal_sources": [
+        "TimeTraps/Graph/SharpDeficit.lean"
+      ]
+    },
+    {
+      "group": "E01",
+      "guide_stage": "Stage 4: arbitrary-site positive state",
+      "principal_sources": [
+        "TimeTraps/Spectral/Shooting.lean"
+      ]
+    },
+    {
+      "group": "E02",
+      "guide_stage": "Stage 4: independent Rayleigh minimum",
+      "principal_sources": [
+        "TimeTraps/Spectral/Rayleigh.lean"
+      ]
+    },
+    {
+      "group": "E03",
+      "guide_stage": "Stage 4: sharp phase jump",
+      "principal_sources": [
+        "TimeTraps/Spectral/PhaseJump.lean"
+      ]
+    },
+    {
+      "group": "E04",
+      "guide_stage": "Stage 4: phase evolution and sum",
+      "principal_sources": [
+        "TimeTraps/Spectral/PhaseEvolution.lean"
+      ]
+    },
+    {
+      "group": "E05",
+      "guide_stage": "Stage 4: scalar capacity root",
+      "principal_sources": [
+        "TimeTraps/Spectral/CapacityRoot.lean"
+      ]
+    },
+    {
+      "group": "E06",
+      "guide_stage": "Stage 4: attainment and site converse",
+      "principal_sources": [
+        "TimeTraps/Spectral/PlacementUniqueness.lean"
+      ]
+    },
+    {
+      "group": "E07",
+      "guide_stage": "Stage 4: joint budget optimum",
+      "principal_sources": [
+        "TimeTraps/Spectral/BudgetOptimality.lean"
+      ]
+    },
+    {
+      "group": "E08",
+      "guide_stage": "Stage 4: arbitrary periodic arrays",
+      "principal_sources": [
+        "TimeTraps/Spectral/ArrayOptimality.lean"
+      ]
+    },
+    {
+      "group": "X01",
+      "guide_stage": "Stage 5: ordered media and robustness",
+      "principal_sources": [
+        "TimeTraps/Interval/EndpointComparisonPhysical.lean"
+      ]
+    },
+    {
+      "group": "X02",
+      "guide_stage": "Stage 5: reactive endpoint architectures",
+      "principal_sources": [
+        "TimeTraps/Interval/EndpointHomogeneousCorollaries.lean"
+      ]
+    },
+    {
+      "group": "X03",
+      "guide_stage": "Stage 5: majorization, splitting, inverse",
+      "principal_sources": [
+        "TimeTraps/Spectral/RobinStrengthOptimality.lean",
+        "TimeTraps/Spectral/InverseCellBijection.lean"
+      ]
+    },
+    {
+      "group": "X04",
+      "guide_stage": "Stage 5: Robin optimization and limits",
+      "principal_sources": [
+        "TimeTraps/Spectral/RobinPlacementUniqueness.lean",
+        "TimeTraps/Spectral/RobinPrincipalTrace.lean"
+      ]
+    },
+    {
+      "group": "X05",
+      "guide_stage": "Stage 3: variable edge profiles",
+      "principal_sources": [
+        "TimeTraps/Graph/ProfileGlobal.lean"
+      ]
+    },
+    {
+      "group": "X06",
+      "guide_stage": "Stage 3: geometry and reactivity design",
+      "principal_sources": [
+        "TimeTraps/Graph/GeometryOptimum.lean"
+      ]
+    },
+    {
+      "group": "X07",
+      "guide_stage": "Stage 5: exact spectral deficits",
+      "principal_sources": [
+        "TimeTraps/Spectral/BudgetDeficit.lean"
+      ]
+    },
+    {
+      "group": "X08",
+      "guide_stage": "Stage 5: weak, strong and count limits",
+      "principal_sources": [
+        "TimeTraps/Spectral/BudgetAsymptoticExpansion.lean"
+      ]
+    },
+    {
+      "group": "H01",
+      "guide_stage": "Stage 6: mean optimum and exact loss",
+      "principal_sources": [
+        "TimeTraps/Interval/HomogeneousMeanOptimality.lean"
+      ]
+    },
+    {
+      "group": "H02",
+      "guide_stage": "Stage 6: global parameter stability",
+      "principal_sources": [
+        "TimeTraps/Interval/HomogeneousPositionStability.lean"
+      ]
+    },
+    {
+      "group": "H03",
+      "guide_stage": "Stage 6: weighted-grid mean design",
+      "principal_sources": [
+        "TimeTraps/Interval/VariableMeanAttainment.lean"
+      ]
+    },
+    {
+      "group": "H04",
+      "guide_stage": "Stage 6: general reversible mean",
+      "principal_sources": [
+        "TimeTraps/Interval/SourceMeanPullbackOptimality.lean"
+      ]
+    },
+    {
+      "group": "H05",
+      "guide_stage": "Stage 6: fixed-count first variations",
+      "principal_sources": [
+        "TimeTraps/Interval/WeightedGridIFTValueEnvelope.lean",
+        "TimeTraps/Interval/SourceDensityPerturbationPhysical.lean"
+      ]
+    },
+    {
+      "group": "P01",
+      "guide_stage": "Stage 7: reflected paths and local times",
+      "principal_sources": [
+        "TimeTraps/Probability/ReflectedCanonicalLocalTime.lean"
+      ]
+    },
+    {
+      "group": "P02",
+      "guide_stage": "Stage 7: physical interval and Revuz",
+      "principal_sources": [
+        "TimeTraps/Probability/ReversibleResistanceCanonicalLocalTimeRevuz.lean"
+      ]
+    },
+    {
+      "group": "P03",
+      "guide_stage": "Stage 7: conditional exponential survival",
+      "principal_sources": [
+        "TimeTraps/Probability/ReversibleResistanceLocalTimeBandConditional.lean"
+      ]
+    },
+    {
+      "group": "P04",
+      "guide_stage": "Stage 7: literal interval mean and weak form",
+      "principal_sources": [
+        "TimeTraps/Probability/ReversibleResistanceSurvivalResolvent.lean"
+      ]
+    },
+    {
+      "group": "P05",
+      "guide_stage": "Stage 7: actual spectral survival expansion",
+      "principal_sources": [
+        "TimeTraps/Probability/ReflectedAttainmentSurvivalExpansion.lean"
+      ]
+    },
+    {
+      "group": "P06",
+      "guide_stage": "Stage 7: graph lifetime and reversibility",
+      "principal_sources": [
+        "TimeTraps/Probability/GraphPhysicalLifetimeWeak.lean",
+        "TimeTraps/Probability/GraphPhysicalReversibility.lean"
+      ]
+    },
+    {
+      "group": "B01",
+      "guide_stage": "Stages 1, 4, 7: foundational crosswalk",
+      "principal_sources": [
+        "source-bundle/evidence/b01-current-crosswalk-closed.json",
+        "TimeTraps/Analysis/RegularSturmVariationalMinimum.lean"
+      ]
+    }
+  ]
+}

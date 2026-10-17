@@ -1,0 +1,585 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx,booktabs,array,xcolor,microtype,hyperref,placeins,multicol}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!55!black}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\raggedbottom
+\newcommand{\figfile}[1]{figures/#1.pdf}
+\newcommand{\guidefig}[1]{figures/#1.pdf}
+\newcommand{\verifyfig}[1]{figures/#1.png}
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{1}
+\setcounter{totalnumber}{3}
+\renewcommand{\topfraction}{0.90}
+\renewcommand{\bottomfraction}{0.80}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.70}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\dd}{\,\mathrm d}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\title{Point-Trap Design in Diffusive Media: Minimax Capture, Graph Bounds, and Spectral Placement}
+\author{Aneesh Arnav Chikkala\\\small October 2026}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+	In many transport settings, a diffusing particle is removed only when it encounters one of a limited number of reactive sites. The placement of these sites is therefore an optimization problem: with a fixed total amount of reactivity, the designer chooses their locations and strengths to control the longest capture time over all starting positions.
+	
+My study examines reflected diffusion in a heterogeneous one-dimensional medium with finitely many partially absorbing point traps. My main result reduces the continuum placement problem to a finite source-partition problem. A balancing principle equalizes resistance-weighted rises in each cell, and a monotone budget equation determines the strengths. The source share $p_i$, barrier $R_i$, and strength $\kappa_i$ satisfy $p_iR=\kappa_i(T-R_i)$, so source share is proportional to strength times remaining barrier capacity.
+	
+	I also derive a mass--resistance bound for metric graphs and a spectral result for long-time survival with prescribed strengths. In a saturated-sediment benchmark, the optimized placement lowers the modeled worst-start lifetime by $4.246\%$ relative to equal physical-depth placement. The interval theorem is formally checked in Lean under its stated assumptions, while the framework provides a testbed for related open problems, including narrow-capture and spectral-partition questions connected with the Hot Spots Conjecture. Together, these results provide a route from heterogeneous transport coefficients to optimized trap placement, with the sediment benchmark illustrating a possible application.
+\end{abstract}
+
+\section{Introduction and objective}
+
+The central question is a point-trap design problem. A diffusing particle moves through a finite channel and is captured when it encounters one of finitely many localized partially absorbing sites. We may choose the trap locations
+\[
+0<x_1<\cdots <x_N<L
+\]
+and nonnegative strengths $\kappa_1,\ldots,\kappa_N$ subject to
+\[
+\sum_{j=1}^{N}\kappa_j=K.
+\]
+The design protects the least favorable starting point.
+
+For a design $\mathcal D=(x_j,\kappa_j)_{j=1}^N$, let $\tau_{\mathcal D}$ be the first capture time and set
+\[
+u_{\mathcal D}(x)=\E_x[\tau_{\mathcal D}],
+\qquad
+M_N^*(K)=\inf_{\mathcal D:\,\sum\kappa_j=K}\;\max_{x\in[0,L]}u_{\mathcal D}(x).
+\]
+The inner maximum identifies the worst starting position; the outer infimum chooses the layout that minimizes that lifetime. The resulting objective is worst-start mean capture time.
+
+Two companion objectives use the same designs but measure different observables. The spectral companion maximizes the principal decay rate $\lambda_1$ of the killed diffusion. A discounted first-capture question asks whether
+\[
+\sup_{\mathcal D}\;\inf_{x\in[0,L]}\E_x[e^{-s\tau_{\mathcal D}}]
+\]
+is attained by the same symmetric design. The interval theorem below concerns mean capture time; the spectral and discounted questions require their own arguments because a decay rate or discounted probability can rank layouts differently.
+
+The interval reduction and graph equality conditions are proved. The discounted question remains a conjecture because its equation contains an additional zeroth-order term. The verification plots show sampled landscapes and estimator behavior; the universal statements come from the reductions and inequalities in Sections 3--4.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.68\linewidth]{\verifyfig{two_trap_landscape}}
+\caption{Representative two-trap objective landscape from the verification results. The sampled values show the neighborhood of a numerical candidate.}
+\label{fig:syn-landscape}
+\end{figure}
+
+The landscape shows the neighborhood of a two-trap candidate and its flat directions. The analytic bounds in Sections 3--4 are independent of this grid.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.68\linewidth]{\verifyfig{monte_carlo_convergence}}
+\caption{Monte Carlo diagnostic with horizon $2$ and $6{,}000$ paths. The estimates rise from $0.25310$ to $0.25557$ as $\Delta t$ decreases from $0.002$ to $0.00025$; they remain below the finite-horizon target $0.2591433$ and full mean $0.2592593$. The gap records timestep, finite-band, and omitted-tail bias.}
+\label{fig:syn-verification-convergence}
+\end{figure}
+
+Finite-band, timestep, and horizon-truncation biases remain visible in this estimator diagnostic.
+
+\section{The channel in simple mathematical language}
+
+The physical picture is a one-dimensional channel $x\in[0,L]$. A particle moves randomly along the channel, reflects at the two endpoints, and can be captured at the point sites $x_j$. The medium may be heterogeneous: its local transport coefficient and its local source density need not be constant. We write
+\[
+\mathcal L f(x)=\frac{1}{\rho(x)}\frac{\mathrm d}{\mathrm dx}
+\left(a(x)\frac{\mathrm df}{\mathrm dx}\right),
+\qquad a(x)>0,\quad \rho(x)>0.
+\]
+Here $a$ measures how readily motion transports across a small interval, while $\rho$ measures how much diffusive time is stored there. In physical terms, a region with large $\rho/a$ is slow to cross.
+
+The traps are idealized as point interactions. The state continues through each $x_j$, but the derivative has a jump proportional to the trap strength:
+\[
+\bigl[a u'\bigr]_{x_j^-}^{x_j^+}=\kappa_j u(x_j).
+\]
+The reflecting endpoints satisfy $a(0)u'(0)=a(L)u'(L)=0$. For a fixed design, the mean first-capture time solves
+\[
+\mathcal L u=-1\quad\text{away from the traps}.
+\]
+The right side $-1$ is the clock: every unit of physical time contributes one unit to the expected lifetime. The jump condition is the local sink: a larger $\kappa_j$ removes probability more strongly when the particle reaches $x_j$.
+
+The stochastic interpretation is the same statement in probabilistic language. The diffusion follows the reflecting dynamics generated by $\mathcal L$, and the traps kill it through local time:
+\[
+\Prob_x(\tau_{\mathcal D}>t)
+=\E_x\!\left[\exp\left(-\sum_{j=1}^N\kappa_j L_t^{x_j}\right)\right],
+\]
+with the normalization of local time fixed by the jump condition. This is why a point trap is not a zero-width version of an arbitrary finite sink: its strength is a local-time coupling, and the limiting operator must retain that coupling \cite{Karatzas1991,Fukushima2011,Bressloff2022}.
+
+The primary design problem is therefore
+\[
+\boxed{\;\text{choose }(x_j,\kappa_j)\text{ with }\sum_j\kappa_j=K
+\text{ to minimize }\max_x u(x).\;}
+\]
+The principal eigenvalue problem,
+\[
+\mathcal L\phi=-\lambda\phi,
+\qquad
+\bigl[a\phi'\bigr]_{x_j^-}^{x_j^+}=\kappa_j\phi(x_j),
+\]
+is a second objective. Its largest admissible $\lambda=\lambda_1$ controls the slowest long-time decay, and the Rayleigh principle gives an efficient comparison tool. It is a companion analysis, not a redefinition of the mean-capture problem.
+
+\section{Analytic minimax construction}
+
+\subsection{Source coordinates and the physical meaning of a cell}
+
+Define the normalized source coordinate
+\[
+q(x)=\frac{1}{R}\int_0^x\rho(s)\,\mathrm ds,
+\qquad
+R=\int_0^L\rho(s)\,\mathrm ds.
+\]
+The channel becomes $q\in[0,1]$. A source share $p$ means that a fraction $p$ of the total diffusive source mass lies in the corresponding physical interval. This coordinate is not a claim that the physical channel is uniform: the reconstruction
+\[
+\frac{\mathrm dx}{\mathrm dq}=\frac{R}{\rho(x(q))}
+\]
+returns the actual lengths after the optimization has been solved.
+
+The coordinate change makes the conserved source measure transparent. In the transformed variable, the interior equation is controlled by a resistance density
+\[
+\omega(q)=\frac{R^2}{a(x(q))\rho(x(q))},
+\]
+while $\kappa_j$ remains the physical point strength. The proof can therefore use the normalized interval without discarding either the strength budget or the heterogeneous transport.
+It is useful to distinguish the normalized budget $\widehat K:=K/R$ from the physical total strength $K$. The shares $p_i$ below are fractions of total source mass, whereas $\kappa_i$ remains a physical point strength.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.70\linewidth]{\guidefig{f03-source-coordinate}}
+\caption{Source-coordinate normalization. The transformation changes the coordinate used by the proof while leaving the physical objective and strength budget explicit in the reconstruction.}
+\label{fig:source-coordinate}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.69\linewidth]{\guidefig{f05-balanced-rises}}
+\caption{Balanced rises across a cell. The equal-rise condition is the local minimax step used before the global partition search.}
+\label{fig:balanced-rises}
+\end{figure}
+
+\subsection{One-cell calculation and why equal-rise is forced}
+
+The local step can be written without appealing to a picture. For a source-coordinate cell $[a,b]$, let $c$ be the trial trap location and let $\omega>0$ be the transformed resistance density. The two sides contribute
+\[
+A(c)=\int_a^c(c-s)\omega(s)\,\mathrm ds,
+\qquad
+B(c)=\int_c^b(s-c)\omega(s)\,\mathrm ds.
+\]
+The first quantity is the delay accumulated by material arriving from the left; the second is the corresponding delay from the right. Since
+\[
+A'(c)=\int_a^c\omega(s)\,\mathrm ds>0,
+\qquad
+B'(c)=-\int_c^b\omega(s)\,\mathrm ds<0,
+\]
+the difference $A(c)-B(c)$ is strictly increasing. There is therefore one and only one point $c_i$ at which the rises agree. Writing the common value as $R_i=A(c_i)=B(c_i)$ makes the local minimax statement explicit: moving the trap in either direction increases the larger side.
+
+The cell source share $p_i$ and point strength $\kappa_i$ enter through the common barrier level $T$. After the two sides have been balanced, the cell equation reduces to
+\[
+p_iR=\kappa_i(T-R_i),
+\qquad
+\kappa_i(T)=\frac{Rp_i}{T-R_i},
+\qquad T>\max_iR_i.
+\]
+This identity is the bridge between geometry and budget. The geometry determines $R_i$; the scalar $T$ determines how much strength each cell must receive to reach the same barrier height.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.70\linewidth]{\guidefig{f06-local-minimax}}
+\caption{The local minimax mechanism. The two one-sided rises move in opposite directions as the trial trap position changes, so the maximum is minimized at their unique crossing.}
+\label{fig:local-minimax}
+\end{figure}
+\FloatBarrier
+
+\subsection{The scalar budget root}
+
+After the cells are balanced, the total strength constraint determines the common barrier level. If $T$ denotes that level, the reconstructed strength in cell $i$ is $\kappa_i=\kappa_i(T)$, and the budget equation is
+\[
+\Phi(T):=\sum_{i=1}^N\frac{p_i}{T-R_i}=\widehat K,
+\qquad\text{equivalently}\qquad
+\sum_{i=1}^N\kappa_i(T)=K.
+\]
+Each summand in $\Phi$ is positive and strictly decreasing for $T>R_i$, so $\Phi$ is strictly decreasing on $T>\max_iR_i$. It diverges as $T$ approaches the largest active barrier from above and tends to zero as $T\to\infty$, giving a unique root for every positive physical budget $K$ (equivalently every positive $\widehat K$). The root can therefore be evaluated by certified bisection or a monotone-root routine rather than by an unconstrained nonlinear optimizer.
+
+\FloatBarrier
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.69\linewidth]{\guidefig{f09-budget-root}}
+\caption{The monotone budget-root equation. The root is evaluated only after the cell barriers have been balanced and is bracketed above the largest barrier.}
+\label{fig:budget-root}
+\end{figure}
+
+The construction now has a finite-dimensional outer problem: partition $[0,1]$ into source shares and solve one scalar root for each candidate partition. This is the point at which the original infinite-dimensional placement question becomes a controlled partition problem. The remaining search is still nontrivial, but its variables have a direct meaning and the local singular behavior has already been resolved.
+
+\subsection{The theorem and proof logic}
+
+Let $q_0=0<q_1<\cdots<q_{N-1}<q_N=1$ be a partition, with cell shares $p_i=q_i-q_{i-1}$. Let $t(q_1,\ldots,q_{N-1})$ be the monotone budget root obtained from the balanced-cell reconstruction. The central statement is:
+
+\begin{theorem}[constructive minimax reduction]
+For positive resistance density and positive total strength, every admissible point-trap design admits a balanced-cell representation with no larger worst-start mean. The optimal value is the minimum of the common barrier level over the compactified partition simplex, and the corresponding physical locations and strengths are recovered by the source-coordinate inverse and the monotone budget root.
+\end{theorem}
+
+The proof proceeds in four steps.
+
+\begin{enumerate}
+\item \emph{Decomposition.} Integrate the backward equation across each interval between adjacent traps. The flux is affine in the source mass, so the mean-time profile is a sum of cell contributions.
+\item \emph{Local minimax.} If the two rises in a cell are unequal, moving the trap toward the larger rise lowers the larger one before increasing the smaller one to equality. Repeating this operation cannot increase the cell maximum; equality is therefore necessary at a minimizer.
+\item \emph{Budget recovery.} Once the cell barriers are equalized, the strength allocation is the unique solution of the monotone equation $\Phi(t)=\widehat K$, equivalently $\sum_i\kappa_i(t)=K$. This removes a spurious degree of freedom from the placement search.
+\item \emph{Attainment and converse.} The reduced objective extends continuously to the compactified partition simplex. A minimizing partition exists. Reversing the decomposition shows that every original design is bounded below by the reduced value, while the reconstructed design attains it.
+\end{enumerate}
+
+The global lower bound can be written as an explicit inequality chain. Let an arbitrary design $\mathcal D$ induce cell shares $p_i$, cell barriers $R_i$, site values $h_i=u_{\mathcal D}(x_i)$, and worst-start value $M=M(\mathcal D)$. The cell comparison and source balance give
+\[
+M-h_i\ge R_i,
+\qquad
+Rp_i=\kappa_i h_i,
+\qquad
+\frac{p_i}{M-R_i}\le\frac{p_i}{h_i}=\frac{\kappa_i}{R}.
+\]
+Summing over cells yields
+\[
+\Phi\bigl(M;q(\mathcal D)\bigr)
+=\sum_i\frac{p_i}{M-R_i}
+\le\frac{K}{R}=\widehat K.
+\]
+Since $\Phi(T(q);q)=\widehat K$ and $\Phi(\mathord\cdot;q)$ is strictly decreasing, this proves
+\[
+T\bigl(q(\mathcal D)\bigr)\le M(\mathcal D).
+\]
+Conversely, the equal-rise construction and the budget root reconstruct a physical design $\mathcal D(q)$ with $M(\mathcal D(q))=T(q)$. Minimizing over the compactified source-partition simplex gives
+\[
+\inf_{\mathcal D}M(\mathcal D)=\min_{q\in\Delta_{N-1}}T(q),
+\]
+where $\Delta_{N-1}$ is the compactified source-partition simplex.
+
+\subsection{Sensitivity of the reduced objective}
+
+The scalar root also gives an analytic sensitivity calculation that is useful when comparing partitions. Write
+\[
+w_i(T):=\frac{p_i}{(T-R_i)^2},
+\qquad
+S(T):=\sum_{i=1}^N w_i(T).
+\]
+Since $\Phi'(T)=-S(T)$, implicit differentiation of $\Phi(T)=K/R$ gives
+\[
+\frac{\partial T}{\partial K}=-\frac{1}{R S(T)},
+\qquad
+\frac{\partial T}{\partial R_j}=\frac{w_j(T)}{S(T)}.
+\]
+Thus additional total strength can only lower the common barrier, while increasing one cell's geometric barrier raises the global value in proportion to that cell's budget sensitivity. For a simultaneous perturbation of the cell barriers,
+\[
+\delta T
+=\frac{\sum_i w_i(T)\,\delta R_i-\delta K/R}{S(T)}
++o\!\left(\lVert(\delta R,\delta K)\rVert\right).
+\]
+This formula separates the two sources of improvement: changing the partition reduces the weighted geometric term, while adding reactivity reduces the barrier directly.
+
+The root has informative limiting regimes as well. Because $\sum_i p_i=1$,
+\[
+T=\frac{R}{K}+\sum_i p_iR_i+O(K/R),
+\qquad K\downarrow0.
+\]
+At high strength, let $R_*:=\max_iR_i$ and $P_*:=\sum_{i:R_i=R_*}p_i$. Then
+\[
+T=R_*+\frac{RP_*}{K}+o(K^{-1}),
+\qquad K\to\infty.
+\]
+The weak-reactivity regime is therefore controlled first by the source-weighted average barrier, whereas the strong-reactivity regime is controlled by the hardest active cell. These asymptotics provide analytic checks on the numerical partition search and explain why the maximum cell barrier cannot be ignored.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.70\linewidth]{\guidefig{f12-partition-landscape}}
+\caption{Partition landscape used to distinguish an attained theorem from a local numerical candidate. The star marks a recorded numerical candidate; the analytic reduction specifies the admissible landscape being searched.}
+\label{fig:partition-landscape}
+\end{figure}
+
+The figure shows the reduced objective and its boundary behavior. The proof is the pair of inequalities above.
+
+\section{Graph and spectral companions}
+
+\subsection{Weighted graph interpretation}
+
+The same integrations work on a compact metric graph. An edge $e$ has length $\ell_e$, conductance $a_e$, and source density $\rho_e$; at a vertex $v$, the Kirchhoff balance includes the point reaction $J_v$. The natural graph operator is the weighted Neumann Laplacian
+\[
+Hf=-\frac{1}{\rho_e}(a_ef')'\quad\text{on each edge},
+\qquad
+\sum_{e\sim v}a_e\partial_\nu f(v)=J_v f(v).
+\]
+The graph variable $J_v$ is the same physical object as a point-trap strength: it is the amount of localized absorption assigned to that junction.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.68\linewidth]{\guidefig{f17-graph-model}}
+\caption{Metric-graph model used for the conservation and deficit checks. Parallel edges, a loop, and a passive tip show why vertex incidence and edge weights must be tracked separately.}
+\label{fig:graph-model}
+\end{figure}
+
+For a graph solution $Hu=1$, integration over all edges gives a conservation identity. Comparing the torsion profile with its edgewise linear profile produces three nonnegative deficits: reaction allocation, edge-profile curvature, and weighted mass--resistance imbalance. Equality requires the corresponding edge fluxes and weighted lengths to match.
+
+Intervals, cycles, and reflecting stars have different vertex degrees but share the same equality condition: active gaps must be balanced after conductance and source weight are included.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.72\linewidth]{\guidefig{f24-equality-geometries}}
+\caption{Equality geometries for the graph bound. The examples show how equal active gaps, rather than raw Euclidean distance alone, control equality in the weighted graph estimate.}
+\label{fig:equality-geometries}
+\end{figure}
+
+\subsection{The graph deficit and the harmonic-mean obstruction}
+
+Let $V=\sum_e\int_e\rho_e\,\mathrm dx$ be the total source mass, let $K=\sum_vJ_v$ be the total point strength, and let $C$ denote the effective conductance aggregate appearing in the edgewise estimate. The mean maximum satisfies
+\[
+M\;\ge\;\frac{V}{K}+\frac{V}{8C},
+\]
+and the difference from the right-hand side decomposes as
+\[
+\Delta_{\mathrm{graph}}
+:=M-\frac{V}{K}-\frac{V}{8C}
+=\Delta_{\mathrm{react}}+\Delta_{\mathrm{edge}}+\Delta_{\mathrm{mass}}\ge0.
+\]
+The first term vanishes when the reactive vertex values are balanced. The second vanishes when each edge profile has its sharp equality shape. The third records the arithmetic--harmonic obstruction: edge mass and resistance must match after vertex-degree and passive-tip factors are included.
+
+The graph audit therefore reports both the total deficit and its component losses: a small total residual checks the identity, while equality requires each component to vanish.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.55\linewidth]{\guidefig{f22-deficit}}
+\caption{Graph deficit components. The three nonnegative terms sum to the gap above the aggregate lower bound.}
+\label{fig:graph-deficit}
+\end{figure}
+
+\subsection{Spectral placement and the sharp jump}
+
+For the principal eigenvalue, the Rayleigh quotient is
+\[
+\lambda_1
+=\inf_{f\ne0}
+\frac{\displaystyle\int_0^L a|f'|^2\,\mathrm dx
+      +\sum_j\kappa_j|f(x_j)|^2}
+     {\displaystyle\int_0^L\rho|f|^2\,\mathrm dx}.
+\]
+The quotient makes the design tension explicit. A trap is useful where the ground-state mode has appreciable amplitude, but moving it changes the mode itself.
+
+If $\phi>0$ is the normalized ground state, the comparison can be sharpened into a ground-state identity. With
+\[
+\mathcal E(v)=\int_0^L a|v'|^2\,\mathrm dx+\sum_j\kappa_j|v(x_j)|^2,
+\qquad
+\|v\|_\rho^2=\int_0^L\rho|v|^2\,\mathrm dx,
+\]
+one has, for every admissible $v$,
+\[
+\mathcal E(v)-\lambda_1\|v\|_\rho^2
+=\int_0^L a\,\phi^2\left|\left(\frac{v}{\phi}\right)'\right|^2\,\mathrm dx\ge0.
+\]
+The right side is a sum of squares. Equality forces $v$ to be a scalar multiple of $\phi$. The finite collection of test functions in the validation figure checks the calculation numerically; the identity itself applies to the whole admissible energy space.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.55\linewidth]{\guidefig{f32-rayleigh-check}}
+\caption{Rayleigh check for three independent test functions.}
+\label{fig:rayleigh-check}
+\end{figure}
+\FloatBarrier
+
+For one prescribed jump, write the incoming tangent as $t=\tan(\theta^-)$ and let the jump size be fixed. The phase update obeys the sharp one-jump inequality
+\[
+\arctan(t+2)-\arctan(t)\le 2\arctan(1),
+\]
+with equality at the centered phase. In physical terms, a fixed point strength removes the greatest possible phase advance when the incoming and outgoing modes are balanced around the site.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.70\linewidth]{\guidefig{f26-phase-jump}}
+\caption{The sharp one-jump phase inequality behind prescribed-strength placement. The centered phase is the unique equality configuration for the fixed jump.}
+\label{fig:phase-jump}
+\end{figure}
+\FloatBarrier
+
+Iterating the jump inequality gives the placement theorem for prescribed strengths. Equal strengths give equal spacing in phase; a general strength vector is recovered from one monotone root and a map back to physical coordinates.
+
+\FloatBarrier
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.70\linewidth]{\guidefig{f28-spectral-root}}
+\caption{Prescribed-strength phase root and reconstructed cell lengths. The root is solved in phase space; the lengths are then recovered in the physical coordinate.}
+\label{fig:spectral-root}
+\end{figure}
+
+In the numerical comparison, strengths are held fixed and only locations change.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.70\linewidth]{\guidefig{f31-prescribed-comparison}}
+\caption{Matched prescribed-strength comparison: phase sites versus midpoint sites. The phase construction changes only locations, making the spectral gain interpretable.}
+\label{fig:prescribed-comparison}
+\end{figure}
+
+In the equal-strength case, the scalar root can be written with $h(\beta)$ and the parameter $\zeta$ satisfying
+\[
+\max\lambda_1=\frac{K}{L}\frac{\zeta}{\tan\zeta}<\frac{K}{L},
+\qquad
+\zeta\tan\zeta=\beta.
+\]
+The expansion
+\[
+\zeta\tan\zeta
+=\zeta^2+\frac{\zeta^4}{3}+\frac{2\zeta^6}{15}+O(\zeta^8)
+\]
+provides a small-coupling check on the numerical root. It also shows why the strict inequality matters: diffusion between point sites leaves a finite spatial penalty even when total strength is fixed.
+
+\section{Main solution, numerical values, and one application}
+
+\subsection{What the theorem solves}
+
+Table~\ref{tab:math-numbers} records three checks of the construction. The percentages compare the stated model outputs.
+
+\begin{table}[htbp]
+\centering
+\scriptsize
+\setlength{\tabcolsep}{2pt}
+\caption{Straight numerical checks of the point-trap mathematics.}
+\label{tab:math-numbers}
+\begin{tabular}{>{\raggedright\arraybackslash}p{.25\linewidth}>{\raggedright\arraybackslash}p{.19\linewidth}>{\raggedright\arraybackslash}p{.25\linewidth}>{\raggedright\arraybackslash}p{.19\linewidth}}
+\toprule
+Check & Reference & Point-trap solution & Interpretation \\
+\midrule
+Heterogeneous one-trap mean & midpoint: $0.708333$ & $x=0.527525$, $M=0.688075$ & $2.860\%$ lower worst-start mean \\
+Prescribed spectral strengths $(0.2,1.8)$ & midpoint $\lambda_1=1.651987$ & phase sites $(0.055965,0.555965)$, $\lambda_1=1.783518$ & $7.962\%$ higher principal rate \\
+Homogeneous four-trap check & $D=L=1$, $K=4$ & sites $(.125,.375,.625,.875)$, $M=.255208$ & residual below $10^{-14}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The heterogeneous one-trap row shows why geometric midpoint placement can miss the optimum. With strengths fixed, phase placement improves the slowest decay mode. The homogeneous four-trap row recovers the equally spaced symmetric limit.
+
+\subsection{Real-world application of this optimization problem's solution}
+
+Consider a one-dimensional saturated porous slab in which a dissolved hydrophobic pollutant diffuses through porewater and is sequestered by localized activated-carbon amendments. The carbon is a reactive sink in the reduced model, transferring pollutant from the mobile porewater phase into a carbon-bound reservoir. The point traps represent thin, highly reactive amendment bands, and the channel coordinate represents depth. This follows the transport-and-sequestration setting used in activated-carbon sediment and contaminant mass-transfer studies \cite{Ghosh2011,Werner2006}.
+
+The reproducible benchmark sets $L=1$, $a(x)=1/(1+0.85x)$, $\rho(x)=1+0.55x$, and $K=2$, with two equal-width amendment bands of width $0.055$ and equal strengths. Equal physical-depth placement is the state-of-practice comparator. The finite-band reference calculation uses
+\[
+\rho c_t=(a c_x)_x-r(x)c,
+\qquad
+a c_x(0,t)=a c_x(L,t)=0,
+\]
+where $r(x)$ is supported on two narrow amendment bands. The theorem-guided layout uses the same total strength and band width, but places the bands at the reconstructed point-trap coordinates. The recorded sites are $0.250,0.750$ (equal depth), $0.384,0.711$ (equal source coordinate), $0.306,0.792$ (theorem-guided), and $0.296,0.789$ (finite-volume refinement); the last two are the layouts used in the headline comparison.
+
+For the declared dimensionless slab and coefficient profile, the equal-depth comparator has worst-start lifetime $M_{\mathrm{base}}=0.722868$. The theorem-guided layout gives $M_{\mathrm{guided}}=0.692174$, a $4.246\%$ reduction. A direct finite-volume refinement gives $M_{\mathrm{refined}}=0.687172$, a $4.938\%$ reduction. The midpoint short-time capture diagnostic is $0.469327$ for the baseline, $0.470173$ for the guided layout, and $0.470197$ for the refined calculation. The modeled improvement is therefore a lower worst-case lifetime with almost no change in early capture.
+
+The application literature motivates the transport setting, but the percentages still require calibration. Porous-media sorption, activated-carbon amendment, and contaminant sequestration add nonlinear sorption, advection, and finite-band effects beyond this benchmark. Mesocosm and field studies also show why bioavailability and water-column flux must be measured separately from a purely diffusive lifetime \cite{Tomaszewski2008,Beckingham2013}. The immediate use of the result is narrower: it provides a placement rule that can be tested before those mechanisms are added.
+
+\textbf{Reading the application graph.} The gray, teal, and dashed orange curves are the equal-depth baseline, source-balanced design, and finite-volume refinement. Their worst-start lifetimes are $0.722868$, $0.692174$, and $0.687172$; the last two differ by $0.005002$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.70\linewidth]{\figfile{fig03_state_of_practice_vs_point_trap}}
+\caption{Application comparison: equal-depth placement, the theorem-guided point-trap design, and a direct finite-volume reference. The modeled reductions are $4.246\%$ and $4.938\%$.}
+\label{fig:application-comparison}
+\end{figure}
+\FloatBarrier
+
+Next tests should add advection, nonlinear sorption, and finite-width finite-rate amendment bands. A calibrated laboratory or field profile would allow the comparison to report uncertainty bands, mass removed, threshold time, and amendment cost alongside worst-start lifetime.
+
+\section{Validation, limits, and the next conjecture}
+
+The numerical record is specific. Refining the one-dimensional discretization from $101$ to $1601$ points changes the recorded value from $0.698317$ to $0.691805$, while the independent $801$-point reference is $0.692174$. Across the verification suite, the maximum linear-system residual over $5{,}000$ cases is $1.3378\times10^{-14}$; the maximum graph-deficit residual over $2{,}400$ cases is $3.6082\times10^{-16}$; and an independent finite-element comparison reports relative error $1.4275\times10^{-8}$. The scripts and fixed seeds are documented in \path{verification/README.md}; the JSON summaries are under \path{verification/results/} and \path{verification/generalized/results/}.
+
+\subsection{What each validation layer actually tests}
+
+Grid refinement tests stabilization, the residual sweep checks the solve after $A_hu_h=b_h$, the graph check tests the deficit identity, and the finite-element comparison uses another discretization for the same observable. The Monte Carlo diagnostic records a separate estimator: for $\Delta t=0.002,0.001,0.0005,0.00025$, its estimates rise from $0.25310$ to $0.25557$ while remaining below the finite-horizon target $0.2591433$ and full mean $0.2592593$. With horizon $2$ and $6{,}000$ paths, timestep, finite-band, and omitted-tail biases remain unresolved.
+
+\pagebreak
+The formal audit checks whether the recorded declarations type-check in the Lean kernel under the declared imports and foundational axioms. Numerical convergence and cross-solver agreement concern the computation; kernel checking concerns the encoded proof.
+
+\subsection{Analytic meaning of the numerical checks}
+
+The residual and convergence checks can be stated in operator form. If $A_h$ is the positive discrete operator, $b_h$ is the discretized source, and $\widetilde u_h$ is an approximate solution, define
+\[
+r_h=A_h\widetilde u_h-b_h.
+\]
+For the exact discrete solution $u_h=A_h^{-1}b_h$,
+\[
+u_h-\widetilde u_h=-A_h^{-1}r_h,
+\qquad
+\lVert u_h-\widetilde u_h\rVert_\infty
+\leq \lVert A_h^{-1}\rVert_\infty\,\lVert r_h\rVert_\infty.
+\]
+The inverse-operator factor controls the residual-to-error estimate, while the second discretization probes consistency.
+
+The mean-time observable has an equally useful integral representation. With
+\[
+S_{\mathcal D}(t,x):=\Prob_x(\tau_{\mathcal D}>t),
+\]
+Tonelli's theorem gives
+\[
+u_{\mathcal D}(x)=\E_x[\tau_{\mathcal D}]
+=\int_0^\infty S_{\mathcal D}(t,x)\,\dd t.
+\]
+If the killed generator has eigenpairs $(\lambda_m,\psi_m)$ and the survival datum has coefficients $c_m(x)$, then formally
+\[
+S_{\mathcal D}(t,x)=\sum_{m\geq1}c_m(x)e^{-\lambda_mt},
+\qquad
+u_{\mathcal D}(x)=\sum_{m\geq1}\frac{c_m(x)}{\lambda_m}.
+\]
+Agreement in the principal eigenvalue alone is insufficient for the worst-start mean because the full weighted spectrum enters the integral.
+
+The formal result is recorded in module \texttt{TimeTraps.Interval}: declarations \texttt{IntervalMedium}.\texttt{global\_minimum} and \texttt{IntervalDesign}.\texttt{optimal\_iff\_reconstruction}. The proof route is \path{formalization/review/INTERVAL.md}; the audit certificate is \path{formalization/audit/current-verification/result.json}. The archived environment is Lean 4.33.1 with Mathlib revision \texttt{0df444a3}; it records $2{,}282$ research modules, $10{,}543$ named theorems, $17{,}355$ audited declarations, and $47$ proved source groups, with only \texttt{propext}, \texttt{Classical.choice}, and \texttt{Quot.sound} as foundational axioms. Its scope is the encoded theorem and its stated assumptions \cite{Lean4,Mathlib}.
+
+The next conjecture concerns a random deadline. Let $T_R$ be an independent exponential clock with rate $s$. Then
+\[
+\Prob_x(\tau<T_R)=\E_x[e^{-s\tau}],
+\]
+so the discounted objective has a direct interpretation as the probability of capture before an unpredictable disturbance. In the symmetric equal-strength family, the observed formula is
+\[
+\sup_{\mathcal D}\inf_x\E_x[e^{-s\tau_{\mathcal D}}]
+\stackrel{?}{=}
+\left[
+\cosh\eta+
+\frac{2N\sqrt{Ds}}{K}\sinh\eta
+\right]^{-1},
+\qquad
+\eta=\frac{L}{2}\sqrt{\frac{s}{D}}.
+\]
+The phase inequality, symmetric calculation, and numerical sweep motivate this statement. In the recorded $N=6$ diagnostic, the largest discrepancy is $4.60\times10^{-4}$. The tested family does not include clustered, boundary, unequal-strength, or heterogeneous competitors, so the sweep is evidence for the conjecture rather than a proof.
+
+If true in the full admissible class, the conjecture would extend the theory from expected lifetime to worst-start capture before a random deadline. The next proof target is a discounted equal-rise or phase inequality including the extra zeroth-order term. Nonlinear sorption, advection, open boundaries, and finite-width reactions are outside the current model.
+
+\section*{Conclusion}
+
+On the interval, the source-coordinate reduction gives the minimax layout and its physical reconstruction. The graph and spectral calculations provide separate extensions, and the numerical/formal records make the reported implementation auditable. The porous-media example remains a dimensionless screening benchmark; calibration and the discounted-capture conjecture are the next steps.
+
+\begin{multicols}{2}
+\begin{thebibliography}{99}
+\scriptsize
+\bibitem{Karatzas1991} I. Karatzas and S. E. Shreve, \emph{Brownian Motion and Stochastic Calculus}, 2nd ed., Springer, New York, 1991.
+\bibitem{Fukushima2011} M. Fukushima, Y. Oshima, and M. Takeda, \emph{Dirichlet Forms and Symmetric Markov Processes}, 2nd ed., De Gruyter, Berlin, 2011.
+\bibitem{Fitzsimmons1999} P. J. Fitzsimmons and J. Pitman, "Kac's moment formula and the Feynman--Kac formula for additive functionals of a Markov process," \emph{Stochastic Processes and their Applications} 79 (1999), 117--134.
+\bibitem{Bressloff2022} P. C. Bressloff, "Diffusion-mediated absorption by partially-reactive targets: Brownian functionals and generalized propagators," \emph{Journal of Physics A: Mathematical and Theoretical} 55 (2022), 205001.
+\bibitem{Albeverio1988} S. Albeverio, F. Gesztesy, R. H{\o}egh-Krohn, and H. Holden, \emph{Solvable Models in Quantum Mechanics}, Springer, Berlin, 1988.
+\bibitem{Buttazzo2006} G. Buttazzo, N. Varchon, and H. Zoubairi, "Optimal measures for elliptic problems," \emph{Annali di Matematica Pura ed Applicata} 185 (2006), 207--221.
+\bibitem{Tilli2020} P. Tilli and D. Zucco, "Optimal partitioning of an interval and applications to Sturm--Liouville eigenvalues," \emph{Journal of Differential Equations} 268 (2020), 4900--4919.
+\bibitem{KurasovSerio2019} P. Kurasov and A. Serio, "Optimal potentials for quantum graphs," \emph{Annales Henri Poincar{\'e}} 20 (2019), 1517--1542.
+\bibitem{Mugnolo2023} D. Mugnolo and M. Pl{\"u}mer, "On torsional rigidity and ground-state energy of compact quantum graphs," \emph{Calculus of Variations and Partial Differential Equations} 62 (2023), 27.
+\bibitem{Lean4} L. de Moura and S. Ullrich, "The Lean 4 theorem prover and programming language," in \emph{Automated Deduction -- CADE 28}, Lecture Notes in Computer Science 12699, Springer, 2021, 625--635.
+\bibitem{Mathlib} The mathlib Community, "The Lean mathematical library," in \emph{Proceedings of the 9th ACM SIGPLAN International Conference on Certified Programs and Proofs}, ACM, 2020, 367--381.
+\bibitem{choi2014} Y. Choi et al., "Engineered sorbents for contaminant sequestration in porous media," \emph{Environmental Science and Technology} (2014).
+\bibitem{qiu2023} Z. Qiu et al., "Activated carbon amendment for contaminant immobilization in sediment," \emph{Science of the Total Environment} (2023).
+\bibitem{wikstrom2024} M. Wikstr{\"o}m et al., "Carbon amendments and contaminant transport in porous materials," \emph{Journal of Hazardous Materials} (2024).
+\bibitem{pcb2006} United States Environmental Protection Agency, \emph{A Guide to Developing and Documenting Cost Estimates During the Feasibility Study}, EPA 540-R-00-002, 2006.
+\bibitem{Ghosh2011} U. Ghosh, R. G. Luthy, G. Cornelissen, D. Werner, and C. A. Menzie, "In-situ sorbent amendments: A new direction in contaminated sediment management," \emph{Environmental Science \& Technology} 45(4) (2011), 1163--1168. DOI: 10.1021/es102694h.
+\bibitem{Werner2006} D. Werner, U. Ghosh, and R. G. Luthy, "Modeling polychlorinated biphenyl mass transfer after amendment of contaminated sediment with activated carbon," \emph{Environmental Science \& Technology} 40(13) (2006), 4211--4218. DOI: 10.1021/es052215k.
+\bibitem{Tomaszewski2008} J. E. Tomaszewski, P. B. McLeod, and R. G. Luthy, "Measuring and modeling reduction of DDT availability to the water column and mussels following activated carbon amendment of contaminated sediment," \emph{Water Research} 42(16) (2008), 4348--4356. DOI: 10.1016/j.watres.2008.07.016.
+\bibitem{Beckingham2013} B. Beckingham and U. Ghosh, "Polyoxymethylene passive samplers to monitor changes in bioavailability and flux of PCBs after activated carbon amendment to sediment in the field," \emph{Chemosphere} 91(10) (2013), 1401--1407. DOI: 10.1016/j.chemosphere.2012.12.074.
+\bibitem{PointTrapArchive} A. A. Chikkala, \emph{Point-Trap Design in Diffusive Media}, research archive containing the journal paper, Lean code, and handwritten mathematics, GitHub (2026). \url{https://github.com/aneesharnavch/Point-Trap-Design-in-Diffusive-Media}
+\end{thebibliography}
+\end{multicols}
+
+\end{document}

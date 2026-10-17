@@ -1,0 +1,282 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.68in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,graphicx,microtype,xcolor,hyperref,placeins,booktabs,multicol}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!55!black}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3.5pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{10pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.90}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.70}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\valfig}{C:/Users/anees/OneDrive/Documents/GitHub/local_time_traps/IRIS paper/IRIS synopsis/figures/monte_carlo_convergence.png}
+\newcommand{\appfig}{C:/Users/anees/OneDrive/Documents/GitHub/local_time_traps/IRIS paper/IRIS synopsis/figures/fig03_state_of_practice_vs_point_trap.pdf}
+\newtheorem{theorem}{Theorem}
+\newtheorem{conjecture}{Conjecture}
+
+\title{\textbf{Point-Trap Design in Diffusive Media: Minimax Capture, Graph Bounds, and Spectral Placement}}
+\author{Aneesh Arnav Chikkala}
+\date{September 28, 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+	In many transport settings, a diffusing particle is removed only when it encounters one of a limited number of reactive sites. The placement of these sites is therefore an optimization problem: with a fixed total amount of reactivity, the designer chooses their locations and strengths to control the longest capture time over all starting positions.
+	
+My study examines reflected diffusion in a heterogeneous one-dimensional medium with finitely many partially absorbing point traps. My main result reduces the continuum placement problem to a finite source-partition problem. A balancing principle equalizes resistance-weighted rises in each cell, and a monotone budget equation determines the strengths. The source share $p_i$, barrier $R_i$, and strength $\kappa_i$ satisfy $p_iR=\kappa_i(T-R_i)$, so source share is proportional to strength times remaining barrier capacity.
+	
+	I also derive a mass--resistance bound for metric graphs and a spectral result for long-time survival with prescribed strengths. In a saturated-sediment benchmark, the optimized placement lowers the modeled worst-start lifetime by $4.246\%$ relative to equal physical-depth placement. The interval theorem is formally checked in Lean under its stated assumptions, while the framework provides a testbed for related open problems, including narrow-capture and spectral-partition questions connected with the Hot Spots Conjecture. Together, these results provide a route from heterogeneous transport coefficients to optimized trap placement, with the sediment benchmark illustrating a possible application.
+\end{abstract}
+\section{Introduction and optimization problem}
+
+Let $X_t$ be a reflected diffusion on $[0,L]$ with transport coefficient $a(x)>0$ and stored-source density $\rho(x)>0$. A design $\mathcal D$ consists of ordered point traps $0<x_1<\cdots<x_N<L$ with strengths $\kappa_j\geq0$ and fixed total capacity $\sum_j\kappa_j=K$. The traps are partially reactive: capture occurs through repeated local-time contact rather than instantaneous absorption.
+
+Let $\tau_{\mathcal D}$ be the first-capture time and $u_{\mathcal D}(x)=\E_x[\tau_{\mathcal D}]$. The design problem is the fixed-budget minimax problem
+\[
+M_N^*(K)=\inf_{\mathcal D:\,\sum_j\kappa_j=K}\max_{x\in[0,L]}u_{\mathcal D}(x).
+\]
+It asks for the placement and allocation that protect the least favorable starting point.
+
+The interval reduction, graph equality conditions, and spectral comparison address different observables. The discounted objective has an additional zeroth-order term and is treated separately.
+
+\section{Innovation and contributions to open problems}
+
+\subsection{Constructive reduction}
+
+For any admissible layout, the trap sites determine source shares. Balancing the two rises in each cell cannot increase the worst-start lifetime. The remaining strength allocation is then obtained from one monotone budget root. Conversely, every admissible partition reconstructs a physical layout with the reduced value. In compact notation,
+\[
+\inf_{\mathcal D}M(\mathcal D)=\min_{q\in\Delta_{N-1}}T(q),
+\]
+where $T(q)$ is the common balanced barrier and $\Delta_{N-1}$ is the compactified source-partition simplex.
+
+\subsection{Open-problem contributions}
+
+The interval result retains heterogeneous coefficients through the source-coordinate inverse and resistance density. On metric graphs, the lower bound separates three losses: reactive allocation, edge-profile curvature, and mismatch between source mass and resistance. The spectral calculation places prescribed strengths by Rayleigh comparison and a one-jump phase inequality. Finite-width reactions and the discounted equal-rise inequality remain open under advection or heterogeneous coefficients.
+
+\subsection{Proposed conjecture: discounted capture}
+
+Let $T_R$ be an independent exponential deadline with rate $s$. Since
+\[
+\Prob_x(\tau<T_R)=\E_x[e^{-s\tau}],
+\]
+the discounted objective is the probability of capture before an unpredictable disturbance or reporting deadline. For a homogeneous reflecting interval with symmetric equal-strength traps, the observed formula suggests
+\[
+\sup_{\mathcal D}\inf_x\E_x[e^{-s\tau_{\mathcal D}}]
+\stackrel{?}{=}
+\left[\cosh\eta+\frac{2N\sqrt{Ds}}{K}\sinh\eta\right]^{-1},
+\qquad
+\eta=\frac{L}{2}\sqrt{\frac{s}{D}}.
+\]
+\begin{conjecture}
+For every $s>0$, the symmetric equal-strength midpoint design maximizes worst-start discounted capture over all placements and positive strength allocations with fixed count and total strength on a homogeneous reflecting interval.
+\end{conjecture}
+
+The zero-discount limit recovers the mean-time optimizer, while large $s$ emphasizes immediate contact. These observations motivate the conjecture. Its proof requires an equal-rise inequality for the equation with the additional zeroth-order term; heterogeneous coefficients, advection, and finite-width reactions are outside its scope.
+
+\section{Methodology and analytical framework}
+
+\subsection{Local-time model and backward equation}
+
+Let $a(x)>0$ be the transport coefficient and $\rho(x)>0$ the stored source density. For trap sites $0<x_1<\cdots<x_N<L$ and strengths $\kappa_j\geq0$ satisfying $\sum_j\kappa_j=K$, the backward equation for the mean lifetime is
+\[
+\frac{1}{\rho(x)}\frac{\mathrm d}{\mathrm dx}\left(a(x)u'(x)\right)=-1
+\quad\text{away from traps},
+\]
+with reflecting boundary conditions $a(0)u'(0)=a(L)u'(L)=0$ and interface jumps
+\[
+\left[a u'\right]_{x_j^-}^{x_j^+}=\kappa_j u(x_j).
+\]
+The stochastic representation is local-time killing,
+\[
+\Prob_x(\tau_{\mathcal D}>t)=
+\E_x\!\left[\exp\left(-\sum_{j=1}^N\kappa_jL_t^{x_j}\right)\right],
+\]
+with local-time normalization fixed by the jump condition. A particle may revisit a weak trap many times before capture; this is why the point interaction is not simply a zero-width version of instantaneous absorption.
+
+\subsection{Source coordinates and equal-rise cells}
+
+Set
+\[
+q(x)=\frac{1}{R}\int_0^x\rho(s)\dd s,
+\qquad R=\int_0^L\rho(s)\dd s,
+\qquad
+\omega(q)=\frac{R^2}{a(x(q))\rho(x(q))}.
+\]
+The transformed coordinate $q\in[0,1]$ records source mass; the inverse $\mathrm dx/\mathrm dq=R/\rho(x(q))$ returns physical distances after optimization. For a source cell $[\alpha,\beta]$ and trial trap location $c$, define the one-sided rises
+\[
+A(c)=\int_\alpha^c(c-s)\omega(s)\dd s,
+\qquad
+B(c)=\int_c^\beta(s-c)\omega(s)\dd s.
+\]
+Because $A'(c)>0$ and $B'(c)<0$, $A(c)-B(c)$ is strictly increasing. There is one equal-rise point $c_i$ and one local minimax barrier $R_i=A(c_i)=B(c_i)$. This is the analytical reason that an unbalanced cell cannot be optimal: moving the trap toward the larger rise lowers the active maximum.
+
+Write $\widehat K:=K/R$ for the normalized budget. If $p_i$ is the source share of cell $i$, equalization at common barrier $T$ gives
+\[
+p_iR=\kappa_i(T-R_i),
+\qquad
+\kappa_i(T)=\frac{Rp_i}{T-R_i},
+\qquad T>\max_iR_i.
+\]
+The total-strength constraint is the scalar equation
+\[
+\Phi(T):=\sum_{i=1}^N\frac{p_i}{T-R_i}=\widehat K,
+\qquad\text{equivalently}\qquad\sum_i\kappa_i(T)=K.
+\]
+Since $\Phi'(T)=-\sum_i p_i/(T-R_i)^2<0$, the root is unique, bracketable, and suitable for certified bisection. The reduced objective is continuous on the compactified partition simplex, so the outer minimum is attained. For any physical design, $M-u(x_i)\ge R_i$ and $Rp_i=\kappa_i u(x_i)$, hence $\Phi(M)\le K/R$; monotonicity gives $T\le M$. The reconstructed equal-rise design attains equality, proving the global reduction.
+
+The root also supplies sensitivity information. With $w_i=p_i/(T-R_i)^2$ and $S=\sum_iw_i$,
+\[
+\frac{\partial T}{\partial K}=-\frac{1}{RS},
+\qquad
+\frac{\partial T}{\partial R_j}=\frac{w_j}{S},
+\qquad
+\delta T=\frac{\sum_iw_i\delta R_i-\delta K/R}{S}+o(\lVert(\delta R,\delta K)\rVert).
+\]
+Thus added strength lowers the barrier, while a geometrically difficult cell raises it in proportion to its budget sensitivity.
+
+\subsection{Graph and spectral companions}
+
+On a compact metric graph, edge $e$ has length $\ell_e$, conductance $a_e$, and source density $\rho_e$. The weighted operator and vertex condition are
+\[
+Hf=-\frac{1}{\rho_e}(a_ef')',
+\qquad
+\sum_{e\sim v}a_e\partial_\nu f(v)=J_vf(v).
+\]
+Integrating the torsion equation $Hu=1$ over edges gives conservation of source mass. Comparing the torsion profile with its edgewise linear profile yields
+\[
+M\geq\frac{V}{K}+\frac{V}{8C},
+\qquad
+\Delta_{\mathrm{graph}}:=M-\frac{V}{K}-\frac{V}{8C}
+=\Delta_{\mathrm{react}}+\Delta_{\mathrm{edge}}+\Delta_{\mathrm{mass}}\geq0.
+\]
+The three terms identify, respectively, reaction allocation loss, curvature loss, and mass--resistance imbalance. Equality requires all active cells to balance simultaneously, which explains why passive leaves or mismatched parallel edges create a strict gap.
+
+For the spectral companion, the killed operator has quadratic form
+\[
+\mathcal Q(v)=\int a|v'|^2\dd x+\sum_j\kappa_j|v(x_j)|^2,
+\qquad
+\lambda_1=\inf_{v\neq0}\frac{\mathcal Q(v)}{\int\rho|v|^2\dd x}.
+\]
+The Rayleigh principle and a phase-jump comparison control the principal decay rate, a separate observable from $\max_xu(x)$.
+
+\section{Results, validation, and real-world application}
+
+\subsection{Analytical results}
+
+The interval theorem proves existence and gives the exact minimax value as the minimum common barrier over source partitions. In a homogeneous interval with diffusivity $D$, length $L$, $N$ traps, and total strength $K$, the unique optimizer has equal strengths at the midpoints of equal subintervals, with
+\[
+\|u\|_\infty=\frac{L}{K}+\frac{L^2}{8DN^2}.
+\]
+The first term is the reaction-budget cost; the second is the diffusion-and-spacing cost. Adding traps reduces only the second term. In heterogeneous media, the source-coordinate construction replaces equal physical spacing by equalized source shares and resistance-aware barriers.
+
+The graph and spectral results give separate extensions: graph equality conditions and prescribed-strength placement. They also identify failure modes for a naive equal-spacing rule, including unequal source density, passive branches, and finite-width reactions [3--5].
+
+\subsection{Real-world application benchmark}
+
+We now propose an application in a dimensionless saturated porous slab. Dissolved pollutant diffuses through porewater, and two narrow activated-carbon bands act as localized sinks. The reproducible setup is $L=1$, $a(x)=1/(1+0.85x)$, $\rho(x)=1+0.55x$, $K=2$, two equal-width bands of width $0.055$, and equal strengths.
+
+For a first-pass remediation design, equal physical-depth placement is the baseline. It ignores heterogeneity in source mass and transport resistance. The proposed rule uses the measured medium profile to select a source-balanced layout before an independent numerical comparison.
+
+We keep total strength and band width fixed. The comparison uses equal-depth placement, the theorem-guided layout, and an independent finite-volume calculation. The recorded sites are $(.250,.750)$, $(.306,.792)$, and $(.296,.789)$, respectively; the source-coordinate comparator is $(.384,.711)$.
+
+For two cells, let $q_1$ be the source share of the left cell, so $p_1=q_1$ and $p_2=1-q_1$. If $R_i(q_1)$ is the equal-rise barrier in cell $i$, the guided barrier $T$ is the unique root above both barriers of
+\[
+\frac{q_1}{T-R_1(q_1)}
++\frac{1-q_1}{T-R_2(q_1)}=K/R.
+\]
+Equivalently,
+\[
+\frac{K}{R}(T-R_1)(T-R_2)=q_1(T-R_2)+(1-q_1)(T-R_1).
+\]
+Equal physical depth fixes $x_1=L/2$ and therefore fixes $q_1=q(L/2)$, which need not be $1/2$ when $\rho$ is heterogeneous. The theorem-guided design minimizes the resulting $T(q_1,K)$ over $q_1$ and reconstructs $x_1=q^{-1}(q_1)$. The gain comes from matching source mass and resistance.
+
+For the declared heterogeneous coefficient profile, the equal-depth baseline has worst-start lifetime $M_{\mathrm{base}}=0.722868$. The analytic design gives $M_{\mathrm{guided}}=0.692174$, a $4.246\%$ reduction. The finite-volume reference gives $0.687172$, a $4.938\%$ reduction, leaving a gap of $0.005002$. The midpoint early-time capture diagnostic changes from $0.469327$ to $0.470173$.
+
+The two-cell root also gives a simple capacity check. With $q_1$ fixed and $w_i=p_i/(T-R_i)^2$,
+\[
+\frac{\partial T}{\partial K}=-\frac{1}{R(w_1+w_2)}.
+\]
+Thus extra total strength lowers the common barrier, while the source-share optimization changes the geometric terms $R_1(q_1)$ and $R_2(q_1)$. In the weak-reaction limit,
+\[
+T=\frac{R}{K}+q_1R_1+(1-q_1)R_2+O(K/R),
+\qquad K\downarrow0,
+\]
+so the first correction is the source-weighted diffusion barrier.
+
+At fixed $K$, relocation changes the geometric term. When $\rho$ varies, equal physical depth does not generally give equal source shares, so the source-coordinate rule changes the diffusion contribution while preserving total strength.
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.80\linewidth]{\appfig}
+\caption{Application benchmark. Equal physical-depth placement is compared with the theorem-guided point-trap design and an independent finite-volume reference.}
+\label{fig:application}
+\end{figure}
+\FloatBarrier
+
+The reduced model omits advection, nonlinear sorption, concentration-dependent uptake, dispersion, finite-rate bands, uncertainty in $a$ and $\rho$, and spatially variable access to amendment. The next experimental test is to calibrate these mechanisms and compare mass removed, threshold time, amendment cost, and worst-start lifetime.
+
+\subsection{Implications, open problems, and translation}
+
+For a new medium, the screening calculation needs the measured $q(x)$, $\omega(q)$, and total capacity $K$; it returns a physical placement and strength allocation for a detailed transport model.
+
+The interval and graph results are proved. The discounted-capture statement remains open, with the equal-rise inequality as the next proof target.
+
+The Lean audit checks the proof term under the recorded definitions, assumptions, imports, and environment. The certificate therefore applies to the encoded theorem and its assumptions; application mechanisms still require calibration.
+
+After calibration of $a(x)$ and $\rho(x)$, the same construction can be compared with a finite-width transport model using mass removed, threshold time, and amendment cost as additional outputs.
+
+\subsection{Validation protocol and scope}
+
+The validation record combines grid refinement, residuals, an independent discretization, the graph identity, and the Lean kernel check. These records address numerical stability, identity checks, cross-discretization agreement, and the formal proof environment.
+
+\begin{samepage}
+For a positive discrete operator $A_h$, source vector $b_h$, approximate solution $\widetilde u_h$, and residual $r_h=A_h\widetilde u_h-b_h$, the exact discrete solution satisfies
+\[
+u_h-\widetilde u_h=-A_h^{-1}r_h,
+\qquad
+\|u_h-\widetilde u_h\|_\infty
+\leq\|A_h^{-1}\|_\infty\|r_h\|_\infty.
+\]
+The inverse-operator factor controls the residual-to-error estimate. Continuum accuracy requires refinement or an independent discretization.
+\end{samepage}
+
+The validation suite reports a maximum linear-system residual of $1.3378\times10^{-14}$ over $5{,}000$ cases, a maximum graph-deficit residual of $3.6082\times10^{-16}$ over $2{,}400$ cases, and an independent finite-element relative error of $1.4275\times10^{-8}$. Full records are in \path{verification/README.md}, \path{verification/results/}, and \path{verification/generalized/results/}.
+
+\pagebreak
+\begin{samepage}
+The formal route is in module \texttt{TimeTraps.Interval}. It includes \texttt{global\_minimum} in \texttt{IntervalMedium}; \newline\texttt{optimal\_iff\_reconstruction} in \texttt{IntervalDesign}. The proof map is \path{formalization/review/INTERVAL.md}; the certificate is \path{formalization/audit/current-verification/result.json}. The pinned environment is Lean 4.33.1 with Mathlib revision \texttt{0df444a3}; the audit records $2{,}282$ research modules, $10{,}543$ named theorems, and $17{,}355$ audited declarations.
+\end{samepage}
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=.55\linewidth]{\valfig}
+\caption{Convergence diagnostic with horizon $2$ and $6{,}000$ paths. As $\Delta t$ decreases from $0.002$ to $0.00025$, the estimates rise from $0.25310$ to $0.25557$ while remaining below the finite-horizon target $0.2591433$ and full mean $0.2592593$. The below-target trend records timestep, finite-band, and omitted-tail bias.}
+\label{fig:validation}
+\end{figure}
+\FloatBarrier
+
+The theorem supplies the placement rule; the validation record documents its implementation. Calibration and the discounted-capture conjecture remain open.
+
+\section{Acknowledgement and references}
+
+The author thanks the open-source scientific-computing and formalization communities. The environmental interpretation is a mathematical benchmark, and the conjecture and application protocol are offered as testable next steps.
+
+\begin{multicols}{2}
+\footnotesize
+\begin{enumerate}
+\setlength{\itemsep}{2pt}
+\item P. C. Bressloff, \emph{J. Phys. A} 55 (2022), 205001.
+\item U. Ghosh et al., \emph{Environ. Sci. Technol.} 45 (2011), 1163--1168.
+\item G. Buttazzo et al., \emph{Ann. Mat. Pura Appl.} 185 (2006), 207--221.
+\item D. Mugnolo and M. Pl{"u}mer, \emph{Calc. Var.} 62 (2023), 27.
+\item A. A. Chikkala, ``Optimal Design of Partially Reactive Point Traps,'' preprint (2026).
+\item A. A. Chikkala, \emph{Point-Trap Design in Diffusive Media}, research archive containing the journal paper, Lean code, and handwritten mathematics, GitHub (2026). \url{https://github.com/aneesharnavch/Point-Trap-Design-in-Diffusive-Media}
+\end{enumerate}
+\end{multicols}
+
+\end{document}

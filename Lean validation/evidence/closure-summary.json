@@ -1,0 +1,37 @@
+{
+  "recorded_at_utc": "2026-09-14T21:38:30.986299+00:00",
+  "record_kind": "Frozen incremental exact-file and integrated public-library verification; not a new full check.sh run",
+  "scope": "Only Time Traps, all three papers; all 47 recorded source groups proved with the explicit source interpretation qualifications",
+  "lean_version": "4.33.1",
+  "mathlib_revision": "0df444a360eaa60ab8c11dca51a86af692955474",
+  "research_module_count": 2282,
+  "library_named_theorem_count": 10543,
+  "audited_declarations": 17355,
+  "allowed_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "source_group_status_counts": {
+    "Proved": 47,
+    "Partial": 0,
+    "Open": 0
+  },
+  "proved_scope": [
+    "The genuine conservative continuous graph path law has full future-path conditioning at finite reference stopping times. Canonical point local times are continuous, increasing, raw adapted, additive under shifts and supported on actual visits; ordinary-length unit-atom Revuz normalization holds at all graph points.",
+    "The original positive edgewise physical density defines a literal strictly increasing integrated-speed clock. Its inverse, stopped filtration, measurable physical path kernel, deterministic-time full-future Markov identity and physical local-time contact/cocycle properties are derived. Zero vertex occupation proves independence of the arbitrary positive density representative at vertices.",
+    "The physical transition kernel is unconditionally reversible and invariant for the original unnormalized rho-weighted length measure. Actual stationary reference path reversal, Borel-clock reversal, signed clock substitution, both justified Fubini exchanges, continuous-pairing Laplace uniqueness and full Borel measure determination discharge every symmetry premise.",
+    "The actual original full-H1 weak graph state supplies the undiscounted compensated local-time martingale through derived point and bounded-Borel resolvents. Survival weighting, contact cancellation, finite-horizon signed integrals and the infinite-horizon limit identify the expected killing lifetime. The independent exponential threshold is literal; infinity is retained until almost-sure killing and finite real expectation are proved.",
+    "For every initial vertex or closed-edge point, the physical expected lifetime equals the original weak solution. The expectation is defined independently and then proved to satisfy the full original weak equation, with uniqueness. Existing sharp graph inequalities, full equality cases, deficits and variable-profile consequences therefore apply to this literal physical mean.",
+    "The unchanged predecessor certificates and source crosswalk supply all other 46 groups, including all three principal theorem families, optimizer converses, extensions and historical analytical appendices. The ledger now has 47 Proved, zero Partial and zero Open groups."
+  ],
+  "interpretation_choices": [
+    "The graph has positive total mass: it is finite, compact and connected with at least one positive-length edge. Loops, parallel edges and passive leaves are allowed. Conductance and density are strictly positive continuous functions on each edge; no derivative of the conductance or matching density traces at vertices is added.",
+    "Local-time normalization in the physical graph lifetime identity is fixed by the actual original weak equation and unchanged killing coefficients, as in the graph source. Ordinary-length unit-atom Revuz normalization is proved separately. No general physical graph Revuz correspondence or separate physical weighted short-time Revuz limit is claimed.",
+    "The physical path kernel has the proved bounded-Borel full-future conditional law at deterministic physical times in the inverse-clock filtration. Arbitrary reference stopping-time strong Markov is proved. A separate usual-augmentation or arbitrary physical stopping-time theorem is not claimed or silently obtained from right continuity of the raw filtration.",
+    "The zero-edge singleton is outside the positive-mass source regime. The foundational crosswalk retains its eight recorded regularity/domain qualifications and treats the abstract general Revuz theorem as cited background with actual required models instantiated.",
+    "All proofs use the clean pinned Mathlib checkout and standard classical/noncomputable reasoning. Only propext, Classical.choice and Quot.sound are permitted. This is exact-source evidence for every new module plus fresh integrated root and transitive Audit checks; the baseline research sources and all manuscripts remain unchanged."
+  ],
+  "full_release_gate_repeated": false,
+  "remaining_scope": "No open or partial target remains in the recorded three-paper source ledger. Scope is the papers mathematical claims with the explicit interpretation qualifications above; no broader universal stochastic theorem is asserted. Source-group counts are unweighted, not an estimate of proof effort."
+}

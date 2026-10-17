@@ -1,0 +1,54 @@
+module
+
+public import TimeTraps.Analysis.IntervalDirichletSpectrum
+public import TimeTraps.Analysis.IntervalDirichletRegularityDomain
+
+@[expose] public section
+
+/-! Every actual Dirichlet/mixed weak eigenstate has the continuous linear
+cell equation u''=-(lambda/D)u. The selected zero traces and all unselected
+Robin/Neumann laws are retained in the derived transmission certificate. -/
+
+namespace TimeTraps.Analysis
+
+open Set MeasureTheory Filter IntervalSobolevSpace
+
+variable {ι : Type*} [Fintype ι] {l r : ℝ}
+
+theorem DirichletPointProblem.eigen_linear_piecewise
+    (P : DirichletPointProblem ι l r) (u : IntervalDirichletSpace P.boundary) (ev : ℝ)
+    (he : ∀ v : IntervalDirichletSpace P.boundary,
+      P.form u v = ev * inner ℝ (P.boundary.stateL u) (P.boundary.stateL v)) :
+    ∃ (n : ℕ) (Q : DirichletPointPartition P n) (j : Fin (n + 1) → ℝ → ℝ),
+      (∀ e, IntervalSlopeRegularity (u.val.representative P.boundary.interval_pos) (j e)
+        (fun x => (-ev / P.diffusivity) * u.val.representative P.boundary.interval_pos x)
+        (Q.point e.castSucc) (Q.point e.succ)) ∧
+      DirichletPointTransmission Q (u.val.representative P.boundary.interval_pos) j := by
+  let U := u.val.representative P.boundary.interval_pos
+  have hU : IntervalEnergy U l r := (u.val.representative_spec P.boundary.interval_pos).1
+  have huz : ∀ x ∈ P.boundary.zero_sites, U x = 0 :=
+    fun _ hx => P.boundary.representative_zero u hx
+  let f : IntervalSobolevL2 l r := ev • P.boundary.stateL u
+  have hg : (P.boundary.stateL u, f) ∈ P.operator.graph :=
+    (P.operator_eigen_iff_hilbert u ev).mpr he
+  have hg' : (P.boundary.stateL (P.boundary.ofEnergy hU huz), f) ∈ P.operator.graph := by
+    rw [P.boundary.ofEnergy_representative_eq]
+    exact hg
+  have hw := (P.operator_graph_iff_physical f hU huz).mp hg'
+  obtain ⟨n, ⟨Q⟩⟩ := P.exists_partition
+  obtain ⟨j, hj, ht⟩ := Q.weak_piecewise_regularity f hU huz hw
+  have hf : f =ᵐ[volume.restrict (Ioo l r)] (fun x => ev * U x) := by
+    filter_upwards [Lp.coeFn_smul ev (P.boundary.stateL u),
+      (u.val.representative_spec P.boundary.interval_pos).2.1] with x hx hy
+    change f x = ev * u.val.state x at hx
+    rw [hx, hy]
+  refine ⟨n, Q, j, fun e => ?_, ht⟩
+  refine ⟨(hj e).state_energy, (hj e).slope_energy, (hj e).slope_ae, ?_⟩
+  have hf' := hf.filter_mono (ae_mono (Measure.restrict_mono_set volume
+    (show Ioo (Q.point e.castSucc) (Q.point e.succ) ⊆ Ioo l r from
+      Ioo_subset_Ioo (Q.point_mem e.castSucc).1 (Q.point_mem e.succ).2)))
+  filter_upwards [(hj e).second_ae, hf'] with x hx hfx
+  rw [hx, hfx]
+  ring
+
+end TimeTraps.Analysis

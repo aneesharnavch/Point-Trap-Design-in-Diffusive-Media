@@ -1,0 +1,687 @@
+\documentclass[10pt]{article}
+\usepackage[margin=0.78in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{graphicx,booktabs,array,xcolor,microtype,hyperref,enumitem}
+\hypersetup{colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!55!black,hypertexnames=false}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{3pt}
+\setlength{\floatsep}{6pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\raggedbottom
+\setlist{nosep,leftmargin=*}
+\newcommand{\figfile}[1]{figures/#1.pdf}
+\newcommand{\guidefig}[1]{figures/#1.pdf}
+\newcommand{\verifyfig}[1]{figures/#1.png}
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{1}
+\setcounter{totalnumber}{3}
+\renewcommand{\topfraction}{0.90}
+\renewcommand{\bottomfraction}{0.80}
+\renewcommand{\textfraction}{0.08}
+\renewcommand{\floatpagefraction}{0.70}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\Rcell}{\mathcal R}
+\newcommand{\dd}{\,\mathrm d}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\Var}{\operatorname{Var}}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+
+\title{Point-Trap Design in Porous Media: Minimax Capture,\ Graph Bounds, and Pollutant Sequestration}
+\author{Aneesh Arnav Chikkala\\\small IRIS research draft -- detailed version\\\small October 2026}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Localized reactive material creates a design problem with two competing scales: transport through the medium and capture at finitely many sites. We give an analytic treatment of the problem on a heterogeneous interval, a metric graph, and a Neumann spectral interval, then evaluate its environmental interpretation in a transparent porous-sediment benchmark. The interval result transforms storage mass into a source coordinate, proves a local balanced-rise barrier, and reduces the finite-budget minimax problem to a compact partition search plus one strictly monotone budget root. The graph result identifies the Neumann-tip factor, weighted mass--resistance equality, and a three-term nonnegative deficit. The spectral result starts from the Rayleigh quotient, tracks a positive ground-state phase across point jumps, proves the sharp one-jump phase inequality, and reconstructs equality cells for prescribed strengths. In the application model, a theorem-guided two-band activated-carbon layout lowers the worst-start lifetime by 4.246\% relative to equal physical-depth bands; direct finite-volume refinement lowers it by 4.938\%. At the short-time removal metric $tD/L^2=0.5$, the corresponding advantage is only about 0.18 percentage points. These are reproducible dimensionless model results, not field validation or a claim to improve a published treatment system. Computational records, independent mesh checks, and the project Lean audit are reported with their separate scopes.
+\end{abstract}
+
+\section{Introduction and objective}
+
+\subsection{Why this mathematics matters}
+
+Suppose a pollutant diffuses through a porous material and encounters a finite amount of reactive material. If the reactive material is distributed into bands, pellets, or localized inclusions, the engineer can change positions and allocations without changing the total dose. The relevant question is not only how much material is present, but how the least favorable starting point sees the material.
+
+In a contaminated sediment layer, a common interpretation is activated carbon that sequesters a hydrophobic organic contaminant from porewater. The carbon-bound mass is less immediately available for diffusive release, but adsorption is not destruction. A correct paper must distinguish dissolved concentration, native-sediment storage, carbon-bound mass, and pollutant exported across an open boundary. Our primary calculation is a closed, stagnant core with reflecting endpoints so that it matches the mathematical first-capture problem. An open sediment--water exchange model is a separate extension and is not silently substituted into the theorem.
+
+The mathematics also supplies reusable controls. The interval theorem is a benchmark for diffusion-limited capture and local-time killing. The graph inequality says whether excess capture time comes from reaction, edge shape, or imbalance in mass--resistance products. The spectral theorem concerns a different objective: the leading exponential survival rate. These distinctions are important in porous remediation, membrane placement, reactive groundwater barriers, microfluidics, and diffusion-limited sensors. They are also related to open mathematical questions about optimal point interactions on networks and worst-start discounted capture.
+
+\subsection{What is proved, computed, and conjectured}
+
+The manuscript has three evidence levels.
+
+\begin{enumerate}
+\item The interval, graph, and spectral statements below are analytic theorems under declared positivity, regularity, boundary, and finite-trap assumptions.
+\item The porous-remediation study is a numerical application benchmark. It uses a declared coefficient profile and a conservative finite-volume discretization. It is not a calibrated field installation, and the reported percentage is not universal.
+\item The final discounted-capture statement is a future conjecture. Numerical agreement for a symmetric array does not prove optimality over arbitrary asymmetric arrays.
+\end{enumerate}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\figfile{fig10_application_workflow}}
+\caption{Narrative of the application. Medium measurement or calibration feeds a source-coordinate model; balanced bands give an analytic initialization; the finite-band PDE evaluates the actual declared benchmark.}
+\label{fig:workflow}
+\end{figure}
+
+\subsection{Verification plots as evidence, not proof substitutes}
+The representative landscape makes the optimization target visible, but its sampled grid cannot certify a global minimum. The independent convergence diagnostic records stabilization of the verification calculation as the numerical resolution or sample count increases. We include both plots so that a reader can see the computational evidence and its boundary: the theorem still comes from the lower-bound and attainment arguments below.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.74\linewidth]{\verifyfig{two_trap_landscape}}
+\caption{Representative objective landscape retained from the verification results. The plotted values are model outputs, not a global-certification certificate.}
+\label{fig:detailed-landscape}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.74\linewidth]{\verifyfig{monte_carlo_convergence}}
+\caption{Independent convergence diagnostic from the verification suite. It supports numerical stability checks but does not replace the analytic proof.}
+\label{fig:detailed-verification-convergence}
+\end{figure}
+
+\section{The channel in simple mathematical language}
+
+\subsection{A dictionary for the physical model}
+
+Let $x\in[0,L]$ be depth. The one-dimensional channel is a vertical slice through water-saturated porous material. The field $c(x,t)$ is dissolved pollutant concentration in porewater. The water-filled porosity is $\theta(x)$; the effective pore diffusivity, under the convention used by a selected calibration, is $D_p(x)$; and the bulk diffusive conductance is
+\[
+ a(x)=\theta(x)D_p(x).
+\]
+If $\rho_b$ is dry sediment bulk density and $K_d$ is a linear native-sediment distribution coefficient, the equilibrium storage coefficient is
+\[
+ \rho(x)=\theta(x)+\rho_b(x)K_d(x).
+\]
+The same symbol $\rho$ is used in the analysis as a positive speed or storage density. It is not $c(x,0)$ and it is not pollutant mass.
+
+A carbon band $j$ contains $m_j$ carbon mass per cross-sectional area. In the dilute, linear, negligible-desorption limit, an effective coefficient $k_a$ maps that mass to point strength
+\[
+ \kappa_j=k_am_j,\qquad \sum_{j=1}^Nm_j=M_C,\qquad K=\sum_{j=1}^N\kappa_j=k_aM_C.
+\]
+This last equality is conditional: if accessibility or chemistry changes with depth, fixed carbon mass no longer means fixed mathematical strength.
+
+\subsection{How material moves in the channel}
+
+The idealized point-sink equation is
+\begin{equation}
+ \rho(x)\partial_tc=\partial_x(a(x)\partial_xc)-\sum_{j=1}^N\kappa_jc(x_j,t)\delta_{x_j},
+ \qquad a c_x(0,t)=a c_x(L,t)=0.
+ \label{eq:pde}
+\end{equation}
+The two boundary conditions are reflecting. Therefore the study is about capture before leaving a closed core. A finite carbon band of width $w_j$ is represented by $\mu(x)=\sum_jm_j1_{B_j}(x)/w_j$ and reaction density $r(x)=k_a\mu(x)$, giving
+\begin{equation}
+ \rho c_t=(ac_x)_x-r(x)c.
+ \label{eq:finite-band}
+\end{equation}
+If capacity and desorption are needed, a separate carbon-bound field $b$ can be added:
+\begin{equation}
+ \rho c_t=(ac_x)_x-\partial_tb,\qquad
+ b_t=k_a\mu c\left(1-\frac{b}{\mu Q_{\max}}\right)-k_{\rm des}b.
+ \label{eq:capacity}
+\end{equation}
+The ideal theorem applies to the dilute point-sink limit, not automatically to \eqref{eq:capacity}.
+
+For first capture, the backward expected time $u(x)=\E_x[\tau]$ solves
+\begin{equation}
+ -(au')'+\sum_j\kappa_ju(x_j)\delta_{x_j}=\rho,
+ \qquad (au')(0)=(au')(L)=0.
+ \label{eq:backward}
+\end{equation}
+Testing the weak equation with $1$ gives total absorption $S=\int_0^L\rho\dd x$. The minimax objective is
+\begin{equation}
+ M_N^*(a,\rho,K)=\inf_{x_1<\cdots<x_N,\,\kappa_j>0,\,\sum\kappa_j=K}\max_{x\in[0,L]}u(x).
+ \label{eq:minimax}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\figfile{fig01_medium_and_geometry}}
+\caption{Declared application medium. The upper panel gives $a(x)$ and $\rho(x)$; the lower panel gives source-cell boundaries and the theorem-guided band centers.}
+\label{fig:medium}
+\end{figure}
+
+\section{Heterogeneous interval: source coordinates and the minimax theorem}
+
+\subsection{Flux reduction}
+
+Let
+\[
+ S=\int_0^L\rho(x)\dd x,\qquad Z(x)=S^{-1}\int_0^x\rho(y)\dd y,
+ \qquad x=X(z),\quad z\in[0,1],
+\]
+and define
+\begin{equation}
+ \Omega(z)=\frac{S^2}{a(X(z))\rho(X(z))}.
+ \label{eq:omega}
+\end{equation}
+The map $Z$ is strictly increasing because $\rho>0$. Let $z_j=Z(x_j)$, let $p_j=\kappa_jU(z_j)/S$, and let $F_p$ be the step function whose jump at $z_j$ is $p_j$. Integrating the distributional equation gives
+\[
+ a(x)u'(x)=S(F_p(Z(x))-Z(x)).
+\]
+Since $X'(z)=S/\rho(X(z))$, the transformed function $U(z)=u(X(z))$ satisfies
+\begin{equation}
+ U'(z)=\Omega(z)(F_p(z)-z).
+ \label{eq:flux}
+\end{equation}
+The physical heterogeneity has not disappeared: it has been concentrated into $\Omega$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\guidefig{f03-source-coordinate}}
+\caption{Source-coordinate normalization. The transformation changes the coordinate used by the proof while leaving the physical objective and strength budget explicit in the reconstruction.}
+\label{fig:source-coordinate}
+\end{figure}
+
+\subsection{Local barrier and balanced rise}
+
+Fix a source cell $[\alpha,\beta]$. For $c\in[\alpha,\beta]$, set
+\begin{align}
+ A_{\alpha,\beta}(c)&=\int_\alpha^c\Omega(s)(s-\alpha)\dd s,\\
+ B_{\alpha,\beta}(c)&=\int_c^\beta\Omega(s)(\beta-s)\dd s.
+ \end{align}
+Because $A$ is strictly increasing and $B$ strictly decreasing, there is a unique balanced center $c_\Omega(\alpha,\beta)$ where $A=B$. The common value is
+\begin{equation}
+ \Rcell(\alpha,\beta)=A_{\alpha,\beta}(c_\Omega)=B_{\alpha,\beta}(c_\Omega).
+ \label{eq:barrier}
+\end{equation}
+
+\begin{lemma}[Local height barrier]
+For any design, let $M=\max U$ and $h_j=M-U(z_j)$. If $q_{j-1}<q_j$ is the cell containing the $j$th source share, then
+\[
+ h_j\geq\Rcell(q_{j-1},q_j).
+\]
+Equality requires the trap to be at the balanced center and both cell boundaries to attain $M$.
+\end{lemma}
+
+\begin{proof}
+For $t<z_j$, the cumulative step function satisfies $F_p(t)\leq q_{j-1}$. Thus, integrating \eqref{eq:flux} from $q_{j-1}$ to $z_j$ gives
+\[
+ U(q_{j-1})-U(z_j)\geq A_{q_{j-1},q_j}(z_j).
+\]
+On the right, $F_p(t)\geq q_j$, so
+\[
+ U(q_j)-U(z_j)\geq B_{q_{j-1},q_j}(z_j).
+\]
+Both endpoint values are at most $M$. Therefore $h_j$ is at least the maximum of the two displayed barriers, and the minimum of that maximum occurs at their unique intersection. If $z_j$ lies outside its induced cell, one of the integrations contains an additional strictly positive segment, so the same lower bound is strict. Equality forces all comparisons to be equalities.
+\end{proof}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f05-balanced-rises}}
+\caption{Balanced rises across a cell. The equal-rise condition is the local minimax step used before the global partition search.}
+\label{fig:balanced-rises}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\figfile{fig03_lifetime_profiles}}
+\caption{The barrier logic becomes visible in the backward solution: balanced bands lower the largest value of $u$ after the physical finite-band operator is reintroduced.}
+\label{fig:lifetime}
+\end{figure}
+
+\subsection{The monotone budget root}
+
+For a strict partition $0=q_0<\cdots<q_N=1$, put $p_j=q_j-q_{j-1}$ and $R_j=\Rcell(q_{j-1},q_j)$. There is a unique $T_K(q)>\max_jR_j$ satisfying
+\begin{equation}
+ \sum_{j=1}^N\frac{p_j}{T_K(q)-R_j}=\frac KS.
+ \label{eq:root}
+\end{equation}
+The left side diverges as $T$ decreases to the largest barrier and tends to zero as $T\to\infty$.
+
+The root is not an extra optimization variable. Once the barriers $R_j$ have been computed, monotonicity brackets the unique value of $T_K(q)$ above $\max_jR_j$.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f09-budget-root}}
+\caption{The monotone budget-root equation. The root is evaluated only after the cell barriers have been balanced and is bracketed above the largest barrier.}
+\label{fig:budget-root}
+\end{figure}
+
+\begin{theorem}[Arbitrary-medium minimax formula]
+The minimax value in \eqref{eq:minimax} is
+\begin{equation}
+ M_N^*(a,\rho,K)=\min_{0=q_0<\cdots<q_N=1}T_K(q).
+ \label{eq:medium-value}
+\end{equation}
+If $q^*$ minimizes the right side, the physical optimizer is reconstructed by
+\begin{equation}
+ x_j^*=X(c_\Omega(q_{j-1}^*,q_j^*)),\qquad
+ \kappa_j^*=\frac{S(q_j^*-q_{j-1}^*)}{M_N^*-R_j(q^*)}.
+ \label{eq:reconstruction}
+\end{equation}
+Conversely, every optimal physical design arises from a minimizing partition.
+\end{theorem}
+
+\begin{proof}
+For an arbitrary design, the definition of the absorption share gives $\kappa_jU(z_j)=Sp_j$. Hence
+\[
+ \frac KS=\sum_j\frac{p_j}{U(z_j)}=\sum_j\frac{p_j}{M-h_j}.
+\]
+The local barrier lemma gives $h_j\geq R_j$, and all denominators are positive. Consequently
+\begin{equation}
+ \frac KS\geq\sum_j\frac{p_j}{M-R_j}.
+ \label{eq:lower-chain}
+\end{equation}
+The right side is strictly decreasing in $M$, so comparison with the unique root in \eqref{eq:root} gives $M\geq T_K(q)$. Taking the minimum over partitions gives the lower bound in \eqref{eq:medium-value}.
+
+For attainment, fix a strict partition. Place the trap at $c_\Omega(q_{j-1},q_j)$ and define $U$ by \eqref{eq:flux}, choosing the additive constant so that every cell boundary has height $T_K(q)$. The balanced identities give $U(z_j)=T_K(q)-R_j$. Define the strengths by \eqref{eq:reconstruction}. Then $\kappa_jU(z_j)=Sp_j$, so the derivative jump is exactly the required point interaction, and \eqref{eq:root} makes the strengths sum to $K$. The constructed profile never exceeds $T_K(q)$.
+
+The closed partition simplex is compact. A vanishing cell has vanishing barrier and a continuous limiting root. If a minimizer had a zero cell, split a positive neighboring cell: strict positivity of $\Omega$ lowers both child barriers relative to the parent, strictly lowering the root. Hence a minimizer is strict. Finally, equality in \eqref{eq:lower-chain} forces balanced centers and boundary heights, and the jump identity forces the reconstruction. This proves both attainment and the converse classification.
+\end{proof}
+
+The partition variables are the remaining finite-dimensional design coordinates. A sampled landscape can suggest a location, but the theorem's global statement comes from compactness, the lower bound, attainment, and the converse reconstruction.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f12-partition-landscape}}
+\caption{Partition landscape used to distinguish an attained theorem from a local numerical candidate. The plotted grid is diagnostic; attainment comes from compactness and reconstruction.}
+\label{fig:partition-landscape}
+\end{figure}
+
+\subsection{Homogeneous check and the role of Holder}
+
+When $a\equiv D$ and $\rho\equiv1$ on $[0,L]$, $\Omega=L^2/D$, the balanced center is the midpoint and $R_j=L^2p_j^2/(8D)$. Weighted arithmetic--harmonic comparison followed by Jensen gives
+\begin{equation}
+ M_N^*=\frac LK+\frac{L^2}{8DN^2},\qquad x_j=\frac{(2j-1)L}{2N},\qquad\kappa_j=\frac KN.
+ \label{eq:homogeneous}
+\end{equation}
+The constant $1/8$ is a Neumann-tip constant. In the homogeneous endpoint-cell derivation, Holder's inequality is used to control the endpoint weighted moment by the mass and the profile norm; it is a local integral inequality. The graph aggregation later uses Cauchy--Schwarz, while spectral allocation uses Jensen. These are different equality mechanisms and should not be merged into a generic ``convexity'' sentence.
+
+\section{Metric graphs: torsion, weighted means, and deficit}
+
+\subsection{Edge cost and Neumann-tip factor}
+
+Consider a finite metric graph. On edge $e$, let length, conductance, and storage density be encoded by $m_e$ (mass), $r_e$ (resistance), and $\chi_e$ (the chosen normalization). For a positive torsion profile $w$, define
+\[
+ J_e=\int_e(\rho_ew+a_e|w'|^2)\dd x.
+\]
+At a reflecting tip, the edge solution is the positive quadratic profile whose value and derivative obey a Neumann condition. The sharp one-edge comparison is
+\begin{equation}
+ J_e\geq\frac{m_e^2r_e}{8};
+ \label{eq:edge-neumann}
+\end{equation}
+if the edge is terminated by a perfect absorber, the same calculation gives $m_e^2r_e/2$. The factor four is geometric: a Neumann tip leaves a full parabolic rise, while a perfect absorber pins one endpoint.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f17-graph-model}}
+\caption{Metric-graph model used for the conservation and deficit checks. Parallel edges, loop incidences, and a passive Neumann tip are kept explicit because they have different equality roles; $J_e$ is an edge cost, not the spectral jump matrix $J(\kappa)$.}
+\label{fig:graph-model}
+\end{figure}
+
+\subsection{Weighted arithmetic--harmonic gap}
+
+Let $p_v$ be absorption shares at reactive vertices and $y_v=u(v)>0$. Direct expansion gives
+\begin{equation}
+ \sum_vp_vy_v-\left(\sum_v\frac{p_v}{y_v}\right)^{-1}
+ =\left(\sum_v\frac{p_v}{y_v}\right)^{-1}
+ \sum_{v<w}p_vp_w\frac{(y_v-y_w)^2}{y_vy_w}.
+ \label{eq:ah-gap}
+\end{equation}
+This is an exact weighted arithmetic--harmonic gap. It vanishes only when reactive vertex lifetimes agree on the support of $p_v$.
+
+Let $V$ be total volume, $K$ total reactive strength, and define adjusted edge quantities $t_e$ and weights
+\[
+ \omega_e=\frac{\chi_em_er_e}{C},\qquad \sum_e\omega_e=1,
+ \qquad \sum_e\omega_et_e=\frac VC.
+\]
+The profile loss is $\mathcal G_e=J_e-\chi_em_e^2r_e/8\geq0$. The sharp metric-graph bound and its equality profile require the adjusted mass--resistance products to be aligned.
+
+\begin{theorem}[Three-term metric-graph deficit identity]
+The excess over the aggregate Neumann-tip bound is
+\begin{equation}
+ \boxed{
+ M-\frac VK-\frac{V}{8C}
+ =\frac VK\sum_{v<w}p_vp_w\frac{(u(v)-u(w))^2}{u(v)u(w)}
+ +\frac1V\sum_e\mathcal G_e+\frac C{8V}\Var_\omega(t).}
+ \label{eq:graph-deficit}
+\end{equation}
+Every term on the right is nonnegative.
+\end{theorem}
+
+\begin{proof}
+Use \eqref{eq:ah-gap} with $y_v=u(v)$ and the conservation identity $(\sum p_v/u(v))^{-1}=V/K$. The graph energy identity has the form $M=A_0+V^{-1}\sum_eJ_e$. Next,
+\[
+ \sum_e\chi_em_e^2r_e-\frac{V^2}{C}=C\Var_\omega(t).
+\]
+Substitute $J_e=\chi_em_e^2r_e/8+\mathcal G_e$ and collect terms. No sign estimate is hidden: the three terms are the exact arithmetic--harmonic mismatch, edge-profile excess, and weighted variance.
+\end{proof}
+
+The identity is a rigidity certificate only under nondegenerate weights and fixed topology. It does not imply unweighted geometric closeness when an edge weight can vanish.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f24-equality-geometries}}
+\caption{Equality geometries for the graph bound. Interval, cycle, and reflecting-star configurations display distinct sharp cases of the weighted graph inequality.}
+\label{fig:equality-geometries}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\figfile{fig06_robustness}}
+\caption{Finite-band robustness diagnostic. Independent placement noise is applied around equal-depth and theorem-guided centers; the boxplot is a model sensitivity result, not a fabrication guarantee.}
+\label{fig:robustness}
+\end{figure}
+
+\section{Spectral interval: phase, jumps, and prescribed strengths}
+
+\subsection{Quadratic form and Rayleigh principle}
+
+For a homogeneous interval with Neumann endpoints, define
+\begin{equation}
+ \mathcal Q_{x,\kappa}[\varphi]=D\int_0^L|\varphi'(y)|^2\dd y+\sum_{j=1}^N\kappa_j|\varphi(x_j)|^2,
+ \qquad H_{x,\kappa}=-D\partial_{yy}+\sum_j\kappa_j\delta_{x_j}.
+ \label{eq:quadratic}
+\end{equation}
+The principal eigenvalue is
+\begin{equation}
+ \lambda_1(x,\kappa)=\min_{\varphi\neq0}\frac{\mathcal Q_{x,\kappa}[\varphi]}{\int_0^L|\varphi|^2\dd y}.
+ \label{eq:rayleigh}
+\end{equation}
+Compact embedding gives a minimizer; taking an absolute value and using the one-dimensional maximum principle yields a strictly positive ground state. If $\lambda_1=Dk^2$, then away from traps $\varphi''+k^2\varphi=0$, while
+\begin{equation}
+ \varphi'(0)=\varphi'(L)=0,\qquad D(\varphi'(x_j+)-\varphi'(x_j-))=\kappa_j\varphi(x_j).
+ \label{eq:jump}
+\end{equation}
+
+\subsection{The sharp one-jump phase inequality}
+
+Define the positive-state phase $\theta=\arctan(\varphi'/(k\varphi))$. Free propagation gives $\theta'=-k$. At a trap, division of \eqref{eq:jump} by $Dk\varphi(x_j)$ gives
+\[
+ \tan\theta_j^+-\tan\theta_j^- =\frac{\kappa_j}{Dk}.
+\]
+
+\begin{lemma}[Sharp one-jump phase inequality]
+If $-\pi/2<\theta^-<\theta^+<\pi/2$, $\delta=\theta^+-\theta^-$, and $c=\tan\theta^+-\tan\theta^->0$, then
+\[
+ \delta\leq2\arctan(c/2).
+ \]
+Equality holds only when $\theta^-=-\delta/2$ and $\theta^+=\delta/2$.
+\end{lemma}
+
+\begin{proof}
+Let $m=(\theta^-+\theta^+)/2$. Since
+\[
+ c=\frac{\sin\delta}{\cos\theta^-\cos\theta^+},\qquad
+ \cos\theta^-\cos\theta^+=\frac{\cos(2m)+\cos\delta}{2},
+\]
+and $\cos(2m)\leq1$, we have
+\[
+ c\geq\frac{\sin\delta}{(1+\cos\delta)/2}=2\tan(\delta/2).
+\]
+The tangent and arctangent are increasing on the branch, proving the claim. Equality requires $m=0$.
+\end{proof}
+
+With Neumann phases $\theta(0)=\theta(L)=0$, total free phase loss equals total jump gain:
+\[
+ \sum_j\delta_j=kL.
+\]
+The local inequality gives the master bound
+\begin{equation}
+ kL\leq2\sum_{j=1}^N\arctan\left(\frac{\kappa_j}{2Dk}\right).
+ \label{eq:master}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f26-phase-jump}}
+\caption{The sharp one-jump phase inequality behind prescribed-strength placement. The centered phase is the equality case in the tangent-jump estimate.}
+\label{fig:phase-jump}
+\end{figure}
+
+\subsection{\texorpdfstring{Transfer matrices and the meaning of $P(d;k)$ and $J(\kappa)$}{Transfer matrices and jump operators}}
+
+For a trap-free distance $d$, let the state be $Y=(\varphi,\varphi')^\mathsf T$. Free propagation and the point jump are
+\begin{equation}
+ P(d;k)=\begin{pmatrix}\cos(kd)&\sin(kd)/k\\-k\sin(kd)&\cos(kd)\end{pmatrix},
+ \qquad
+ J(\kappa)=\begin{pmatrix}1&0\\\kappa/D&1\end{pmatrix}.
+ \label{eq:transfer}
+\end{equation}
+Thus $Y(x_j+)=J(\kappa_j)Y(x_j-)$ and $Y(y+d)=P(d;k)Y(y)$ between traps. The matrix $J(\kappa)$ is a phase-jump operator. It is not the metric-graph edge cost $J_e$ in \eqref{eq:edge-neumann}; the shared letter is an unfortunate but avoidable source of confusion.
+
+\subsection{Prescribed-strength reconstruction}
+
+For fixed strengths, the right side of \eqref{eq:master} decreases strictly in $k$ while $kL$ increases, so there is a unique $k_\kappa$ satisfying
+\begin{equation}
+ k_\kappa L=2\sum_{j=1}^N\arctan\left(\frac{\kappa_j}{2Dk_\kappa}\right).
+ \label{eq:prescribed-root}
+\end{equation}
+Set
+\begin{equation}
+ \ell_j=\frac2{k_\kappa}\arctan\left(\frac{\kappa_j}{2Dk_\kappa}\right),
+ \qquad \sum_j\ell_j=L.
+ \label{eq:cell-length}
+\end{equation}
+The equality placement is
+\begin{equation}
+ x_j=\sum_{i<j}\ell_i+\frac{\ell_j}{2}.
+ \label{eq:prescribed-sites}
+\end{equation}
+To see attainment, define the positive cosine on each cell $[s_{j-1},s_j]$ by
+\[
+ \varphi(y)=A\cos(k_\kappa(y-s_{j-1}))\quad(y\leq x_j),\qquad
+ \varphi(y)=A\cos(k_\kappa(s_j-y))\quad(y\geq x_j).
+\]
+The cell boundaries have zero derivative and value $A$. At the trap, the derivative jump is $2Ak_\kappa\sin(k_\kappa\ell_j/2)$, and the root equation is exactly $2Dk_\kappa\tan(k_\kappa\ell_j/2)=\kappa_j$. Positivity makes this eigenfunction the ground state.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f28-spectral-root}}
+\caption{Prescribed-strength phase root and reconstructed cell lengths. The phase root is solved first, then each strength determines one equality cell.}
+\label{fig:spectral-root}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f31-prescribed-comparison}}
+\caption{Matched prescribed-strength comparison: phase sites versus midpoint sites. The same ordered strengths are used in both layouts.}
+\label{fig:prescribed-comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\figfile{fig09_conjecture_diagnostic}}
+\caption{The symmetric discounted-capture formula and an independent finite-volume diagnostic. Agreement is a check for the symmetric family, not the missing arbitrary-array proof.}
+\label{fig:conjecture}
+\end{figure}
+
+\subsection{\texorpdfstring{Fixed budget, $h(\beta)$, and equal strengths}{Fixed budget, splitting, and equal strengths}}
+
+For fixed $k$, let $g(t)=\arctan(t/(2Dk))$. Since $g''(t)<0$, Jensen gives
+\[
+ kL\leq2\sum_jg(\kappa_j)\leq2Ng(K/N).
+\]
+The scalar function that records the strict gain from splitting is
+\begin{equation}
+ h(\beta)=\arctan\frac\alpha c+\arctan\frac\beta c-\arctan\frac{\alpha+\beta}{c},
+ \qquad c=2Dk.
+ \label{eq:hbeta}
+\end{equation}
+It obeys $h(0)=0$ and
+\[
+ h'(\beta)=\frac c{c^2+\beta^2}-\frac c{c^2+(\alpha+\beta)^2}>0.
+\]
+Thus splitting one positive strength into two increases the available phase budget. For fixed $N$ and total $K$, strict Jensen forces $\kappa_j=K/N$.
+
+Let $\zeta\in(0,\pi/2)$ solve
+\begin{equation}
+ \zeta\tan\zeta=\frac{KL}{4DN^2}.
+ \tag{69}
+\end{equation}
+Writing $k_*=2N\zeta/L$ gives the following recorded spectral chain:
+\begin{align}
+ kL&\leq2\sum_j\arctan\left(\frac{\kappa_j}{2Dk}\right), \tag*{(70)}\\
+ kL&\leq2N\arctan\left(\frac{K}{2DNk}\right), \tag*{(71)}\\
+ k_*L&=2N\arctan\left(\frac{K}{2DNk_*}\right), \tag*{(72)}\\
+ \lambda_1^{\max}&=Dk_*^2=\frac{4DN^2}{L^2}\zeta^2, \tag*{(73)}\\
+ \kappa_j&=K/N,\qquad x_j=(2j-1)L/(2N), \tag*{(74)}\\
+ \lambda_1^{\max}&=\frac KL\frac{\zeta}{\tan\zeta}<\frac KL. \tag*{(75)}
+ \end{align}
+The last strict inequality is the constant-trial-function check: a finite point array retains a diffusion penalty below the ideal reaction floor $K/L$.
+
+For one trap, the same construction gives the recorded one-trap specialization
+\begin{equation}
+ \lambda_{1,\,N=1}^{\max}=\frac{4D}{L^2}\zeta^2,
+ \qquad \zeta\tan\zeta=\frac{KL}{4D},
+ \qquad x_1=L/2.\tag{77}
+\end{equation}
+The large-$N$ expansion follows from
+\[
+ \zeta\tan\zeta=\zeta^2+\frac{\zeta^4}{3}+\frac{2\zeta^6}{15}+O(\zeta^8),
+\]
+which gives
+\begin{equation}
+ \lambda_1^{\max}=\frac KL-\frac{K^2}{12DN^2}+\frac{K^3L}{180D^2N^4}+O(N^{-6}).
+ \label{eq:spectral-expansion}
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\figfile{fig07_convergence}}
+\caption{Finite-volume convergence for the theorem-guided porous-sediment layout. The 801-point result is used in the main application table; 1601 points provide the reference in this diagnostic.}
+\label{fig:convergence}
+\end{figure}
+
+\section{Real-world application of the optimization problem's solution}
+
+\subsection{Declared benchmark and competitors}
+
+The environmental interpretation is activated-carbon sequestration of a hydrophobic organic contaminant in water-saturated porous sediment. Choi et al. provide a stagnant-contact mass-transfer anchor; Qiu et al. study dose and sediment--water diffusion fluxes; Wikström et al. provide a mixed-amendment mesocosm context; and an earlier PCB modeling paper provides another mass-transfer reference \cite{choi2014,qiu2023,wikstrom2024,pcb2006}. We use these as physical motivation and literature anchors, not as a claim that their full parameter sets have been reproduced here.
+
+The benchmark uses
+\[
+ L=1,\qquad a(x)=\frac1{1+0.85x},\qquad\rho(x)=1+0.55x,
+ \qquad K=2,
+\]
+with two equal-width bands of width $0.055$ and equal strengths $1$. The dimensionless time is $tD/L^2$. We compare equal physical depth, equal source-coordinate sites, the balanced theorem-guided sites, and a direct finite-volume refinement. The direct refinement is constrained to centers at least $0.08$ apart and is initialized by the theorem-guided design.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\figfile{fig04_transient_capture}}
+\caption{Transient removal from the modeled pore-water inventory. The curves are intentionally shown on an early-time window in the detailed supplement; at late times all four layouts nearly saturate the metric.}
+\label{fig:transient}
+\end{figure}
+
+The one-trap calculation isolates the placement mechanism before the two-band comparison: on the recorded heterogeneous example, balanced placement changes the worst lifetime from $0.708333$ at the geometric midpoint to $0.688075$, a $2.86\%$ reduction. This is an instance-level model comparison, not a universal percentage improvement.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.76\linewidth]{\guidefig{f16-heterogeneous-example}}
+\caption{Recorded heterogeneous one-trap comparison. The figure is an instance-level illustration of the balanced-cell mechanism, not a universal percentage improvement.}
+\label{fig:heterogeneous-one-trap}
+\end{figure}
+
+\subsection{Results}
+
+The source-coordinate cell construction gives boundaries at the equal storage-mass locations and centers $x=(0.306143,0.791527)$. Direct finite-volume refinement gives $(0.296326,0.788725)$. Table~\ref{tab:application-results} reports the main results.
+
+\begin{table}[htbp]
+\centering\small
+\caption{Primary application results for the declared dimensionless model.}
+\begin{tabular}{lrrrrrr}
+\toprule
+layout & sites & $\max u$ & $\int\rho u/\int\rho$ & reduction & $F(0.5)$ & $t_{50}$ \\
+\midrule
+equal physical depth & .250,.750 & .722868 & .670934 & 0.00\% & .469327 & .553323 \\
+equal source coordinate & .384,.711 & .735643 & .680982 & $-1.77\%$ & .465401 & .560412 \\
+balanced theorem-guided & .306,.792 & .692174 & .668298 & 4.25\% & .470173 & .551772 \\
+direct finite-volume refinement & .296,.789 & .687172 & .668226 & 4.94\% & .470197 & .551727 \\
+\bottomrule
+\end{tabular}
+\label{tab:application-results}
+\end{table}
+
+The negative entry for equal source-coordinate sites is informative. Equal source mass alone does not account for $\Omega$, so it can be worse than the equal-depth layout. The theorem-guided layout lowers the worst-start lifetime by $4.246\%$ and the direct numerical refinement lowers it by $4.938\%$. The average lifetime changes much less, which shows why reporting only an average can hide the objective being optimized.
+
+The short-time removal fraction at $t=0.5$ is $0.470173$ for the theorem design and $0.469327$ for equal depth, an absolute difference of $0.000846$. By $t=20$, every layout removes more than $99.999999999\%$ in this normalized model. This is why the paper reports both $\max u$ and a declared finite-time inventory metric rather than converting one into the other.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.82\linewidth]{\figfile{fig05_dose_sweep}}
+\caption{Total-strength sweep. The balanced layout improves the worst-start metric throughout the declared dose range; short-time removal differences remain small.}
+\label{fig:dose}
+\end{figure}
+
+\subsection{Robustness and numerical error}
+
+For independent placement noise with standard deviation $0.018L$, the study records the worst-lifetime distribution for equal-depth and theorem-guided layouts. This is a sensitivity experiment, not a manufacturing tolerance. The mesh diagnostic compares 101, 201, 401, 801, and 1601 points. The theorem-guided worst lifetime is $0.698317$, $0.694388$, $0.693370$, $0.692174$, and $0.691805$, respectively. The value changes by approximately $0.053\%$ from 801 to 1601 points, so the 4.246\% theorem-versus-baseline difference is larger than that last-grid change, but it is still a model result rather than a rigorous enclosure.
+
+The dose sweep also illustrates a fair comparison. At total strength $K=0.5,1,2,3,4$, the balanced worst lifetimes are $2.608,1.331,0.692,0.479,0.372$; equal-depth values are $2.641,1.363,0.723,0.508,0.401$. The monotone decrease supports dose-target bisection within this model, but a finite-capacity or desorption model would need a new monotonicity check.
+
+\section{Computational and Lean validation}
+
+\subsection{Independent application computation}
+
+The application script constructs a conservative finite-volume diffusion operator with reflecting boundary fluxes, adds finite-width reaction bands whose integrated strengths equal the prescribed $\kappa_j$, solves the backward linear system, and advances the transient system with an implicit step. The theorem-guided evaluator and the physical finite-volume refinement are separate paths: the latter does not call a theorem value as its objective. The study stores the geometry, strengths, coefficient profile, grid, time step, seed, and result tables in the application evidence bundle.
+
+The numerical check has three parts: (i) placement and dose comparisons, (ii) perturbation robustness, and (iii) mesh refinement. The finite-band calculation is not Lean-certified. Conversely, Lean's formal identity checks do not certify the finite-band environmental model.
+
+\subsection{Archived analytic and formal records}
+
+The recorded homogeneous interval suite contains 5,000 randomized designs. Its maximum absolute residual is $1.3378\times10^{-14}$; the maximum deficit identity residual is $3.5527\times10^{-15}$; the maximum energy residual is $3.1086\times10^{-15}$; and the maximum jump residual is $2.2204\times10^{-16}$. The generalized companion suite contains 2,400 checks over six coefficient profiles, with maximum deficit identity residual $3.6082\times10^{-16}$, maximum direct optimizer-floor gap $6.6891\times10^{-15}$, and maximum recorded finite-element relative error $1.4275\times10^{-8}$. These are checks of recorded mathematical/numerical fixtures, not interval-arithmetic enclosures.
+
+The October 2026 Lean 4 record reports a passed build with 2,282 research modules, 10,543 named theorems, and 17,355 audited declarations. The transitive audit reports only the foundational axioms $\mathrm{propext}$, $\mathrm{Classical.choice}$, and $\mathrm{Quot.sound}$. The interval route is represented by modules such as \texttt{DesignLowerBound}, \texttt{BalancedCell}, \texttt{BudgetRoot}, \texttt{PartitionAttainment}, and \texttt{GlobalOptimization}.
+
+The graph route is represented by \texttt{StateMaximum}, \texttt{SharpBounds}, \texttt{SharpEquality}, and \texttt{SharpDeficit}; the spectral route by \texttt{Rayleigh}, \texttt{PhaseJump}, \texttt{PlacementUniqueness}, and \texttt{BudgetOptimality}. The distinction is essential: formal checking verifies the declarations and imports in the recorded development; it does not establish manuscript fidelity, independent peer review, field calibration, or the correctness of arbitrary floating-point Python output.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\figfile{fig08_validation_scale}}
+\caption{Validation scale. Counts are kept in their native meaning: randomized checks, generalized checks, named formal theorems, and audited declarations are not interchangeable.}
+\label{fig:validation}
+\end{figure}
+
+\subsection{Attribution and assistance disclosure}
+
+The Lean and Mathlib ecosystem has important upstream contributors, including Rémy Degenne (Inria Lille, integration and mean-inequality formalization), Patrick Massot (Professor, Université Paris-Saclay, formalized mathematics), Leonardo de Moura (Lean Chief Architect and co-founder), and Sebastian Ullrich (Lean co-founder and Head of Engineering). They are credited here for upstream technical infrastructure, not described as personal reviewers or validators of this manuscript. The project record contains no signed or otherwise attributable university-professor review of this specific application, so no professor is claimed to have independently validated it. The project author is responsible for the writing, claims, numerical script, and final checking. Computational and AI assistance supported exploration, implementation, and editing, but the submitted text must be reviewed in the author's own words and under the applicable disclosure rules.
+
+\section{Impact, open problems, and limits}
+
+\subsection{Contribution to open mathematical problems}
+
+The interval result closes a finite-budget minimax problem under positive heterogeneous coefficients by reducing it to balanced cells and a scalar root. The graph identity gives an exact weighted deficit rather than merely an aggregate inequality. The spectral phase argument gives prescribed-strength placement and a strict equal-strength conclusion for a fixed budget. These results contribute benchmarks to the broader open questions of point-interaction optimization on networks, the relationship between mean torsion and principal decay, and robustness under coefficient uncertainty.
+
+The application-level impact is conditional. In the declared porous-sediment benchmark, the fair current-practice comparator is equal physical-depth placement: worst lifetime $0.722868$, mean lifetime $0.670934$, and removal $0.469327$ at $t=0.5$. With the same total strength and band width, theorem-guided placement gives $0.692174$, $0.668298$, and $0.470173$; direct finite-volume refinement gives $0.687172$, $0.668226$, and $0.470197$. Thus the direct model improvement is $4.246\%$ for the theorem design and $4.938\%$ after local numerical refinement in the worst-start metric, while the short-time removal gain is only $0.0846$ percentage points. These are direct numerical improvements of the stated model, not state-of-the-art field-performance claims. The cited activated-carbon literature supplies physical motivation and mass-transfer context, but not an apples-to-apples value for this dimensionless closed-core objective. A field claim requires source-complete calibration, open-boundary export, finite capacity and desorption, installation constraints, and a matched current-system comparison.
+
+\subsection{Future conjecture and implication}
+
+Let $T_R\sim\operatorname{Exp}(s)$ be independent of a homogeneous reflected diffusion and its first-capture time $\tau$. Then $\Prob_x(\tau<T_R)=\E_x[e^{-s\tau}]$. We conjecture that
+\begin{equation}
+ \sup_{\substack{0<x_1<\cdots<x_N<L\\ \kappa_j>0,\,\sum\kappa_j=K}}
+ \inf_{x\in[0,L]}\E_x[e^{-s\tau}]
+ =\left[\cosh\eta_s+\frac{2N\sqrt{Ds}}K\sinh\eta_s\right]^{-1},
+ \qquad \eta_s=\frac L{2N}\sqrt{\frac sD}.
+ \label{eq:conjecture}
+\end{equation}
+The right side is established for the equal-strength, equal-midpoint array. The missing step is comparison with arbitrary asymmetric one-trap arches and arrays. The recorded diagnostic approaches the symmetric closed form as $N$ grows; at $N=6$ its largest absolute discrepancy is about $4.60\times10^{-4}$, but that is only a numerical check within the symmetric family. It does not quantify the gap to the missing global inequality. If true, the implication is a worst-start guarantee of capture before an independent disturbance deadline and a principled extension from mean lifetime to discounted operational risk. We are close to a broader numerical stress test, not to a proof: clustered, boundary, and unequal-strength competitors still need independent resolvent/PDE checks and then an analytic comparison. The conjecture is not a storm-export model, not a nonlinear sorption theorem, and not a statement about every finite time.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics[width=.78\linewidth]{\figfile{fig09_conjecture_diagnostic}}
+\caption{Conjecture diagnostic for $N=1,\ldots,6$. The finite-volume curve tracks the closed form for the symmetric family; the unresolved optimization over arbitrary arrays remains outside the evidence.}
+\label{fig:conjecture-final}
+\end{figure}
+
+The next implementation should search $N\in\{1,2,3,4,6,8\}$ over dimensionless $KL/D$ and $sL^2/D$ spanning $0.01$ to $100$, including clustered sites, near-boundary sites, and unequal strengths. Each close competitor should be checked with an independent resolvent and PDE solver, and candidate equalities should be re-evaluated at higher precision. Only then could the conjecture be promoted to a theorem or replaced by a counterexample.
+
+\section{Conclusion}
+
+The central narrative is now one continuous chain. A porous channel is described by storage and transport coefficients. A source-coordinate map exposes the correct weighted geometry. Equal-rise barriers and the monotone budget root produce a minimax placement rule. Graph torsion explains excess through three nonnegative mechanisms. The spectral phase gives a different, long-time objective with its own equality geometry. When the theorem-guided rule is placed into an independent finite-band porous-sediment solver, it improves the stated worst-start lifetime at fixed total strength in the declared benchmark, while the transient advantage is modest. The result is useful precisely because the paper keeps the exact theorem, the numerical application, the formal audit, and the unresolved conjecture separate.
+
+\begin{thebibliography}{9}\footnotesize
+\bibitem{choi2014} H. Choi, Y. Cho, D. Werner, and R. Luthy, ``In situ sequestration of hydrophobic organic contaminants in sediments under stagnant contact with activated carbon. 2. Mass transfer modeling,'' \emph{Environmental Science \& Technology} (2014), DOI: \href{https://doi.org/10.1021/es404209v}{10.1021/es404209v}.
+\bibitem{qiu2023} Z. Qiu, W. Wang, X. Wu, J. Bao, and Y. Zeng, ``Model of activated carbon dose and sediment--water diffusion fluxes of hydrophobic organic chemicals: Implications for sediment remediation,'' \emph{ACS ES\&T Water} (2023), DOI: \href{https://doi.org/10.1021/acsestwater.2c00587}{10.1021/acsestwater.2c00587}.
+\bibitem{wikstrom2024} A. Wikström, A. Forsberg, M. Maciute, M. Nascimento, A. Bonaglia, B. Gunnarsson, et al., ``Thin-layer capping with granular activated carbon and calcium-silicate to remediate organic and metal polluted harbor sediment -- A mesocosm study,'' \emph{Science of the Total Environment} (2024), DOI: \href{https://doi.org/10.1016/j.scitotenv.2024.174263}{10.1016/j.scitotenv.2024.174263}.
+\bibitem{pcb2006} ``Modeling polychlorinated biphenyl mass transfer after amendment of contaminated sediment with activated carbon,'' \emph{Environmental Science \& Technology} (2006), DOI: \href{https://doi.org/10.1021/es052215k}{10.1021/es052215k}.
+\end{thebibliography}
+
+\end{document}
